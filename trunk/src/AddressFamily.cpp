@@ -1,6 +1,6 @@
 // C++ implementation file -----------------------------------------------//
 //   Frog Framework - A useful framework for C++ applications.
-//   Copyright (C) 2005 by Janvier D. Anonical <janvier@gmail.com>
+//   Copyright (C) 2005 by Janvier D. Anonical <janvier@users.berlios.de>
 //
 //   This library is free software; you can redistribute it and/or
 //   modify it under the terms of the GNU Lesser General Public
@@ -41,7 +41,9 @@ namespace frog
 			const sa_family_t AddressFamily::Bridge = AF_BRIDGE;
 			const sa_family_t AddressFamily::AtmPvc = AF_ATMPVC;
 			const sa_family_t AddressFamily::X25 = AF_X25;
+#ifdef HAVE_IPV6_SUPPORT
 			const sa_family_t AddressFamily::InterNetworkV6 = AF_INET6;
+#endif
 			const sa_family_t AddressFamily::Rose = AF_ROSE;
 			const sa_family_t AddressFamily::DecNet =  AF_DECnet;
 			const sa_family_t AddressFamily::NetBeui = AF_NETBEUI;

@@ -1,6 +1,6 @@
 // C++ header file -------------------------------------------------------//
 //   Frog Framework - A useful framework for C++ applications.
-//   Copyright (C) 2005 by Janvier D. Anonical <janvier@gmail.com>
+//   Copyright (C) 2005 by Janvier D. Anonical <janvier@users.berlios.de>
 //
 //   This library is free software; you can redistribute it and/or
 //   modify it under the terms of the GNU Lesser General Public
@@ -70,7 +70,9 @@ namespace frog
 				  static const sa_family_t Bridge; /**< Multiprotocol bridge. */
 				  static const sa_family_t AtmPvc; /**< ATM PVCs. */
 				  static const sa_family_t X25; /**< Reserved for X.25 project. */
+#ifdef HAVE_IPV6_SUPPORT
 				  static const sa_family_t InterNetworkV6; /**< IP version 6. */
+#endif
 				  static const sa_family_t Rose; /**< Amateur Radio X.25 PLP. */
 				  static const sa_family_t DecNet; /**< Reserved for DECnet project. */
 				  static const sa_family_t NetBeui; /**< Reserved for 802.2LLC project. */

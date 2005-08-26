@@ -22,6 +22,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <frog/InetAddress.h>
 #include <frog/IPEndpoint.h>
+#include <frog/IllegalArgumentException.h>
 
 #include <cstdio>
 
@@ -31,6 +32,7 @@
 
 using frog::sys::net::InetAddress;
 using frog::sys::net::IPEndpoint;
+using frog::sys::IllegalArgumentException;
 
 class IPEndpointTest : public CppUnit::TestFixture
 {
@@ -41,7 +43,11 @@ class IPEndpointTest : public CppUnit::TestFixture
   CPPUNIT_TEST(testAddressFamily);
   CPPUNIT_TEST(testAssignment);
   CPPUNIT_TEST(testEquality);
+#ifdef HAVE_IPV6_SUPPORT
   CPPUNIT_TEST_FAIL(testEquality1);
+#else
+  CPPUNIT_TEST_EXCEPTION(testEquality1, frog::sys::IllegalArgumentException);
+#endif
   CPPUNIT_TEST_FAIL(testEquality2);
   CPPUNIT_TEST_FAIL(testEquality3);
   CPPUNIT_TEST(testEquality4);
@@ -50,6 +56,11 @@ class IPEndpointTest : public CppUnit::TestFixture
   CPPUNIT_TEST(testInequality2);
   CPPUNIT_TEST_FAIL(testInequality3);
   CPPUNIT_TEST(testToString);
+#ifdef HAVE_IPV6_SUPPORT
+  CPPUNIT_TEST(testToString2);
+#else
+  CPPUNIT_TEST_EXCEPTION(testToString2, frog::sys::IllegalArgumentException);
+#endif
   
   CPPUNIT_TEST_SUITE_END();
 
@@ -214,10 +225,14 @@ class IPEndpointTest : public CppUnit::TestFixture
 		  InetAddress addr("1.1.1.1");
 		  IPEndpoint endpoint(addr, 1000);
 		  
+		  CPPUNIT_ASSERT(endpoint.toString() == "1.1.1.1:1000");
+	  }
+
+	  void testToString2()
+	  {
 		  InetAddress addr2("::1");
 		  IPEndpoint endpoint2(addr2, 1111);
 
-		  CPPUNIT_ASSERT(endpoint.toString() == "1.1.1.1:1000");
 		  CPPUNIT_ASSERT(endpoint2.toString() == "[::1]:1111");
 	  }
 };

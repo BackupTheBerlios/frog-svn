@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(FULL-PACKAGE-NAME, VERSION, BUG-REPORT-ADDRESS)
-AC_CONFIG_SRCDIR([src/InetAddress.cpp])
+AC_INIT([Frog Framework], [0.1], [janvier@users.berlios.de])
+AC_CONFIG_SRCDIR([src/AddressFamily.cpp])
 AC_CONFIG_HEADER([config.h])
 
 AM_INIT_AUTOMAKE
@@ -12,11 +12,15 @@ AM_PATH_CPPUNIT(1.10.2)
 # Checks for programs.
 AC_PROG_CXX
 AC_PROG_CC
+AC_PROG_CPP
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
 AC_PROG_LIBTOOL
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-lfrog':
-#AC_CHECK_LIB([frog], [main])
+# AC_CHECK_LIB([frog], [main])
 
 # Checks for header files.
 AC_CHECK_HEADERS([arpa/inet.h netinet/in.h stdint.h sys/socket.h])
@@ -28,7 +32,12 @@ AC_C_CONST
 # Checks for library functions.
 AC_FUNC_MEMCMP
 AC_HEADER_STDC
-AC_CHECK_FUNCS([memset])
+AC_CHECK_FUNCS([memset strerror])
+
+AC_ARG_ENABLE(ipv6, 
+			  [AC_HELP_STRING([--enable-ipv6], 
+							  [turn on IPv6 support [default=no]])],
+			  [AC_DEFINE([HAVE_IPV6_SUPPORT], [1], [Define 1 if your system supports IPv6.])])
 
 AC_CONFIG_FILES([Makefile
                  src/Makefile

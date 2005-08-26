@@ -1,6 +1,6 @@
 // C++ implementation file -----------------------------------------------//
 //   Frog Framework - A useful framework for C++ applications.
-//   Copyright (C) 2005 by Janvier D. Anonical <janvier@gmail.com>
+//   Copyright (C) 2005 by Janvier D. Anonical <janvier@users.berlios.de>
 //
 //   This library is free software; you can redistribute it and/or
 //   modify it under the terms of the GNU Lesser General Public
@@ -76,6 +76,7 @@ namespace frog
 				}
 				else
 				{
+#ifdef HAVE_IPV6_SUPPORT
 					struct in6_addr in6addr;
 					int res = inet_pton(AF_INET6, ipAddress.c_str(), &in6addr);
 					if(res < 0)
@@ -90,6 +91,9 @@ namespace frog
 					this->initIPv6(in6addr);
 					addressFamily_ = AddressFamily::InterNetworkV6;
 					ipv4Compatible_ = IN6_IS_ADDR_V4COMPAT(&in6addr);
+#else
+					throw IllegalArgumentException("IP address is not valid.");
+#endif
 				}
 			}
 			
@@ -104,6 +108,7 @@ namespace frog
 			}
 			
 			//--------------------------------------------------------------
+#ifdef HAVE_IPV6_SUPPORT
 			InetAddress::InetAddress(const struct in6_addr& ipAddress)
 				throw(ArgumentOutOfBoundsException)
 				: addressFamily(addressFamily_), ipv4Compatible(ipv4Compatible_)
@@ -112,6 +117,7 @@ namespace frog
 				addressFamily_ = AddressFamily::InterNetworkV6;
 				ipv4Compatible_ = IN6_IS_ADDR_V4COMPAT(&ipAddress);
 			}
+#endif
 
 			//--------------------------------------------------------------
 			bool InetAddress::isAnyLocalAddress() throw()
@@ -121,6 +127,7 @@ namespace frog
 					return((address_[IPV4_OFFSET + 0] == 0x00) && (address_[IPV4_OFFSET + 1] == 0x00) &&
 							(address_[IPV4_OFFSET + 2] == 0x00) && (address_[IPV4_OFFSET + 3] == 0x00));
 				}
+#ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
 				{
 					uint8_t test = 0x00;
@@ -130,6 +137,7 @@ namespace frog
 					}
 					return (test == 0x00);
 				}
+#endif
 
 				return false;
 			}
@@ -141,6 +149,7 @@ namespace frog
 				{
 					return (address_[IPV4_OFFSET + 0] == 127);
 				}
+#ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
 				{
 					uint8_t test = 0x00;
@@ -150,6 +159,7 @@ namespace frog
 					}
 					return ((test == 0x00) && (address_[15] == 0x01));
 				}
+#endif
 
 				return false;
 			}
@@ -161,10 +171,12 @@ namespace frog
 				{
 					return ((address_[IPV4_OFFSET + 0] & 0xf0) == 224);
 				}
+#ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
 				{
 					return ((address_[0] & 0xff) == 0xff);
 				}
+#endif
 				return false;
 			}
 			
@@ -176,11 +188,13 @@ namespace frog
 					return (((address_[IPV4_OFFSET + 0] & 0xff) == 169) &&
 							((address_[IPV4_OFFSET + 1] & 0xff) == 254));
 				}
+#ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
 				{
 					return (((address_[0] & 0xff) == 0xfe) &&
 							((address_[1] & 0xc0) == 0x80));
 				}
+#endif
 				return false;
 			}
 			
@@ -195,11 +209,13 @@ namespace frog
 						(((address_[IPV4_OFFSET + 0] & 0xff) == 192) &&
 						 ((address_[IPV4_OFFSET + 1] & 0xff) == 168));
 				}
+#ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
 				{
 					return (((address_[0] & 0xff) == 0xfe) &&
 							((address_[1] & 0xc0) == 0xc0));
 				}
+#endif
 				return false;
 			}
 			
@@ -214,11 +230,13 @@ namespace frog
 								((address_[IPV4_OFFSET + 1] & 0xff) == 0) &&
 								((address_[IPV4_OFFSET + 2] & 0xff) == 0));
 				}
+#ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
 				{
 					return (((address_[0] & 0xff) == 0xff) &&
 							((address_[1] & 0x0f) == 0x0e));
 				}
+#endif
 				return false;
 			}
 			
@@ -230,11 +248,13 @@ namespace frog
 					// unless ttl == 0
 					return false;
 				}
+#ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
 				{
 					return (((address_[0] & 0xff) == 0xff) &&
 							((address_[1] & 0x0f) == 0x01));
 				}
+#endif
 				return false;
 			}
 			
@@ -247,11 +267,13 @@ namespace frog
 						((address_[IPV4_OFFSET + 1] & 0xff) == 0) &&
 						((address_[IPV4_OFFSET + 2] & 0xff) == 0);
 				}	
+#ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
 				{
 					return (((address_[0] & 0xff) == 0xff) &&
 							((address_[1] & 0x0f) == 0x02));
 				}
+#endif
 				return false;
 			}
 			
@@ -263,11 +285,13 @@ namespace frog
 					return ((address_[IPV4_OFFSET + 0] & 0xff) == 239) &&
 						((address_[IPV4_OFFSET + 1] & 0xff) == 255);
 				}	
+#ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
 				{
 					return (((address_[0] & 0xff) == 0xff) &&
 							((address_[1] & 0x0f) == 0x05));
 				}
+#endif
 				return false;
 			}
 			
@@ -280,11 +304,13 @@ namespace frog
 							((address_[IPV4_OFFSET + 1] & 0xff) >= 192) &&
 							((address_[IPV4_OFFSET + 1] & 0xff) <= 195));
 				}	
+#ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
 				{
 					return (((address_[0] & 0xff) == 0xff) &&
 							((address_[1] & 0x0f) == 0x08));
 				}
+#endif
 				return false;
 			}
 			
@@ -296,11 +322,13 @@ namespace frog
 			}
 			
 			//--------------------------------------------------------------
+#ifdef HAVE_IPV6_SUPPORT
 			void InetAddress::getPrimitive(struct in6_addr& rawIPAddress) const
 			{
 				memset(&rawIPAddress, 0, sizeof(struct in6_addr));
 				memcpy(&rawIPAddress.s6_addr, address_, sizeof(uint8_t) * INADDRSZ6);
 			}
+#endif
 
 			//--------------------------------------------------------------
 			bool InetAddress::operator==(const InetAddress& addr) const throw()
@@ -345,6 +373,7 @@ namespace frog
 			}
 			
 			//--------------------------------------------------------------
+#ifdef HAVE_IPV6_SUPPORT
 			void InetAddress::initIPv6(const struct in6_addr& ipAddress)
 				throw(ArgumentOutOfBoundsException)
 			{
@@ -362,6 +391,7 @@ namespace frog
 				memset(address_, 0, sizeof(uint8_t) * MAX_ADDR_SIZE);
 				memcpy(address_, &ipAddress.s6_addr, sizeof(ipAddress.s6_addr));
 			}
+#endif
 			
 			//--------------------------------------------------------------
 			std::string InetAddress::getHostAddress() const throw()
@@ -383,6 +413,7 @@ namespace frog
 						ipText = std::string(dst);
 					}
 				}
+#ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
 				{
 					char dst[INET6_ADDRSTRLEN];
@@ -399,6 +430,7 @@ namespace frog
 						ipText = std::string(dst);
 					}
 				}
+#endif
 
 				return ipText;
 			}

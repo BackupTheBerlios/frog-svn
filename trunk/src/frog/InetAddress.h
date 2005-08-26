@@ -1,6 +1,6 @@
 // C++ header file -------------------------------------------------------//
 //   Frog Framework - A useful framework for C++ applications.
-//   Copyright (C) 2005 by Janvier D. Anonical <janvier@gmail.com>
+//   Copyright (C) 2005 by Janvier D. Anonical <janvier@users.berlios.de>
 //
 //   This library is free software; you can redistribute it and/or
 //   modify it under the terms of the GNU Lesser General Public
@@ -93,7 +93,9 @@ namespace frog
 				   * @exception frog::sys::ArgumentOutOfBoundsException Thrown when
 				   * the IP address is out of range.
 				   */
+#ifdef HAVE_IPV6_SUPPORT
 				  InetAddress(const struct in6_addr& ipAddress) throw(ArgumentOutOfBoundsException);
+#endif
 				  
 				  virtual ~InetAddress() throw() {}
 
@@ -264,7 +266,9 @@ namespace frog
 				  /**
 				   * IPv6 address size.
 				   */
+#ifdef HAVE_IPV6_SUPPORT
 				  static const uint16_t INADDRSZ6 = MAX_ADDR_SIZE;
+#endif
 
 				  /**
 				   * Starting offset of the IPv4 address in address_[].
@@ -289,8 +293,10 @@ namespace frog
 				  /**
 				   * Initializes the underlying IP address with an IPv6 address.
 				   */
+#ifdef HAVE_IPV6_SUPPORT
 				  void initIPv6(const struct in6_addr& ipAddress)
 					  throw(ArgumentOutOfBoundsException);
+#endif
 				  
 				  /**
 				   * Creates an InetAddress that is undefined. Its address

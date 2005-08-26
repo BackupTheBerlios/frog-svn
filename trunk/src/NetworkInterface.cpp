@@ -1,6 +1,6 @@
 // C++ implementation file -----------------------------------------------//
 //   Frog Framework - A useful framework for C++ applications.
-//   Copyright (C) 2005 by Janvier D. Anonical <janvier@gmail.com>
+//   Copyright (C) 2005 by Janvier D. Anonical <janvier@users.berlios.de>
 //
 //   This library is free software; you can redistribute it and/or
 //   modify it under the terms of the GNU Lesser General Public

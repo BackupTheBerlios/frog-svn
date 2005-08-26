@@ -1,0 +1,25 @@
+                           Frog Framework README File
+                           --------------------------                           
+
+This framework provides an easy to use, reusable, optimized, and portable suite
+of C++ classes. It takes away complexity by handling all low-level work, thus
+speeding initial development, resulting in fewer bugs, and lowering maintenance
+costs.
+
+More information about the Frog Framework can be found at its homepage at 
+http://frog.berlios.de.
+
+You can build the API documentation yourself with the following command:
+
+	$ make -f Makefile.d
+
+The above command builds the API documentation which can be found in the /doc
+directory.
+
+Please read the LICENSE.txt file for licensing information.
+
+Have fun!
+
+
+Janvier D. Anonical
+janvier@users.berlios.de
