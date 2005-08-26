@@ -1,0 +1,414 @@
+// C++ implementation file -----------------------------------------------//
+//   Frog Framework - A useful framework for C++ applications.
+//   Copyright (C) 2005 by Janvier D. Anonical <janvier@gmail.com>
+//
+//   This library is free software; you can redistribute it and/or
+//   modify it under the terms of the GNU Lesser General Public
+//   License as published by the Free Software Foundation; either
+//   version 2.1 of the License, or (at your option) any later version.
+//
+//   This library is distributed in the hope that it will be useful,
+//   but WITHOUT ANY WARRANTY; without even the implied warranty of
+//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//   Lesser General Public License for more details.
+//
+//   You should have received a copy of the GNU Lesser General Public
+//   License along with this library; if not, write to the Free Software
+//   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,
+//   MA  02110-1301  USA
+//------------------------------------------------------------------------//
+
+
+#include <arpa/inet.h>
+#include <cerrno>
+
+
+#include <frog/InetAddress.h>
+
+namespace frog
+{
+	namespace sys
+	{
+		namespace net
+		{
+			//--------------------------------------------------------------
+			InetAddress::InetAddress() throw() 
+				: addressFamily(addressFamily_),
+				ipv4Compatible(ipv4Compatible_),
+				ipv4Compatible_(true),
+				addressFamily_(AddressFamily::Unspecified)
+			{
+				memset(address_, 0, sizeof(uint8_t) * MAX_ADDR_SIZE);
+			}
+
+			//--------------------------------------------------------------
+			InetAddress::InetAddress(const InetAddress& addr) throw()
+				: addressFamily(addressFamily_), ipv4Compatible(ipv4Compatible_)
+			{
+				memcpy(address_, addr.address_, sizeof(uint8_t) * MAX_ADDR_SIZE);
+				addressFamily_ = addr.addressFamily_;
+				ipv4Compatible_ = addr.ipv4Compatible_;
+			}
+			
+			//--------------------------------------------------------------
+			InetAddress::InetAddress(const std::string& ipAddress)
+				throw(IllegalArgumentException)
+				: addressFamily(addressFamily_), ipv4Compatible(ipv4Compatible_)
+			{
+				// We know that it is not an IPv4 address if it contains
+				// a semicolon.
+				if(ipAddress.find(":") == std::string::npos)
+				{
+					struct in_addr inaddr;
+					int res = inet_pton(AF_INET, ipAddress.c_str(), &inaddr);
+					if(res < 0)
+					{
+						throw IllegalArgumentException(strerror(errno));
+					}
+					else if(res == 0)
+					{
+						throw IllegalArgumentException("IP address is not valid.");
+					}
+
+					this->initIPv4(inaddr);
+					addressFamily_ = AddressFamily::InterNetwork;
+					ipv4Compatible_ = true;
+				}
+				else
+				{
+					struct in6_addr in6addr;
+					int res = inet_pton(AF_INET6, ipAddress.c_str(), &in6addr);
+					if(res < 0)
+					{
+						throw IllegalArgumentException(strerror(errno));
+					}
+					else if(res == 0)
+					{
+						throw IllegalArgumentException("IP address is not valid.");
+					}
+
+					this->initIPv6(in6addr);
+					addressFamily_ = AddressFamily::InterNetworkV6;
+					ipv4Compatible_ = IN6_IS_ADDR_V4COMPAT(&in6addr);
+				}
+			}
+			
+			//--------------------------------------------------------------
+			InetAddress::InetAddress(const struct in_addr& ipAddress)
+				throw(ArgumentOutOfBoundsException)
+				: addressFamily(addressFamily_), ipv4Compatible(ipv4Compatible_)
+			{
+				this->initIPv4(ipAddress);
+				addressFamily_ = AddressFamily::InterNetwork;
+				ipv4Compatible_ = true;
+			}
+			
+			//--------------------------------------------------------------
+			InetAddress::InetAddress(const struct in6_addr& ipAddress)
+				throw(ArgumentOutOfBoundsException)
+				: addressFamily(addressFamily_), ipv4Compatible(ipv4Compatible_)
+			{
+				this->initIPv6(ipAddress);
+				addressFamily_ = AddressFamily::InterNetworkV6;
+				ipv4Compatible_ = IN6_IS_ADDR_V4COMPAT(&ipAddress);
+			}
+
+			//--------------------------------------------------------------
+			bool InetAddress::isAnyLocalAddress() throw()
+			{
+				if(this->addressFamily == AddressFamily::InterNetwork)
+				{
+					return((address_[IPV4_OFFSET + 0] == 0x00) && (address_[IPV4_OFFSET + 1] == 0x00) &&
+							(address_[IPV4_OFFSET + 2] == 0x00) && (address_[IPV4_OFFSET + 3] == 0x00));
+				}
+				else if(this->addressFamily == AddressFamily::InterNetworkV6)
+				{
+					uint8_t test = 0x00;
+					for(int i= 0; i < MAX_ADDR_SIZE; ++i)
+					{
+						test |= address_[i];
+					}
+					return (test == 0x00);
+				}
+
+				return false;
+			}
+			
+			//--------------------------------------------------------------
+			bool InetAddress::isLoopbackAddress() throw()
+			{
+				if(this->addressFamily == AddressFamily::InterNetwork)
+				{
+					return (address_[IPV4_OFFSET + 0] == 127);
+				}
+				else if(this->addressFamily == AddressFamily::InterNetworkV6)
+				{
+					uint8_t test = 0x00;
+					for(int i= 0; i < 15; ++i)
+					{
+						test |= address_[i];
+					}
+					return ((test == 0x00) && (address_[15] == 0x01));
+				}
+
+				return false;
+			}
+			
+			//--------------------------------------------------------------
+			bool InetAddress::isMulticastAddress() throw()
+			{
+				if(this->addressFamily == AddressFamily::InterNetwork)
+				{
+					return ((address_[IPV4_OFFSET + 0] & 0xf0) == 224);
+				}
+				else if(this->addressFamily == AddressFamily::InterNetworkV6)
+				{
+					return ((address_[0] & 0xff) == 0xff);
+				}
+				return false;
+			}
+			
+			//--------------------------------------------------------------
+			bool InetAddress::isLinkLocalAddress() throw()
+			{
+				if(this->addressFamily == AddressFamily::InterNetwork)
+				{
+					return (((address_[IPV4_OFFSET + 0] & 0xff) == 169) &&
+							((address_[IPV4_OFFSET + 1] & 0xff) == 254));
+				}
+				else if(this->addressFamily == AddressFamily::InterNetworkV6)
+				{
+					return (((address_[0] & 0xff) == 0xfe) &&
+							((address_[1] & 0xc0) == 0x80));
+				}
+				return false;
+			}
+			
+			//--------------------------------------------------------------
+			bool InetAddress::isSiteLocalAddress() throw()
+			{
+				if(this->addressFamily == AddressFamily::InterNetwork)
+				{
+					return ((address_[IPV4_OFFSET + 0] & 0xff) == 10) ||
+						(((address_[IPV4_OFFSET + 0] & 0xff) == 172) &&
+						 ((address_[IPV4_OFFSET + 1] & 0xff) == 16)) ||
+						(((address_[IPV4_OFFSET + 0] & 0xff) == 192) &&
+						 ((address_[IPV4_OFFSET + 1] & 0xff) == 168));
+				}
+				else if(this->addressFamily == AddressFamily::InterNetworkV6)
+				{
+					return (((address_[0] & 0xff) == 0xfe) &&
+							((address_[1] & 0xc0) == 0xc0));
+				}
+				return false;
+			}
+			
+			//--------------------------------------------------------------
+			bool InetAddress::isMulticastGlobal() throw()
+			{
+				if(this->addressFamily == AddressFamily::InterNetwork)
+				{
+					return (((address_[IPV4_OFFSET + 0] & 0xff) >= 224) &&
+							((address_[IPV4_OFFSET + 0] & 0xff) <= 238)) &&
+						!(((address_[IPV4_OFFSET + 0] & 0xff) == 224) && 
+								((address_[IPV4_OFFSET + 1] & 0xff) == 0) &&
+								((address_[IPV4_OFFSET + 2] & 0xff) == 0));
+				}
+				else if(this->addressFamily == AddressFamily::InterNetworkV6)
+				{
+					return (((address_[0] & 0xff) == 0xff) &&
+							((address_[1] & 0x0f) == 0x0e));
+				}
+				return false;
+			}
+			
+			//--------------------------------------------------------------
+			bool InetAddress::isMulticastNodeLocal() throw()
+			{
+				if(this->addressFamily == AddressFamily::InterNetwork)
+				{
+					// unless ttl == 0
+					return false;
+				}
+				else if(this->addressFamily == AddressFamily::InterNetworkV6)
+				{
+					return (((address_[0] & 0xff) == 0xff) &&
+							((address_[1] & 0x0f) == 0x01));
+				}
+				return false;
+			}
+			
+			//--------------------------------------------------------------
+			bool InetAddress::isMulticastLinkLocal() throw()
+			{
+				if(this->addressFamily == AddressFamily::InterNetwork)
+				{
+					return ((address_[IPV4_OFFSET + 0] & 0xff) == 224) &&
+						((address_[IPV4_OFFSET + 1] & 0xff) == 0) &&
+						((address_[IPV4_OFFSET + 2] & 0xff) == 0);
+				}	
+				else if(this->addressFamily == AddressFamily::InterNetworkV6)
+				{
+					return (((address_[0] & 0xff) == 0xff) &&
+							((address_[1] & 0x0f) == 0x02));
+				}
+				return false;
+			}
+			
+			//--------------------------------------------------------------
+			bool InetAddress::isMulticastSiteLocal() throw()
+			{
+				if(this->addressFamily == AddressFamily::InterNetwork)
+				{
+					return ((address_[IPV4_OFFSET + 0] & 0xff) == 239) &&
+						((address_[IPV4_OFFSET + 1] & 0xff) == 255);
+				}	
+				else if(this->addressFamily == AddressFamily::InterNetworkV6)
+				{
+					return (((address_[0] & 0xff) == 0xff) &&
+							((address_[1] & 0x0f) == 0x05));
+				}
+				return false;
+			}
+			
+			//--------------------------------------------------------------
+			bool InetAddress::isMulticastOrgLocal() throw()
+			{
+				if(this->addressFamily == AddressFamily::InterNetwork)
+				{
+					return (((address_[IPV4_OFFSET + 0] & 0xff) == 239) &&
+							((address_[IPV4_OFFSET + 1] & 0xff) >= 192) &&
+							((address_[IPV4_OFFSET + 1] & 0xff) <= 195));
+				}	
+				else if(this->addressFamily == AddressFamily::InterNetworkV6)
+				{
+					return (((address_[0] & 0xff) == 0xff) &&
+							((address_[1] & 0x0f) == 0x08));
+				}
+				return false;
+			}
+			
+			//--------------------------------------------------------------
+			void InetAddress::getPrimitive(struct in_addr& rawIPAddress) const
+			{
+				memset(&rawIPAddress, 0, sizeof(struct in_addr));
+				memcpy(&rawIPAddress.s_addr, address_ + IPV4_OFFSET, sizeof(uint8_t) * INADDRSZ);
+			}
+			
+			//--------------------------------------------------------------
+			void InetAddress::getPrimitive(struct in6_addr& rawIPAddress) const
+			{
+				memset(&rawIPAddress, 0, sizeof(struct in6_addr));
+				memcpy(&rawIPAddress.s6_addr, address_, sizeof(uint8_t) * INADDRSZ6);
+			}
+
+			//--------------------------------------------------------------
+			bool InetAddress::operator==(const InetAddress& addr) const throw()
+			{
+				return((!memcmp(address_, addr.address_, sizeof(uint8_t) * MAX_ADDR_SIZE))
+						&& (addressFamily == addr.addressFamily));
+			}
+
+			//--------------------------------------------------------------
+			bool InetAddress::operator!=(const InetAddress& addr) const throw()
+			{
+				return((memcmp(address_, addr.address_, sizeof(uint8_t) * MAX_ADDR_SIZE))
+					|| (addressFamily != addr.addressFamily));
+			}
+			//--------------------------------------------------------------
+			InetAddress& InetAddress::operator=(const InetAddress& addr)
+			{
+				if(this != &addr)
+				{
+					memcpy(address_, addr.address_, sizeof(uint8_t) * MAX_ADDR_SIZE);
+					addressFamily_ = addr.addressFamily_;
+				}
+				return *this;
+			}
+			
+			//--------------------------------------------------------------
+			void InetAddress::initIPv4(const struct in_addr& ipAddress)
+				throw(ArgumentOutOfBoundsException)
+			{
+				if(ipAddress.s_addr > 0xFFFFFFFF)
+				{
+					throw ArgumentOutOfBoundsException("IP address is out of range.");
+				}
+
+				uint8_t addr[MAX_ADDR_SIZE];
+				memset(addr, 0, sizeof(uint8_t) * MAX_ADDR_SIZE);
+				memcpy(addr, &ipAddress.s_addr, sizeof(ipAddress.s_addr));
+
+				
+				memset(address_, 0, sizeof(uint8_t) * MAX_ADDR_SIZE);
+				memcpy(address_ + IPV4_OFFSET, &ipAddress.s_addr, sizeof(ipAddress.s_addr));
+			}
+			
+			//--------------------------------------------------------------
+			void InetAddress::initIPv6(const struct in6_addr& ipAddress)
+				throw(ArgumentOutOfBoundsException)
+			{
+				uint8_t addr[MAX_ADDR_SIZE];
+				memset(addr, 0, sizeof(uint8_t) * MAX_ADDR_SIZE);
+				memcpy(addr, &ipAddress.s6_addr, sizeof(ipAddress.s6_addr));
+
+				for(int i= 0; i < MAX_ADDR_SIZE; ++i)
+				{
+					if(addr[i] > 255)
+						throw ArgumentOutOfBoundsException("IP address is out of range.");
+				}
+
+
+				memset(address_, 0, sizeof(uint8_t) * MAX_ADDR_SIZE);
+				memcpy(address_, &ipAddress.s6_addr, sizeof(ipAddress.s6_addr));
+			}
+			
+			//--------------------------------------------------------------
+			std::string InetAddress::getHostAddress() const throw()
+			{
+				std::string ipText = "";
+				if(this->addressFamily == AddressFamily::InterNetwork)
+				{
+					char dst[INET_ADDRSTRLEN];
+					struct in_addr inaddr;
+
+					memset(dst, 0, sizeof(char) * INET_ADDRSTRLEN);
+					memset(&inaddr, 0, sizeof(struct in_addr));
+
+					memcpy(&inaddr.s_addr, address_ + IPV4_OFFSET, sizeof(uint8_t) * INADDRSZ);
+
+					if((inet_ntop(AF_INET, &inaddr,
+						dst, sizeof(char) * INET_ADDRSTRLEN) != NULL) && (dst != NULL))
+					{
+						ipText = std::string(dst);
+					}
+				}
+				else if(this->addressFamily == AddressFamily::InterNetworkV6)
+				{
+					char dst[INET6_ADDRSTRLEN];
+					struct in6_addr in6addr;
+
+					memset(dst, 0, sizeof(char) * INET6_ADDRSTRLEN);
+					memset(&in6addr, 0, sizeof(struct in6_addr));
+
+					memcpy(&in6addr.s6_addr, address_, sizeof(uint8_t) * INADDRSZ6);
+
+					if((inet_ntop(AF_INET6, &in6addr,
+						dst, sizeof(char) * INET6_ADDRSTRLEN) != NULL) && (dst != NULL))
+					{
+						ipText = std::string(dst);
+					}
+				}
+
+				return ipText;
+			}
+			
+			//--------------------------------------------------------------
+			std::string InetAddress::toString() const throw()
+			{
+				return getHostAddress();
+			}
+
+		} // net ns
+	} // sys ns
+} // frog ns
