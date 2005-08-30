@@ -27,6 +27,7 @@
 #endif
 
 #include <string>
+
 #include <frog/RuntimeException.h>
 #include <frog/NullPointerException.h>
 

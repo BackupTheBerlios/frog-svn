@@ -27,9 +27,7 @@
 #include <config.h>
 #endif
 
-#include <stdint.h>
 #include <netinet/in.h>
-
 #include <string>
 
 #include <frog/Endpoint.h>

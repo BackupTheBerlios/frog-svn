@@ -1,0 +1,10 @@
+
+                           Frog Framework TODO File
+                           ------------------------
+
+
+- 29 August 2005 -
+
+*	Create a portable stdint.h.
+*	Function inet_pton and inet_ntop are not available on
+	some systems so be sure to handle this case.

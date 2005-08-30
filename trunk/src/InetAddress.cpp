@@ -22,7 +22,6 @@
 #include <arpa/inet.h>
 #include <cerrno>
 
-
 #include <frog/InetAddress.h>
 
 namespace frog
@@ -36,6 +35,7 @@ namespace frog
 				: addressFamily(addressFamily_),
 				ipv4Compatible(ipv4Compatible_),
 				ipv4Compatible_(true),
+				scopeId_(0),
 				addressFamily_(AddressFamily::Unspecified)
 			{
 				memset(address_, 0, sizeof(uint8_t) * MAX_ADDR_SIZE);
@@ -45,13 +45,14 @@ namespace frog
 			InetAddress::InetAddress(const InetAddress& addr) throw()
 				: addressFamily(addressFamily_), ipv4Compatible(ipv4Compatible_)
 			{
-				memcpy(address_, addr.address_, sizeof(uint8_t) * MAX_ADDR_SIZE);
+				::memcpy(address_, addr.address_, sizeof(uint8_t) * MAX_ADDR_SIZE);
 				addressFamily_ = addr.addressFamily_;
 				ipv4Compatible_ = addr.ipv4Compatible_;
+				scopeId_ = addr.scopeId_;
 			}
 			
 			//--------------------------------------------------------------
-			InetAddress::InetAddress(const std::string& ipAddress)
+			InetAddress::InetAddress(const std::string& ipAddress, uint32_t scopeId)
 				throw(IllegalArgumentException)
 				: addressFamily(addressFamily_), ipv4Compatible(ipv4Compatible_)
 			{
@@ -60,7 +61,19 @@ namespace frog
 				if(ipAddress.find(":") == std::string::npos)
 				{
 					struct in_addr inaddr;
-					int res = inet_pton(AF_INET, ipAddress.c_str(), &inaddr);
+					int res;
+#ifdef HAVE_INET_PTON
+					res = ::inet_pton(AF_INET, ipAddress.c_str(), &inaddr);
+#else
+#ifdef HAVE_INET_ATON
+					res = ::inet_aton(ipAddress.c_str(), &inaddr);
+#else // No choice but to use inet_addr
+					if((inaddr = ::inet_addr(ipAddress.c_str())) == INADDR_NONE)
+					{
+						res = 0;
+					}
+#endif
+#endif
 					if(res < 0)
 					{
 						throw IllegalArgumentException(strerror(errno));
@@ -78,7 +91,11 @@ namespace frog
 				{
 #ifdef HAVE_IPV6_SUPPORT
 					struct in6_addr in6addr;
-					int res = inet_pton(AF_INET6, ipAddress.c_str(), &in6addr);
+#ifdef HAVE_INET_PTON
+					int res = ::inet_pton(AF_INET6, ipAddress.c_str(), &in6addr);
+#else
+#error	enabling IPv6 support without a working inet_pton(); configure without IPv6 support
+#endif
 					if(res < 0)
 					{
 						throw IllegalArgumentException(strerror(errno));
@@ -88,7 +105,7 @@ namespace frog
 						throw IllegalArgumentException("IP address is not valid.");
 					}
 
-					this->initIPv6(in6addr);
+					this->initIPv6(in6addr, scopeId);
 					addressFamily_ = AddressFamily::InterNetworkV6;
 					ipv4Compatible_ = IN6_IS_ADDR_V4COMPAT(&in6addr);
 #else
@@ -109,11 +126,11 @@ namespace frog
 			
 			//--------------------------------------------------------------
 #ifdef HAVE_IPV6_SUPPORT
-			InetAddress::InetAddress(const struct in6_addr& ipAddress)
+			InetAddress::InetAddress(const struct in6_addr& ipAddress, uint32_t scopeId)
 				throw(ArgumentOutOfBoundsException)
 				: addressFamily(addressFamily_), ipv4Compatible(ipv4Compatible_)
 			{
-				this->initIPv6(ipAddress);
+				this->initIPv6(ipAddress, scopeId);
 				addressFamily_ = AddressFamily::InterNetworkV6;
 				ipv4Compatible_ = IN6_IS_ADDR_V4COMPAT(&ipAddress);
 			}
@@ -147,7 +164,7 @@ namespace frog
 			{
 				if(this->addressFamily == AddressFamily::InterNetwork)
 				{
-					return (address_[IPV4_OFFSET + 0] == 127);
+					return (address_[IPV4_OFFSET + 0] == 127U);
 				}
 #ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
@@ -157,7 +174,7 @@ namespace frog
 					{
 						test |= address_[i];
 					}
-					return ((test == 0x00) && (address_[15] == 0x01));
+					return ((test == 0x00) && (address_[15] == 0x01U));
 				}
 #endif
 
@@ -169,12 +186,12 @@ namespace frog
 			{
 				if(this->addressFamily == AddressFamily::InterNetwork)
 				{
-					return ((address_[IPV4_OFFSET + 0] & 0xf0) == 224);
+					return ((address_[IPV4_OFFSET + 0] & 0xf0) == 224U);
 				}
 #ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
 				{
-					return ((address_[0] & 0xff) == 0xff);
+					return ((address_[0] & 0xffU) == 0xffU);
 				}
 #endif
 				return false;
@@ -185,14 +202,14 @@ namespace frog
 			{
 				if(this->addressFamily == AddressFamily::InterNetwork)
 				{
-					return (((address_[IPV4_OFFSET + 0] & 0xff) == 169) &&
-							((address_[IPV4_OFFSET + 1] & 0xff) == 254));
+					return (((address_[IPV4_OFFSET + 0] & 0xffU) == 169U) &&
+							((address_[IPV4_OFFSET + 1] & 0xffU) == 254U));
 				}
 #ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
 				{
-					return (((address_[0] & 0xff) == 0xfe) &&
-							((address_[1] & 0xc0) == 0x80));
+					return (((address_[0] & 0xffU) == 0xfeU) &&
+							((address_[1] & 0xc0U) == 0x80U));
 				}
 #endif
 				return false;
@@ -203,17 +220,17 @@ namespace frog
 			{
 				if(this->addressFamily == AddressFamily::InterNetwork)
 				{
-					return ((address_[IPV4_OFFSET + 0] & 0xff) == 10) ||
-						(((address_[IPV4_OFFSET + 0] & 0xff) == 172) &&
-						 ((address_[IPV4_OFFSET + 1] & 0xff) == 16)) ||
-						(((address_[IPV4_OFFSET + 0] & 0xff) == 192) &&
-						 ((address_[IPV4_OFFSET + 1] & 0xff) == 168));
+					return ((address_[IPV4_OFFSET + 0] & 0xffU) == 10U) ||
+						(((address_[IPV4_OFFSET + 0] & 0xffU) == 172U) &&
+						 ((address_[IPV4_OFFSET + 1] & 0xffU) == 16U)) ||
+						(((address_[IPV4_OFFSET + 0] & 0xffU) == 192U) &&
+						 ((address_[IPV4_OFFSET + 1] & 0xffU) == 168U));
 				}
 #ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
 				{
-					return (((address_[0] & 0xff) == 0xfe) &&
-							((address_[1] & 0xc0) == 0xc0));
+					return (((address_[0] & 0xffU) == 0xfeU) &&
+							((address_[1] & 0xc0U) == 0xc0U));
 				}
 #endif
 				return false;
@@ -224,17 +241,17 @@ namespace frog
 			{
 				if(this->addressFamily == AddressFamily::InterNetwork)
 				{
-					return (((address_[IPV4_OFFSET + 0] & 0xff) >= 224) &&
-							((address_[IPV4_OFFSET + 0] & 0xff) <= 238)) &&
-						!(((address_[IPV4_OFFSET + 0] & 0xff) == 224) && 
-								((address_[IPV4_OFFSET + 1] & 0xff) == 0) &&
-								((address_[IPV4_OFFSET + 2] & 0xff) == 0));
+					return (((address_[IPV4_OFFSET + 0] & 0xffU) >= 224U) &&
+							((address_[IPV4_OFFSET + 0] & 0xffU) <= 238U)) &&
+						!(((address_[IPV4_OFFSET + 0] & 0xffU) == 224U) && 
+								((address_[IPV4_OFFSET + 1] & 0xffU) == 0) &&
+								((address_[IPV4_OFFSET + 2] & 0xffU) == 0));
 				}
 #ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
 				{
-					return (((address_[0] & 0xff) == 0xff) &&
-							((address_[1] & 0x0f) == 0x0e));
+					return (((address_[0] & 0xffU) == 0xffU) &&
+							((address_[1] & 0x0fU) == 0x0eU));
 				}
 #endif
 				return false;
@@ -251,8 +268,8 @@ namespace frog
 #ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
 				{
-					return (((address_[0] & 0xff) == 0xff) &&
-							((address_[1] & 0x0f) == 0x01));
+					return (((address_[0] & 0xffU) == 0xffU) &&
+							((address_[1] & 0x0fU) == 0x01U));
 				}
 #endif
 				return false;
@@ -263,15 +280,15 @@ namespace frog
 			{
 				if(this->addressFamily == AddressFamily::InterNetwork)
 				{
-					return ((address_[IPV4_OFFSET + 0] & 0xff) == 224) &&
-						((address_[IPV4_OFFSET + 1] & 0xff) == 0) &&
-						((address_[IPV4_OFFSET + 2] & 0xff) == 0);
+					return ((address_[IPV4_OFFSET + 0] & 0xffU) == 224U) &&
+						((address_[IPV4_OFFSET + 1] & 0xffU) == 0) &&
+						((address_[IPV4_OFFSET + 2] & 0xffU) == 0);
 				}	
 #ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
 				{
-					return (((address_[0] & 0xff) == 0xff) &&
-							((address_[1] & 0x0f) == 0x02));
+					return (((address_[0] & 0xffU) == 0xffU) &&
+							((address_[1] & 0x0fU) == 0x02U));
 				}
 #endif
 				return false;
@@ -282,14 +299,14 @@ namespace frog
 			{
 				if(this->addressFamily == AddressFamily::InterNetwork)
 				{
-					return ((address_[IPV4_OFFSET + 0] & 0xff) == 239) &&
-						((address_[IPV4_OFFSET + 1] & 0xff) == 255);
+					return ((address_[IPV4_OFFSET + 0] & 0xffU) == 239U) &&
+						((address_[IPV4_OFFSET + 1] & 0xffU) == 255U);
 				}	
 #ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
 				{
-					return (((address_[0] & 0xff) == 0xff) &&
-							((address_[1] & 0x0f) == 0x05));
+					return (((address_[0] & 0xffU) == 0xffU) &&
+							((address_[1] & 0x0fU) == 0x05U));
 				}
 #endif
 				return false;
@@ -300,15 +317,15 @@ namespace frog
 			{
 				if(this->addressFamily == AddressFamily::InterNetwork)
 				{
-					return (((address_[IPV4_OFFSET + 0] & 0xff) == 239) &&
-							((address_[IPV4_OFFSET + 1] & 0xff) >= 192) &&
-							((address_[IPV4_OFFSET + 1] & 0xff) <= 195));
+					return (((address_[IPV4_OFFSET + 0] & 0xffU) == 239U) &&
+							((address_[IPV4_OFFSET + 1] & 0xffU) >= 192U) &&
+							((address_[IPV4_OFFSET + 1] & 0xffU) <= 195U));
 				}	
 #ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
 				{
-					return (((address_[0] & 0xff) == 0xff) &&
-							((address_[1] & 0x0f) == 0x08));
+					return (((address_[0] & 0xffU) == 0xffU) &&
+							((address_[1] & 0x0fU) == 0x08U));
 				}
 #endif
 				return false;
@@ -317,39 +334,41 @@ namespace frog
 			//--------------------------------------------------------------
 			void InetAddress::getPrimitive(struct in_addr& rawIPAddress) const
 			{
-				memset(&rawIPAddress, 0, sizeof(struct in_addr));
-				memcpy(&rawIPAddress.s_addr, address_ + IPV4_OFFSET, sizeof(uint8_t) * INADDRSZ);
+				::memset(&rawIPAddress, 0, sizeof(struct in_addr));
+				::memcpy(&rawIPAddress.s_addr, address_ + IPV4_OFFSET, sizeof(uint8_t) * INADDRSZ);
 			}
 			
 			//--------------------------------------------------------------
 #ifdef HAVE_IPV6_SUPPORT
 			void InetAddress::getPrimitive(struct in6_addr& rawIPAddress) const
 			{
-				memset(&rawIPAddress, 0, sizeof(struct in6_addr));
-				memcpy(&rawIPAddress.s6_addr, address_, sizeof(uint8_t) * INADDRSZ6);
+				::memset(&rawIPAddress, 0, sizeof(struct in6_addr));
+				::memcpy(&rawIPAddress.s6_addr, address_, sizeof(uint8_t) * INADDRSZ6);
 			}
 #endif
 
 			//--------------------------------------------------------------
 			bool InetAddress::operator==(const InetAddress& addr) const throw()
 			{
-				return((!memcmp(address_, addr.address_, sizeof(uint8_t) * MAX_ADDR_SIZE))
-						&& (addressFamily == addr.addressFamily));
+				return((!::memcmp(address_, addr.address_, sizeof(uint8_t) * MAX_ADDR_SIZE))
+						&& (addressFamily == addr.addressFamily) && scopeId_ == addr.scopeId_);
 			}
 
 			//--------------------------------------------------------------
 			bool InetAddress::operator!=(const InetAddress& addr) const throw()
 			{
-				return((memcmp(address_, addr.address_, sizeof(uint8_t) * MAX_ADDR_SIZE))
-					|| (addressFamily != addr.addressFamily));
+				return((::memcmp(address_, addr.address_, sizeof(uint8_t) * MAX_ADDR_SIZE))
+					|| (addressFamily != addr.addressFamily) || (scopeId_ != addr.scopeId_));
 			}
 			//--------------------------------------------------------------
 			InetAddress& InetAddress::operator=(const InetAddress& addr)
 			{
 				if(this != &addr)
 				{
-					memcpy(address_, addr.address_, sizeof(uint8_t) * MAX_ADDR_SIZE);
+					::memcpy(address_, addr.address_, sizeof(uint8_t) * MAX_ADDR_SIZE);
 					addressFamily_ = addr.addressFamily_;
+					ipv4Compatible_ = addr.ipv4Compatible_;
+					scopeId_ = addr.scopeId_;
 				}
 				return *this;
 			}
@@ -358,38 +377,42 @@ namespace frog
 			void InetAddress::initIPv4(const struct in_addr& ipAddress)
 				throw(ArgumentOutOfBoundsException)
 			{
-				if(ipAddress.s_addr > 0xFFFFFFFF)
+				if(ipAddress.s_addr > 0xFFFFFFFFU)
 				{
 					throw ArgumentOutOfBoundsException("IP address is out of range.");
 				}
 
 				uint8_t addr[MAX_ADDR_SIZE];
-				memset(addr, 0, sizeof(uint8_t) * MAX_ADDR_SIZE);
-				memcpy(addr, &ipAddress.s_addr, sizeof(ipAddress.s_addr));
+				::memset(addr, 0, sizeof(uint8_t) * MAX_ADDR_SIZE);
+				::memcpy(addr, &ipAddress.s_addr, sizeof(ipAddress.s_addr));
 
 				
-				memset(address_, 0, sizeof(uint8_t) * MAX_ADDR_SIZE);
-				memcpy(address_ + IPV4_OFFSET, &ipAddress.s_addr, sizeof(ipAddress.s_addr));
+				::memset(address_, 0, sizeof(uint8_t) * MAX_ADDR_SIZE);
+				::memcpy(address_ + IPV4_OFFSET, &ipAddress.s_addr, sizeof(ipAddress.s_addr));
+
+				scopeId_ = 0;
 			}
 			
 			//--------------------------------------------------------------
 #ifdef HAVE_IPV6_SUPPORT
-			void InetAddress::initIPv6(const struct in6_addr& ipAddress)
+			void InetAddress::initIPv6(const struct in6_addr& ipAddress, uint32_t scopeId)
 				throw(ArgumentOutOfBoundsException)
 			{
 				uint8_t addr[MAX_ADDR_SIZE];
-				memset(addr, 0, sizeof(uint8_t) * MAX_ADDR_SIZE);
-				memcpy(addr, &ipAddress.s6_addr, sizeof(ipAddress.s6_addr));
+				::memset(addr, 0, sizeof(uint8_t) * MAX_ADDR_SIZE);
+				::memcpy(addr, &ipAddress.s6_addr, sizeof(ipAddress.s6_addr));
 
 				for(int i= 0; i < MAX_ADDR_SIZE; ++i)
 				{
-					if(addr[i] > 255)
+					if(addr[i] > 255U)
 						throw ArgumentOutOfBoundsException("IP address is out of range.");
 				}
 
 
-				memset(address_, 0, sizeof(uint8_t) * MAX_ADDR_SIZE);
-				memcpy(address_, &ipAddress.s6_addr, sizeof(ipAddress.s6_addr));
+				::memset(address_, 0, sizeof(uint8_t) * MAX_ADDR_SIZE);
+				::memcpy(address_, &ipAddress.s6_addr, sizeof(ipAddress.s6_addr));
+
+				scopeId_ = scopeId;
 			}
 #endif
 			
@@ -402,16 +425,19 @@ namespace frog
 					char dst[INET_ADDRSTRLEN];
 					struct in_addr inaddr;
 
-					memset(dst, 0, sizeof(char) * INET_ADDRSTRLEN);
-					memset(&inaddr, 0, sizeof(struct in_addr));
+					::memset(dst, 0, sizeof(char) * INET_ADDRSTRLEN);
+					::memset(&inaddr, 0, sizeof(struct in_addr));
 
-					memcpy(&inaddr.s_addr, address_ + IPV4_OFFSET, sizeof(uint8_t) * INADDRSZ);
-
-					if((inet_ntop(AF_INET, &inaddr,
+					::memcpy(&inaddr.s_addr, address_ + IPV4_OFFSET, sizeof(uint8_t) * INADDRSZ);
+#ifdef HAVE_INET_NTOP
+					if((::inet_ntop(AF_INET, &inaddr,
 						dst, sizeof(char) * INET_ADDRSTRLEN) != NULL) && (dst != NULL))
 					{
 						ipText = std::string(dst);
 					}
+#else
+					ipText = std::string(inet_ntoa(inaddr));
+#endif
 				}
 #ifdef HAVE_IPV6_SUPPORT
 				else if(this->addressFamily == AddressFamily::InterNetworkV6)
@@ -419,16 +445,28 @@ namespace frog
 					char dst[INET6_ADDRSTRLEN];
 					struct in6_addr in6addr;
 
-					memset(dst, 0, sizeof(char) * INET6_ADDRSTRLEN);
-					memset(&in6addr, 0, sizeof(struct in6_addr));
+					::memset(dst, 0, sizeof(char) * INET6_ADDRSTRLEN);
+					::memset(&in6addr, 0, sizeof(struct in6_addr));
 
-					memcpy(&in6addr.s6_addr, address_, sizeof(uint8_t) * INADDRSZ6);
+					::memcpy(&in6addr.s6_addr, address_, sizeof(uint8_t) * INADDRSZ6);
 
-					if((inet_ntop(AF_INET6, &in6addr,
+#ifdef HAVE_INET_NTOP
+					if((::inet_ntop(AF_INET6, &in6addr,
 						dst, sizeof(char) * INET6_ADDRSTRLEN) != NULL) && (dst != NULL))
 					{
-						ipText = std::string(dst);
+						std::string scopeIdSuffix = "";
+						if(scopeId_ != 0)
+						{
+							char scopeIdTxt[3];
+							::memset(scopeIdTxt, 0, 3);
+							::sprintf(scopeIdTxt, "%d", scopeId_);
+							scopeIdSuffix = std::string("%") + std::string(scopeIdTxt);
+						}
+						ipText = std::string(dst) + scopeIdSuffix;
 					}
+#else
+#error	enabling IPv6 support without a working inet_ntop(); configure without IPv6 support
+#endif
 				}
 #endif
 

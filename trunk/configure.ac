@@ -23,7 +23,7 @@ AC_PROG_LIBTOOL
 # AC_CHECK_LIB([frog], [main])
 
 # Checks for header files.
-AC_CHECK_HEADERS([arpa/inet.h netinet/in.h stdint.h sys/socket.h])
+AC_CHECK_HEADERS([arpa/inet.h netinet/in.h stdint.h sys/socket.h ifaddrs.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
@@ -32,7 +32,7 @@ AC_C_CONST
 # Checks for library functions.
 AC_FUNC_MEMCMP
 AC_HEADER_STDC
-AC_CHECK_FUNCS([memset strerror])
+AC_CHECK_FUNCS([memset strerror inet_aton inet_ntoa inet_pton inet_ntop])
 
 AC_ARG_ENABLE(ipv6, 
 			  [AC_HELP_STRING([--enable-ipv6], 

@@ -27,8 +27,11 @@
 #include <config.h>
 #endif
 
+#include <vector>
+
 #include <frog/Object.h>
 #include <frog/InetAddress.h>
+#include <frog/SocketException.h>
 
 
 /**
@@ -68,28 +71,70 @@ namespace frog
 				   * is not defined which network interface is returned.
 				   * @param[in] addr The InetAddress to search with.
 				   * @return A NetworkInterface
+				   * @exception frog::sys::net::SocketException I/O error occurred.
 				   */
-				  NetworkInterface(const InetAddress& addr);
+				  static NetworkInterface getByInetAddress(const InetAddress& addr)
+					  throw(SocketException);
+				  
+				  /**
+				   * Searches for the network interface with the specified name.
+				   */
+				  static NetworkInterface getByName(const std::string& intfaceName)
+					  throw(SocketException);
+
+				  /**
+				   *
+				   */
+				  ~NetworkInterface() throw();
 
 				  /**
 				   * Returns all the interfaces on this machine.
 				   * @return A list of NetworkInterface%s on this machine.
 				   */
-				  static std::vector<NetworkInterface> getNetworkInterfaces() const;
+				  static std::vector<NetworkInterface> getNetworkInterfaces();
+
+				  /**
+				   * Returns all the IP addresses bound to this network interface.
+				   */
+				  std::vector<InetAddress> getInetAddresses() const;
 
 				  /**
 				   * Get the name of this network interface.
-				   * @return The name of this network interface.
 				   */
-				  std::string getName() const;
+				  const std::string& name;
 
 				  /**
 				   * Get the display name of this network interface. A display name
 				   * is a human-readable string describing the network device.
 				   */
-				  std::string getDisplayName() const;
+				  const std::string& displayName;
 			  private:
-				  NetworkInterface() { }
+				  /**
+				   * Default do nothing constructor.
+				   */
+				  NetworkInterface() : name(name_), displayName(displayName_) { }
+
+				  /**
+				   * Finds the network interface associated with either the
+				   * IP address or the interface name.
+				   */
+				  static NetworkInterface find(const InetAddress* addr, const std::string name = "")
+					  throw(SocketException);
+
+				  /**
+				   * Interface name
+				   */
+				  std::string name_;
+
+				  /**
+				   * Interface display name
+				   */
+				  std::string displayName_;
+
+				  /**
+				   * InetAddress(es) assigned to this interface.
+				   */
+				  std::vector<InetAddress> addresses_;
 			};
 		} // net ns
 	} // sys ns

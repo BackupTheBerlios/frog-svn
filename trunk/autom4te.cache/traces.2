@@ -452,7 +452,7 @@ configure.ac:19: _AC_PROG_LIBTOOL is required by...
 aclocal.m4:142: AC_PROG_LIBTOOL is expanded from...
 configure.ac:19: the top level])
 m4trace:configure.ac:19: -1- AC_SUBST([LIBTOOL])
-m4trace:configure.ac:26: -1- AC_CHECK_HEADERS([arpa/inet.h netinet/in.h stdint.h sys/socket.h])
+m4trace:configure.ac:26: -1- AC_CHECK_HEADERS([arpa/inet.h netinet/in.h stdint.h sys/socket.h ifaddrs.h])
 m4trace:configure.ac:26: -1- AH_OUTPUT([HAVE_ARPA_INET_H], [/* Define to 1 if you have the <arpa/inet.h> header file. */
 #undef HAVE_ARPA_INET_H])
 m4trace:configure.ac:26: -1- AH_OUTPUT([HAVE_NETINET_IN_H], [/* Define to 1 if you have the <netinet/in.h> header file. */
@@ -461,6 +461,8 @@ m4trace:configure.ac:26: -1- AH_OUTPUT([HAVE_STDINT_H], [/* Define to 1 if you h
 #undef HAVE_STDINT_H])
 m4trace:configure.ac:26: -1- AH_OUTPUT([HAVE_SYS_SOCKET_H], [/* Define to 1 if you have the <sys/socket.h> header file. */
 #undef HAVE_SYS_SOCKET_H])
+m4trace:configure.ac:26: -1- AH_OUTPUT([HAVE_IFADDRS_H], [/* Define to 1 if you have the <ifaddrs.h> header file. */
+#undef HAVE_IFADDRS_H])
 m4trace:configure.ac:29: -1- AC_HEADER_STDBOOL
 m4trace:configure.ac:29: -1- AC_CHECK_TYPES([_Bool])
 m4trace:configure.ac:29: -1- AC_DEFINE_TRACE_LITERAL([HAVE__BOOL])
@@ -480,11 +482,19 @@ m4trace:configure.ac:34: -1- AC_HEADER_STDC
 m4trace:configure.ac:34: -1- AC_DEFINE_TRACE_LITERAL([STDC_HEADERS])
 m4trace:configure.ac:34: -1- AH_OUTPUT([STDC_HEADERS], [/* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS])
-m4trace:configure.ac:35: -1- AC_CHECK_FUNCS([memset strerror])
+m4trace:configure.ac:35: -1- AC_CHECK_FUNCS([memset strerror inet_aton inet_ntoa inet_pton inet_ntop])
 m4trace:configure.ac:35: -1- AH_OUTPUT([HAVE_MEMSET], [/* Define to 1 if you have the `memset\' function. */
 #undef HAVE_MEMSET])
 m4trace:configure.ac:35: -1- AH_OUTPUT([HAVE_STRERROR], [/* Define to 1 if you have the `strerror\' function. */
 #undef HAVE_STRERROR])
+m4trace:configure.ac:35: -1- AH_OUTPUT([HAVE_INET_ATON], [/* Define to 1 if you have the `inet_aton\' function. */
+#undef HAVE_INET_ATON])
+m4trace:configure.ac:35: -1- AH_OUTPUT([HAVE_INET_NTOA], [/* Define to 1 if you have the `inet_ntoa\' function. */
+#undef HAVE_INET_NTOA])
+m4trace:configure.ac:35: -1- AH_OUTPUT([HAVE_INET_PTON], [/* Define to 1 if you have the `inet_pton\' function. */
+#undef HAVE_INET_PTON])
+m4trace:configure.ac:35: -1- AH_OUTPUT([HAVE_INET_NTOP], [/* Define to 1 if you have the `inet_ntop\' function. */
+#undef HAVE_INET_NTOP])
 m4trace:configure.ac:40: -1- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
 You should run autoupdate.], [autoconf/general.m4:219: AC_HELP_STRING is expanded from...
 autoconf/general.m4:1303: AC_ARG_ENABLE is expanded from...

@@ -52,6 +52,10 @@ namespace frog
 		 *     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		 *     SystemException
 		 * <HR>
+		 * 		<H3>Direct Known Subclasses:</H3>
+		 * 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		 * 				SocketException
+		 * <HR>
 		 */
 		class IOException : public SystemException
 		{

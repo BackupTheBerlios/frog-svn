@@ -46,12 +46,12 @@ namespace frog
 			{
 				uint32_t* hash_p = const_cast<uint32_t*>(&hash_);
 				uint32_t key = (uint32_t)this;
-				key += ~(key << 15);
-				key ^= (key >> 10);
-				key += (key << 3);
-				key ^= (key >> 6);
-				key += ~(key << 11);
-				key ^= (key >> 16);
+				key += ~(key << 15U);
+				key ^= (key >> 10U);
+				key += (key << 3U);
+				key ^= (key >> 6U);
+				key += ~(key << 11U);
+				key ^= (key >> 16U);
 
 				*hash_p = key;
 			}
@@ -74,7 +74,7 @@ namespace frog
 		std::string Object::toString() const throw()
 		{
 			char hashValue[8];
-			memset(hashValue, 0, 8);
+			::memset(hashValue, 0, 8);
 			::sprintf(hashValue, "%x", hashCode());
 			return std::string("Object") + "@" + hashValue;
 		}

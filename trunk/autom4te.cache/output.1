@@ -19534,7 +19534,8 @@ LIBTOOL='$(SHELL) $(top_builddir)/libtool'
 
 
 
-for ac_header in arpa/inet.h netinet/in.h stdint.h sys/socket.h
+
+for ac_header in arpa/inet.h netinet/in.h stdint.h sys/socket.h ifaddrs.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
 if eval "test \"\${$as_ac_Header+set}\" = set"; then
@@ -20201,7 +20202,11 @@ fi
 
 
 
-for ac_func in memset strerror
+
+
+
+
+for ac_func in memset strerror inet_aton inet_ntoa inet_pton inet_ntop
 do
 as_ac_var=`echo "ac_cv_func_$ac_func" | $as_tr_sh`
 echo "$as_me:$LINENO: checking for $ac_func" >&5

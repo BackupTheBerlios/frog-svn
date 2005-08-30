@@ -28,8 +28,13 @@
 #endif
 
 #include <netinet/in.h>
-#include <stdint.h>
 #include <string>
+
+#ifdef HAVE_STDINT_H
+#include <stdint.h>
+#else
+#include <frog/stdint.h>
+#endif
 
 #include <frog/Object.h>
 #include <frog/AddressFamily.h>
@@ -65,6 +70,12 @@ namespace frog
 			{
 			  public:
 				  /**
+				   * Creates an InetAddress that is undefined. Its address
+				   * family is set to AddressFamily::Unspecified.
+				   */
+				  InetAddress() throw();
+
+				  /**
 				   * Copy constructor.
 				   */
 				  InetAddress(const InetAddress& addr) throw();
@@ -73,10 +84,13 @@ namespace frog
 				   * Creates an InetAddress given the textual representation
 				   * of an IP Address.
 				   * @param[in] ipAddress A textual representation of an IP address.
+				   * @param[in] scopeId The scope id for an IPv6 address. This is
+				   * 			irrelevant for an IPv4 address therefore its default
+				   * 			value is 0.
 				   * @exception frog::sys::IllegalArgumentException Thrown when the
 				   * IP address is out of bounds or is not allowed.
 				   */
-				  InetAddress(const std::string& ipAddress)
+				  InetAddress(const std::string& ipAddress, uint32_t scopeId = 0)
 					  throw(IllegalArgumentException);
 
 				  /**
@@ -87,14 +101,15 @@ namespace frog
 				   */
 				  InetAddress(const struct in_addr& ipAddress) throw(ArgumentOutOfBoundsException);
 
+#ifdef HAVE_IPV6_SUPPORT
 				  /**
 				   * Creates an IPv6 address.
 				   * @param[in] ipAddress The raw IP address in @c in6_addr format.
+				   * @param[in] scopeId The scope id for an IPv6 address.
 				   * @exception frog::sys::ArgumentOutOfBoundsException Thrown when
 				   * the IP address is out of range.
 				   */
-#ifdef HAVE_IPV6_SUPPORT
-				  InetAddress(const struct in6_addr& ipAddress) throw(ArgumentOutOfBoundsException);
+				  InetAddress(const struct in6_addr& ipAddress, uint32_t scopeId = 0) throw(ArgumentOutOfBoundsException);
 #endif
 				  
 				  virtual ~InetAddress() throw() {}
@@ -256,19 +271,25 @@ namespace frog
 				   * Maximum address size. So far max size is only 16
 				   * because of IPv6.
 				   */
-				  static const uint16_t MAX_ADDR_SIZE = 16;
+				  static const uint16_t MAX_ADDR_SIZE = 16U;
 				  
 				  /**
 				   * IPv4 address size.
 				   */
-				  static const uint16_t INADDRSZ = 4;
+				  static const uint16_t INADDRSZ = 4U;
 				  
+#ifdef HAVE_IPV6_SUPPORT
 				  /**
 				   * IPv6 address size.
 				   */
-#ifdef HAVE_IPV6_SUPPORT
 				  static const uint16_t INADDRSZ6 = MAX_ADDR_SIZE;
 #endif
+
+				  /**
+				   * IPv6 scope id. If address is an IPv4 address then
+				   * this is set to 0.
+				   */
+				  uint32_t scopeId_;
 
 				  /**
 				   * Starting offset of the IPv4 address in address_[].
@@ -290,20 +311,13 @@ namespace frog
 				  void initIPv4(const struct in_addr& ipAddress)
 					  throw(ArgumentOutOfBoundsException);
 
+#ifdef HAVE_IPV6_SUPPORT
 				  /**
 				   * Initializes the underlying IP address with an IPv6 address.
 				   */
-#ifdef HAVE_IPV6_SUPPORT
-				  void initIPv6(const struct in6_addr& ipAddress)
+				  void initIPv6(const struct in6_addr& ipAddress, uint32_t scopeId)
 					  throw(ArgumentOutOfBoundsException);
 #endif
-				  
-				  /**
-				   * Creates an InetAddress that is undefined. Its address
-				   * family is set to AddressFamily::Unspecified.
-				   */
-				  InetAddress() throw();
-
 			}; // InetAddress cls
 		} // net ns
 	} // sys ns

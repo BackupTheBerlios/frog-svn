@@ -20,7 +20,6 @@
 
 
 #include <arpa/inet.h>
-
 #include <sstream>
 
 #include <frog/IPEndpoint.h>

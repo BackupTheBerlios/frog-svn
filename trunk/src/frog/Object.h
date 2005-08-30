@@ -27,7 +27,11 @@
 #include <config.h>
 #endif
 
+#ifdef HAVE_STDINT_H
 #include <stdint.h>
+#else
+#include <frog/stdint.h>
+#endif
 
 #include <string>
 
