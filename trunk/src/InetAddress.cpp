@@ -361,7 +361,7 @@ namespace frog
 					|| (addressFamily != addr.addressFamily) || (scopeId_ != addr.scopeId_));
 			}
 			//--------------------------------------------------------------
-			InetAddress& InetAddress::operator=(const InetAddress& addr)
+			InetAddress& InetAddress::operator=(const InetAddress& addr) throw()
 			{
 				if(this != &addr)
 				{

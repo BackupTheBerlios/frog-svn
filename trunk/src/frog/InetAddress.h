@@ -228,7 +228,7 @@ namespace frog
 				  /**
 				   * Copies an InetAddress to another InetAddress.
 				   */
-				  InetAddress& operator=(const InetAddress& addr);
+				  InetAddress& operator=(const InetAddress& addr) throw();
 
 				  /**
 				   * Converts this InetAddress to a string. The string
