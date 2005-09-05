@@ -30,8 +30,8 @@
 #include <config.h>
 #endif
 
-using frog::sys::net::InetAddress;
-using frog::sys::net::IPEndpoint;
+using frog::net::InetAddress;
+using frog::net::IPEndpoint;
 using frog::sys::IllegalArgumentException;
 
 class IPEndpointTest : public CppUnit::TestFixture

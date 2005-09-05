@@ -35,7 +35,7 @@
 #include <config.h>
 #endif
 
-using frog::sys::net::InetAddress;
+using frog::net::InetAddress;
 
 
 class Inet4AddressTest : public CppUnit::TestFixture
@@ -104,7 +104,15 @@ class Inet4AddressTest : public CppUnit::TestFixture
 	
 	void testConstructor2()
 	{
+#ifdef HAVE_INET_ATON
 		inet_aton("10.1.0.1", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("10.1.0.1")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr(rawAddr_);
 		CPPUNIT_ASSERT(addr.addressFamily == AddressFamily::InterNetwork);
 	}
@@ -152,7 +160,15 @@ class Inet4AddressTest : public CppUnit::TestFixture
 
 	void testLoopback()
 	{
+#ifdef HAVE_INET_ATON
 		inet_aton("127.0.0.0", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("127.0.0.0")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr(rawAddr_);
 		CPPUNIT_ASSERT(addr.isLoopbackAddress());
 		CPPUNIT_ASSERT(!(addr.isAnyLocalAddress()));
@@ -163,7 +179,15 @@ class Inet4AddressTest : public CppUnit::TestFixture
 
 	void testMulticast()
 	{
+#ifdef HAVE_INET_ATON
 		inet_aton("224.0.0.0", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("224.0.0.0")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr(rawAddr_);
 		CPPUNIT_ASSERT(addr.isMulticastAddress());
 		CPPUNIT_ASSERT(!(addr.isAnyLocalAddress()));
@@ -174,7 +198,15 @@ class Inet4AddressTest : public CppUnit::TestFixture
 
 	void testLinkLocal()
 	{
+#ifdef HAVE_INET_ATON
 		inet_aton("169.254.0.0", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("169.254.0.0")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr(rawAddr_);
 		CPPUNIT_ASSERT(addr.isLinkLocalAddress());
 		CPPUNIT_ASSERT(!(addr.isAnyLocalAddress()));
@@ -185,7 +217,15 @@ class Inet4AddressTest : public CppUnit::TestFixture
 
 	void testSiteLocal10()
 	{
-		inet_aton("10.0.0.0", &rawAddr_);
+#ifdef HAVE_INET_ATON
+		inet_aton("10.254.0.0", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("10.254.0.0")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr(rawAddr_);
 		CPPUNIT_ASSERT(addr.isSiteLocalAddress());
 		CPPUNIT_ASSERT(!(addr.isAnyLocalAddress()));
@@ -196,7 +236,15 @@ class Inet4AddressTest : public CppUnit::TestFixture
 
 	void testSiteLocal172()
 	{
+#ifdef HAVE_INET_ATON
 		inet_aton("172.16.0.0", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("172.16.0.0")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr(rawAddr_);
 		CPPUNIT_ASSERT(addr.isSiteLocalAddress());
 		CPPUNIT_ASSERT(!(addr.isAnyLocalAddress()));
@@ -207,7 +255,15 @@ class Inet4AddressTest : public CppUnit::TestFixture
 
 	void testSiteLocal192()
 	{
+#ifdef HAVE_INET_ATON
 		inet_aton("192.168.0.0", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("192.168.0.0")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr(rawAddr_);
 		CPPUNIT_ASSERT(addr.isSiteLocalAddress());
 		CPPUNIT_ASSERT(!(addr.isAnyLocalAddress()));
@@ -218,7 +274,15 @@ class Inet4AddressTest : public CppUnit::TestFixture
 
 	void testMulticastGlobalMin()
 	{
+#ifdef HAVE_INET_ATON
 		inet_aton("224.0.1.0", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("224.0.1.0")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr(rawAddr_);
 		CPPUNIT_ASSERT(addr.isMulticastGlobal());
 		CPPUNIT_ASSERT(addr.isMulticastAddress());
@@ -230,7 +294,15 @@ class Inet4AddressTest : public CppUnit::TestFixture
 
 	void testMulticastGlobalMax()
 	{
+#ifdef HAVE_INET_ATON
 		inet_aton("238.255.255.255", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("238.255.255.255")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr(rawAddr_);
 		CPPUNIT_ASSERT(addr.isMulticastGlobal());
 		CPPUNIT_ASSERT(addr.isMulticastAddress());
@@ -248,7 +320,15 @@ class Inet4AddressTest : public CppUnit::TestFixture
 
 	void testMulticastLinkLocal()
 	{
+#ifdef HAVE_INET_ATON
 		inet_aton("224.0.0.0", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("224.0.0.0")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr(rawAddr_);
 		CPPUNIT_ASSERT(addr.isMulticastLinkLocal());
 		CPPUNIT_ASSERT(addr.isMulticastAddress());
@@ -261,7 +341,15 @@ class Inet4AddressTest : public CppUnit::TestFixture
 
 	void testMulticastSiteLocal()
 	{
+#ifdef HAVE_INET_ATON
 		inet_aton("239.255.0.0", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("239.255.0.0")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr(rawAddr_);
 		CPPUNIT_ASSERT(addr.isMulticastSiteLocal());
 		CPPUNIT_ASSERT(addr.isMulticastAddress());
@@ -275,7 +363,15 @@ class Inet4AddressTest : public CppUnit::TestFixture
 
 	void testMulticastOrgLocalMin()
 	{
+#ifdef HAVE_INET_ATON
 		inet_aton("239.192.0.0", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("239.192.0.0")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr(rawAddr_);
 		CPPUNIT_ASSERT(addr.isMulticastOrgLocal());
 		CPPUNIT_ASSERT(addr.isMulticastAddress());
@@ -290,7 +386,15 @@ class Inet4AddressTest : public CppUnit::TestFixture
 
 	void testMulticastOrgLocalMax()
 	{
+#ifdef HAVE_INET_ATON
 		inet_aton("239.195.0.0", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("239.195.0.0")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr(rawAddr_);
 		CPPUNIT_ASSERT(addr.isMulticastOrgLocal());
 		CPPUNIT_ASSERT(addr.isMulticastAddress());
@@ -305,7 +409,15 @@ class Inet4AddressTest : public CppUnit::TestFixture
 
 	void testEquality1()
 	{
+#ifdef HAVE_INET_ATON
 		inet_aton("10.1.0.157", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("10.1.0.157")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr(rawAddr_);
 		InetAddress addr2(rawAddr_);
 		CPPUNIT_ASSERT(addr == addr2);
@@ -320,7 +432,15 @@ class Inet4AddressTest : public CppUnit::TestFixture
 
 	void testEquality3()
 	{
+#ifdef HAVE_INET_ATON
 		inet_aton("10.1.0.159", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("10.1.0.159")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr(rawAddr_);
 		InetAddress addr2("10.1.0.159");
 		CPPUNIT_ASSERT(addr == addr2);
@@ -328,25 +448,65 @@ class Inet4AddressTest : public CppUnit::TestFixture
 
 	void testInequality1()
 	{
+#ifdef HAVE_INET_ATON
 		inet_aton("10.1.0.157", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("10.1.0.157")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr(rawAddr_);
+#ifdef HAVE_INET_ATON
 		inet_aton("202.8.42.157", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("202.8.42.157")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr2(rawAddr_);
 		CPPUNIT_ASSERT(addr == addr2);
 	}
 
 	void testInequality2()
 	{
+#ifdef HAVE_INET_ATON
 		inet_aton("10.1.0.157", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("10.1.0.157")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr(rawAddr_);
+#ifdef HAVE_INET_ATON
 		inet_aton("202.8.42.157", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("202.8.42.157")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr2(rawAddr_);
 		CPPUNIT_ASSERT(addr != addr2);
 	}
 
 	void testInequality3()
 	{
+#ifdef HAVE_INET_ATON
 		inet_aton("10.1.0.157", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("10.1.0.157")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr(rawAddr_);
 		InetAddress addr2("202.8.42.157");
 		CPPUNIT_ASSERT(addr == addr2);
@@ -354,7 +514,15 @@ class Inet4AddressTest : public CppUnit::TestFixture
 
 	void testInequality4()
 	{
+#ifdef HAVE_INET_ATON
 		inet_aton("10.1.0.157", &rawAddr_);
+#else
+		if((rawAddr_.s_addr = inet_addr("10.1.0.157")) == -1)
+		{
+			CPPUNIT_ASSERT(false);
+		}
+
+#endif
 		InetAddress addr(rawAddr_);
 		InetAddress addr2("202.8.42.157");
 		CPPUNIT_ASSERT(addr != addr2);

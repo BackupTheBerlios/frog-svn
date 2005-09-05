@@ -1,0 +1,35 @@
+2005-09-5  Janvier D. Anonical <janvier@users.berlios.de>
+
+	* Fixed looping of NetworkInterface.
+	* NetworkInterface port to Solaris with no IPv6 support.
+	* The net namespace is now directly under frog namespace
+	  rather than being under the sys namespace.
+
+2005-09-2  Janvier D. Anonical <janvier@users.berlios.de>
+
+	* Modified AddressFamily to suit for Solaris.
+	* Changed INADDR_NONE occurrences to the value -1.
+
+2005-09-1  Janvier D. Anonical <janvier@users.berlios.de>
+
+	* Corrected NetworkInterface logic error regarding the
+	  interface index.
+	* Added frog/stdint.h.
+
+2005-08-31  Janvier D. Anonical <janvier@users.berlios.de>
+
+	* Completed NetworkInterface.
+	* Corrected the value of the network index found by NetworkInterface.
+	* Added test case for NetworkInterface.
+
+2005-08-30  Janvier D. Anonical <janvier@users.berlios.de>
+
+	* Partially completed NetworkInterface.
+	* Added scope id in InetAddress.
+	* Made the code a bit portable by checking for system function
+	  existence for some functions.
+
+2005-08-26  Janvier D. Anonical <janvier@users.berlios.de>
+
+	* Made IPv6 an optional feature via configure.
+

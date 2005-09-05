@@ -19,52 +19,20 @@
 //------------------------------------------------------------------------//
 
 
-#ifndef FROG_SYS_NULLPTR_H
-#define FROG_SYS_NULLPTR_H
+#ifndef FROG_SYS_STDINT_H
+#define FROG_SYS_STDINT_H
 
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
+#if defined(HAVE_STDINT_H)
+#include <stdint.h>
+#elif defined(HAVE_INTTYPES_H)
+#include <inttypes.h>
+#else
+#error there are no valid integer types on this system.
+#endif
 
-/**
- * @namespace frog The Frog Framework is library of C++ classes,
- * interfaces, and value types.
- */
-namespace frog
-{
-	/**
-	 * @namespace frog::sys Contains fundamental classes and base classes
-	 * that define commonly used value and data types, interfaces,
-	 * attributes, and processing exceptions.
-	 */
-	namespace sys
-	{
-		/**
-		 * A null-pointer type.
-		 *
-		 * @note Adapted from Item 25 of <I>Effective C++</I> by Scott Meyers.
-		 */
-		const class
-		{
-		  public:
-			  /**
-			   * Used to convert to any type of null non-member pointer. 
-			   */
-			  template<typename T> operator T*() const { return 0; }
-
-			  /**
-			   * Used to convert to any type of null member pointer.
-			   */
-			  template<typename C, typename T> operator T C::*() const { return 0; }
-		  private:
-			  /**
-			   * Address cannot be taken.
-			   */
-			  void operator&() const;
-		} nullptr = {};
-	} // sys ns
-} // frog ns
-
-#endif // FROG_SYS_NULLPTR_H
+#endif // FROG_SYS_STDINT_H

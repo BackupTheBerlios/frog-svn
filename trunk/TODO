@@ -2,9 +2,19 @@
                            Frog Framework TODO File
                            ------------------------
 
+- 2 September 2005 -
+
+	* Fix NetworkInterface infinite loop on NetworkInterface::find().
+	  This part gets executed when the system does not have ::getifaddrs()
+	  and has no support for IPv6. [done]
+
+- 31 August 2005 -
+
+	* Fix NetworkInterface::getNetworkInterfaces() so that
+	  NetworkInterface::toString() will output data correctly. [done]
 
 - 29 August 2005 -
 
-*	Create a portable stdint.h.
-*	Function inet_pton and inet_ntop are not available on
-	some systems so be sure to handle this case.
+	* Create a portable stdint.h. [done]
+	* Function inet_pton and inet_ntop are not available on
+	  some systems so be sure to handle this case. [done]

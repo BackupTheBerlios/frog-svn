@@ -35,13 +35,6 @@
  */
 namespace frog
 {
-	/**
-	 * @namespace frog::sys Contains fundamental classes and base classes that
-	 * define commonly used value and data types, interfaces, attributes,
-	 * and processing exceptions.
-	 */
-	namespace sys
-	{
 		/**
 		 * @namespace frog::sys::net Provides a simple programming
 		 * interface for many of the protocols used on networking
@@ -56,31 +49,31 @@ namespace frog
 			 * <HR>
 			 * <H3>Inherits from:</H3>
 			 *     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 *     IOException
+			 *     sys::IOException
 			 * <HR>
 			 */
-			class SocketException : public IOException
+			class SocketException : public sys::IOException
 			{
 			  public:
 				  /**
 				   * Constructs a new exception.
 				   */
 				  explicit SocketException() throw()
-					  : IOException("SocketException") {}
+					  : sys::IOException("SocketException") {}
 
 				  /**
 				   * Constructs a new exception with the specified description.
 				   * @param[in] description The description of this exception
 				   */
 				  explicit SocketException(const std::string& description) throw()
-					  : IOException(description) {}
+					  : sys::IOException(description) {}
 
 				  /**
 				   * Constructs a new exception with the specified description.
 				   * @param[in] description The description of this exception
 				   */
 				  explicit SocketException(const char* description) throw()
-					  : IOException(description) {}
+					  : sys::IOException(description) {}
 				  /**
 				   * Does nothing.
 				   */
@@ -102,7 +95,6 @@ namespace frog
 				  }
 			}; // SocketException cls
 		} // net ns
-	} // sys ns
 } // frog ns
 
 #endif // FROG_SYS_SOCKETEXCEPTION_H

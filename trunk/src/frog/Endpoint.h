@@ -39,64 +39,56 @@
 namespace frog
 {
 	/**
-	 * @namespace frog::sys Contains fundamental classes and base classes
-	 * that define commonly used value and data types, interfaces,
-	 * attributes, and processing exceptions.
+	 * @namespace frog::sys::net Provides a simple programming
+	 * interface for many of the protocols used on networking
+	 * applications.
 	 */
-	namespace sys
+	namespace net
 	{
 		/**
-		 * @namespace frog::sys::net Provides a simple programming
-		 * interface for many of the protocols used on networking
-		 * applications.
+		 * Represents a network resource or service without protocol
+		 * attachments. This is a class that is meant to be subclassed
+		 * with a specific, protocol dependent implementation.
+		 *
+		 * <HR>
+		 *      <H3>Direct Known Subclasses:</H3>
+		 *          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		 *              IPEndpoint
+		 * <HR>
+		 * 
 		 */
-		namespace net
+		class Endpoint : public sys::Object
 		{
-			/**
-			 * Represents a network resource or service without protocol
-			 * attachments. This is a class that is meant to be subclassed
-			 * with a specific, protocol dependent implementation.
-			 *
-			 * <HR>
-			 *      <H3>Direct Known Subclasses:</H3>
-			 *          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 *              IPEndpoint
-			 * <HR>
-			 * 
-			 */
-			class Endpoint : public Object
-			{
-			  public:
-				  /**
-				   * Default destructor.
-				   */
-				  virtual ~Endpoint() throw() { }
+		  public:
+			  /**
+			   * Default destructor.
+			   */
+			  virtual ~Endpoint() throw() { }
 
-				  /**
-				   * Address family property of this endpoint. This
-				   * address family is a @e read-only attribute.
-				   */
-				  const AddressFamily::TYPE& addressFamily;
-			  protected:
-				  /**
-				   * Default constructor. The address family is set
-				   * to AddressFamily::Unspecified.
-				   */
-				  Endpoint() : addressFamily(addressFamily_), 
-					  addressFamily_(AddressFamily::Unspecified) { }
+			  /**
+			   * Address family property of this endpoint. This
+			   * address family is a @e read-only attribute.
+			   */
+			  const AddressFamily::TYPE& addressFamily;
+		  protected:
+			  /**
+			   * Default constructor. The address family is set
+			   * to AddressFamily::Unspecified.
+			   */
+			  Endpoint() : addressFamily(addressFamily_), 
+						   addressFamily_(AddressFamily::Unspecified) { }
 
-				  /**
-				   * Sets the address family.
-				   */
-				  void setAddressFamily(AddressFamily::TYPE af)
-				  {
-					  addressFamily_ = af;
-				  }
-			  private:
-				  AddressFamily::TYPE addressFamily_; /**< The underlying address family */
-			}; // Endpoint cls
-		} // netns
-	} // sys ns
+			  /**
+			   * Sets the address family.
+			   */
+			  void setAddressFamily(AddressFamily::TYPE af)
+			  {
+				  addressFamily_ = af;
+			  }
+		  private:
+			  AddressFamily::TYPE addressFamily_; /**< The underlying address family */
+		}; // Endpoint cls
+	} // net ns
 } // frog ns
 
 #endif // FROG_SYS_NET_ENDPOINT_H

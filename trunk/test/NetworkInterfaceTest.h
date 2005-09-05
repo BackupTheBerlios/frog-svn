@@ -30,8 +30,8 @@
 #include <config.h>
 #endif
 
-using frog::sys::net::NetworkInterface;
-using frog::sys::net::InetAddress;
+using frog::net::NetworkInterface;
+using frog::net::InetAddress;
 using std::string;
 using std::vector;
 using std::cout;
@@ -46,7 +46,7 @@ class NetworkInterfaceTest : public CppUnit::TestFixture
   CPPUNIT_TEST(testEquality2);
   CPPUNIT_TEST(testInequality1);
   CPPUNIT_TEST(testInequality2);
-  CPPUNIT_TEST(displayOne);
+  CPPUNIT_TEST(displayOneAndOther);
   CPPUNIT_TEST(displayAll);
   
   CPPUNIT_TEST_SUITE_END();
@@ -87,22 +87,37 @@ class NetworkInterfaceTest : public CppUnit::TestFixture
 		  CPPUNIT_ASSERT(ni != ni2);
 	  }
 
-	  void displayOne()
+	  void displayOneAndOther()
 	  {
 		  NetworkInterface::InterfaceAddrList int_addr;
 		  NetworkInterface::InterfaceAddrListIterator int_addr_iter;
-		  NetworkInterface ni = NetworkInterface::getByName("eth0");
+		  
+		  NetworkInterface ni = NetworkInterface::getByName("lo");
 		  int_addr = ni.getInterfaceAddresses();
 		  cout << endl;
+		  cout << ni.name;
 		  for(int_addr_iter = int_addr.begin(); int_addr_iter != int_addr.end(); ++int_addr_iter)
 		  {
-			  cout << "inet addr: " << int_addr_iter->unicast.getHostAddress();
-			  cout << "  index: " << int_addr_iter->index;
-			  cout << "  Mask: " << int_addr_iter->netmask.getHostAddress();
-			  cout << "  Bcast: " << int_addr_iter->broadcast.getHostAddress() << endl;
+			  	cout << "	inet addr: " << int_addr_iter->unicast.getHostAddress();
+			  	cout << "  Mask: " << int_addr_iter->netmask.getHostAddress();
+			  	cout << "  Bcast: " << int_addr_iter->broadcast.getHostAddress() << endl;
 		  }
-		  cout << ni.toString() << endl << endl;
-		  CPPUNIT_ASSERT(true);
+		  cout << "	String: " << ni.toString() << endl;
+		  
+		  NetworkInterface ni2 = NetworkInterface::getByName("eth0");
+		  int_addr = ni2.getInterfaceAddresses();
+		  cout << endl;
+		  cout << ni2.name;
+		  for(int_addr_iter = int_addr.begin(); int_addr_iter != int_addr.end(); ++int_addr_iter)
+		  {
+			  	cout << "	inet addr: " << int_addr_iter->unicast.getHostAddress();
+			  	cout << "  Mask: " << int_addr_iter->netmask.getHostAddress();
+			  	cout << "  Bcast: " << int_addr_iter->broadcast.getHostAddress() << endl;
+		  }
+		  cout << "	String: " << ni2.toString() << endl;
+		  cout << endl;
+		  
+		  CPPUNIT_ASSERT(ni != ni2);
 	  }
 
 	  void displayAll()
@@ -119,15 +134,16 @@ class NetworkInterfaceTest : public CppUnit::TestFixture
 		  {
 			  ++count;
 			  int_addr = if_iter->getInterfaceAddresses();
+			  cout << if_iter->name;
 			  for(int_addr_iter = int_addr.begin(); int_addr_iter != int_addr.end(); ++int_addr_iter)
 			  {
-			  	cout << if_iter->name << "	inet addr: " << int_addr_iter->unicast.getHostAddress();
-			  	cout << "  index: " << int_addr_iter->index;
+			  	cout << "	inet addr: " << int_addr_iter->unicast.getHostAddress();
 			  	cout << "  Mask: " << int_addr_iter->netmask.getHostAddress();
 			  	cout << "  Bcast: " << int_addr_iter->broadcast.getHostAddress() << endl;
 			  }
 
-			  cout << "*** " << if_iter->toString() << " ***" << endl;
+			  cout << "	String: " << if_iter->toString() << endl;
+			  cout << endl;
 		  }
 		  
 		  CPPUNIT_ASSERT(nis.size() > 0);

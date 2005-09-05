@@ -27,13 +27,9 @@
 #include <config.h>
 #endif
 
-#ifdef HAVE_STDINT_H
-#include <stdint.h>
-#else
-#include <frog/stdint.h>
-#endif
-
 #include <string>
+
+#include <frog/stdint.h>
 
 /**
  * @namespace frog The Frog Framework is library of C++ classes,

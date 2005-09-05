@@ -35,7 +35,7 @@
 #include <config.h>
 #endif
 
-using frog::sys::net::InetAddress;
+using frog::net::InetAddress;
 
 
 class Inet6AddressTest : public CppUnit::TestFixture

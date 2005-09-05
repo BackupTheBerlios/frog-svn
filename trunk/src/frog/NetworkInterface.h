@@ -40,13 +40,6 @@
  */
 namespace frog
 {
-	/**
-	 * @namespace frog::sys Contains fundamental classes and base classes
-	 * that define commonly used value and data types, interfaces,
-	 * attributes, and processing exceptions.
-	 */
-	namespace sys
-	{
 		/**
 		 * @namespace frog::sys::net Provides a simple programming
 		 * interface for many of the protocols used on networking
@@ -61,7 +54,7 @@ namespace frog
 			 * on which a multicast group is joined. Interfaces are
 			 * normally known by names such as "le0".
 			 */
-			class NetworkInterface : public Object
+			class NetworkInterface : public sys::Object
 			{
 			  public:
 				  /**
@@ -74,7 +67,6 @@ namespace frog
 					  InetAddress unicast; /**< Unicast address */
 					  InetAddress netmask; /**< Netmask address */
 					  InetAddress broadcast; /**< Broadcast address */
-					  uint32_t index; /**< Address index */
 
 					  /**
 					   * Provided here to satisfy STL.
@@ -202,6 +194,10 @@ namespace frog
 				   */
 				  std::string displayName_;
 
+				  /**
+				   * Interface index
+				   */
+				  uint32_t intfaceIndex_;
 
 				  /**
 				   * InetAddress(es) assigned to this interface.
@@ -209,6 +205,5 @@ namespace frog
 				  InterfaceAddrList addressList_;
 			};
 		} // net ns
-	} // sys ns
 } // frog ns
 #endif // FROG_SYS_NET_NETWORKINTERFACE_H

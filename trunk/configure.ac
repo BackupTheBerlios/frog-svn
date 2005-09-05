@@ -19,11 +19,14 @@ AC_PROG_MAKE_SET
 AC_PROG_LIBTOOL
 
 # Checks for libraries.
-# FIXME: Replace `main' with a function in `-lfrog':
-# AC_CHECK_LIB([frog], [main])
+AC_SEARCH_LIBS([socket], [socket])
+AC_SEARCH_LIBS([inet_ntop], [nsl])
+AC_SEARCH_LIBS([inet_pton], [nsl])
+AC_SEARCH_LIBS([inet_ntoa], [nsl])
 
 # Checks for header files.
-AC_CHECK_HEADERS([arpa/inet.h netinet/in.h stdint.h sys/socket.h ifaddrs.h])
+AC_CHECK_HEADERS([arpa/inet.h netinet/in.h stdint.h inttypes.h sys/socket.h sys/ioctl.h ifaddrs.h])
+AC_CHECK_HEADERS([unistd.h stropts.h sys/sockio.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
