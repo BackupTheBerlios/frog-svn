@@ -19,8 +19,8 @@
 //------------------------------------------------------------------------//
 
 
-#ifndef FROG_SYS_NET_ENDPOINT_H
-#define FROG_SYS_NET_ENDPOINT_H
+#ifndef FROG_NET_ENDPOINT_H
+#define FROG_NET_ENDPOINT_H
 
 
 #ifdef HAVE_CONFIG_H
@@ -39,7 +39,7 @@
 namespace frog
 {
 	/**
-	 * @namespace frog::sys::net Provides a simple programming
+	 * @namespace frog::net Provides a simple programming
 	 * interface for many of the protocols used on networking
 	 * applications.
 	 */
@@ -57,7 +57,7 @@ namespace frog
 		 * <HR>
 		 * 
 		 */
-		class Endpoint : public sys::Object
+		class Endpoint : public Object
 		{
 		  public:
 			  /**
@@ -91,4 +91,4 @@ namespace frog
 	} // net ns
 } // frog ns
 
-#endif // FROG_SYS_NET_ENDPOINT_H
+#endif // FROG_NET_ENDPOINT_H

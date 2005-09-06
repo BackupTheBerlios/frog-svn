@@ -21,8 +21,10 @@
 
 #include <arpa/inet.h>
 #include <cerrno>
+#include <vector>
 
 #include <frog/InetAddress.h>
+#include <frog/NetworkInterface.h>
 
 namespace frog
 {
@@ -133,6 +135,34 @@ namespace frog
 				ipv4Compatible_ = IN6_IS_ADDR_V4COMPAT(&ipAddress);
 			}
 #endif
+
+		//--------------------------------------------------------------
+		InetAddress InetAddress::getLocalHost() throw(UnknownHostException)
+		{
+			std::vector<NetworkInterface>::iterator intfaceIter;
+			std::vector<NetworkInterface> netInterfaces	= NetworkInterface::getNetworkInterfaces();
+			NetworkInterface::InterfaceAddrList addrList;
+			NetworkInterface::InterfaceAddrListIterator addrListIter;
+
+			for(intfaceIter = netInterfaces.begin(); intfaceIter != netInterfaces.end();
+					++intfaceIter)
+			{
+				addrList = intfaceIter->getInterfaceAddresses();
+				for(addrListIter = addrList.begin(); addrListIter != addrList.end();
+						++addrListIter)
+				{
+					if(!addrListIter->unicast.isLoopbackAddress())
+					{
+						return addrListIter->unicast;
+					}
+				}
+			}
+		}
+
+		//--------------------------------------------------------------
+		InetAddress::~InetAddress() throw()
+		{
+		}
 
 		//--------------------------------------------------------------
 		bool InetAddress::isAnyLocalAddress() throw()

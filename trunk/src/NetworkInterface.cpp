@@ -267,8 +267,8 @@ namespace frog
 				// No ::getifaddrs()
 				int sockfd;
 				int len, lastLen, flags;
-				char* buf = sys::nullptr;
-				char* ptr = sys::nullptr;
+				char* buf = frog::nullptr;
+				char* ptr = frog::nullptr;
 				struct ifconf ifc;
 				struct ifreq* ifr;
 				struct ifreq ifrcopy;
@@ -294,7 +294,7 @@ namespace frog
 						if(errno != EINVAL || lastLen != 0)
 						{
 							delete[] buf;
-							buf = sys::nullptr;
+							buf = frog::nullptr;
 							throw SocketException(::strerror(errno));
 						}
 					}
@@ -306,7 +306,7 @@ namespace frog
 					}
 					len  += 10 * sizeof(struct ifreq); // Increment
 					delete[] buf;
-					buf = sys::nullptr;
+					buf = frog::nullptr;
 				}
 
 				InetAddress* addr_p = NULL;
@@ -420,7 +420,7 @@ namespace frog
 					}
 				}
 				delete[] buf;
-				buf = sys::nullptr;
+				buf = frog::nullptr;
 
 				return netInterface;
 #endif
@@ -557,8 +557,8 @@ namespace frog
 			// No ::getifaddrs()
 			int sockfd;
 			int len, lastLen, flags;
-			char* buf = sys::nullptr;
-			char* ptr = sys::nullptr;
+			char* buf = frog::nullptr;
+			char* ptr = frog::nullptr;
 			struct ifconf ifc;
 			struct ifreq* ifr;
 			struct ifreq ifrcopy;
@@ -586,7 +586,7 @@ namespace frog
 					if(errno != EINVAL || lastLen != 0)
 					{
 						delete[] buf;
-						buf = sys::nullptr;
+						buf = frog::nullptr;
 						throw SocketException(::strerror(errno));
 					}
 				}
@@ -598,7 +598,7 @@ namespace frog
 				}
 				len  += 10 * sizeof(struct ifreq); // Increment
 				delete[] buf;
-				buf = sys::nullptr;
+				buf = frog::nullptr;
 			}
 
 			InetAddress* addr_p = NULL;
@@ -713,7 +713,7 @@ namespace frog
 				}
 			}
 			delete[] buf;
-			buf = sys::nullptr;
+			buf = frog::nullptr;
 
 			return netInterfaces;
 #endif

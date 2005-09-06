@@ -19,8 +19,8 @@
 //------------------------------------------------------------------------//
 
 
-#ifndef FROG_SYS_NET_INETADDRESS_H
-#define FROG_SYS_NET_INETADDRESS_H
+#ifndef FROG_NET_INETADDRESS_H
+#define FROG_NET_INETADDRESS_H
 
 
 #ifdef HAVE_CONFIG_H
@@ -35,6 +35,7 @@
 #include <frog/AddressFamily.h>
 #include <frog/ArgumentOutOfBoundsException.h>
 #include <frog/NotImplementedException.h>
+#include <frog/UnknownHostException.h>
 
 
 /**
@@ -44,7 +45,7 @@
 namespace frog
 {
 	/**
-	 * @namespace frog::sys::net Provides a simple programming
+	 * @namespace frog::net Provides a simple programming
 	 * interface for many of the protocols used on networking
 	 * applications.
 	 */
@@ -54,7 +55,7 @@ namespace frog
 		 * This class represents an Internet Protocol (IP) address.
 		 * @note Support for IPv6 is not fully tested.
 		 */
-		class InetAddress : public sys::Object
+		class InetAddress : public Object
 		{
 		  public:
 			  /**
@@ -100,7 +101,18 @@ namespace frog
 			  InetAddress(const struct in6_addr& ipAddress, uint32_t index = 0) throw(sys::ArgumentOutOfBoundsException);
 #endif
 
-			  virtual ~InetAddress() throw() {}
+			  /**
+			   * Returns the local host. This gives the first IP address that is
+			   * not a loopback address.
+			   * @return The IP address of the local host.
+			   * @exception sys::UnknownHostException No IP address for the <TT>host</TT> could be found.
+			   */
+			  static InetAddress getLocalHost() throw(UnknownHostException);
+
+			  /**
+			   * Default destructor.
+			   */
+			  virtual ~InetAddress() throw();
 
 			  /**
 			   * Checks if this IP address is a
@@ -310,4 +322,4 @@ namespace frog
 } // frog ns
 
 
-#endif // FROG_SYS_NET_INETADDRESS_H
+#endif // FROG_NET_INETADDRESS_H

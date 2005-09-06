@@ -9,4 +9,4 @@ nobase_include_HEADERS = frog/Object.h frog/Singleton.h frog/AddressFamily.h \
 						 frog/InetAddress.h frog/IOException.h frog/NotImplementedException.h \
 						 frog/NullPointerException.h frog/OverflowException.h frog/RuntimeException.h \
 						 frog/SystemException.h frog/SocketException.h frog/Endpoint.h frog/IPEndpoint.h \
-						 frog/NetworkInterface.h frog/nullptr.h frog/stdint.h
+						 frog/NetworkInterface.h frog/nullptr.h frog/stdint.h frog/UnknownHostException.h

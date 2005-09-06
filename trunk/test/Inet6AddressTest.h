@@ -25,6 +25,7 @@
 #include <iostream>
 #include <string>
 
+
 #include <cppunit/extensions/HelperMacros.h>
 #include <frog/InetAddress.h>
 #include <frog/NotImplementedException.h>
@@ -36,7 +37,7 @@
 #endif
 
 using frog::net::InetAddress;
-
+using namespace std;
 
 class Inet6AddressTest : public CppUnit::TestFixture
 {
@@ -76,6 +77,8 @@ class Inet6AddressTest : public CppUnit::TestFixture
 
   CPPUNIT_TEST(testToString);
   CPPUNIT_TEST(testGetAddress);
+  
+  CPPUNIT_TEST(testGetLocalHost);
 
   CPPUNIT_TEST(testIPv4MappedEquality);
   CPPUNIT_TEST(testIPv4CompatEquality);
@@ -319,6 +322,16 @@ class Inet6AddressTest : public CppUnit::TestFixture
 
 		CPPUNIT_ASSERT(addr.toString() == dstAddr);
 		CPPUNIT_ASSERT(addr.getHostAddress() == dstAddr);
+	}
+
+	void testGetLocalHost()
+	{
+		InetAddress localHost;
+		localHost = InetAddress::getLocalHost();
+
+		cout << endl << "toString: " << localHost.toString() << endl;
+
+		CPPUNIT_ASSERT(!localHost.isLoopbackAddress());
 	}
 
 	void testIPv4MappedEquality()

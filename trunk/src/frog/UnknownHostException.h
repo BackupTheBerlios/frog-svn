@@ -19,8 +19,8 @@
 //------------------------------------------------------------------------//
 
 
-#ifndef FROG_NET_SOCKETEXCEPTION_H
-#define FROG_NET_SOCKETEXCEPTION_H
+#ifndef FROG_NET_UNKNOWNHOSTEXCEPTION_H
+#define FROG_NET_UNKNOWNHOSTEXCEPTION_H
 
 
 #ifdef HAVE_CONFIG_H
@@ -43,8 +43,8 @@ namespace frog
 		namespace net
 		{
 			/**
-			 * Thrown to indicate that there is an error in the underlying protocol,
-			 * such as a TCP error.
+			 * Thrown to indicate that the IP address of the host 
+			 * cannot be determined.
 			 *
 			 * <HR>
 			 * <H3>Inherits from:</H3>
@@ -52,32 +52,32 @@ namespace frog
 			 *     sys::IOException
 			 * <HR>
 			 */
-			class SocketException : public sys::IOException
+			class UnknownHostException : public sys::IOException
 			{
 			  public:
 				  /**
 				   * Constructs a new exception.
 				   */
-				  explicit SocketException() throw()
-					  : sys::IOException("SocketException") {}
+				  explicit UnknownHostException() throw()
+					  : sys::IOException("UnknownHostException") {}
 
 				  /**
 				   * Constructs a new exception with the specified description.
 				   * @param[in] description The description of this exception
 				   */
-				  explicit SocketException(const std::string& description) throw()
+				  explicit UnknownHostException(const std::string& description) throw()
 					  : sys::IOException(description) {}
 
 				  /**
 				   * Constructs a new exception with the specified description.
 				   * @param[in] description The description of this exception
 				   */
-				  explicit SocketException(const char* description) throw()
+				  explicit UnknownHostException(const char* description) throw()
 					  : sys::IOException(description) {}
 				  /**
 				   * Does nothing.
 				   */
-				  virtual ~SocketException() throw() {}
+				  virtual ~UnknownHostException() throw() {}
 
 				  /**
 				   * Returns the textual representation of the current object. In
@@ -90,12 +90,12 @@ namespace frog
 				   */
 				  virtual std::string toString() const throw()
 				  {
-					  return std::string("frog::sys::SocketException") + ": " +
+					  return std::string("frog::sys::UnknownHostException") + ": " +
 						  std::string(getDescription());  
 				  }
-			}; // SocketException cls
+			}; // UnknownHostException cls
 		} // net ns
 } // frog ns
 
-#endif // FROG_NET_SOCKETEXCEPTION_H
+#endif // FROG_NET_UNKNOWNHOSTEXCEPTION_H
 

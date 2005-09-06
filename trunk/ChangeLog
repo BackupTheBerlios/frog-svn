@@ -1,3 +1,12 @@
+2005-09-6  Janvier D. Anonical <janvier@users.berlios.de>
+	
+	* Added UnknownHostException.
+	* Added getLocalHost() on InetAddress to get the
+	  non-loopback local address.
+	* Moved Singleton from sys to frog namespace.
+	* Moved Object from sys to frog namespace.
+	* Moved nullptr from sys to frog namespace.
+
 2005-09-5  Janvier D. Anonical <janvier@users.berlios.de>
 
 	* Fixed looping of NetworkInterface.

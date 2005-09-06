@@ -35,36 +35,28 @@
 namespace frog
 {
 	/**
-	 * @namespace frog::sys Contains fundamental classes and base classes
-	 * that define commonly used value and data types, interfaces,
-	 * attributes, and processing exceptions.
+	 * A null-pointer type.
+	 *
+	 * @note Adapted from Item 25 of <I>Effective C++</I> by Scott Meyers.
 	 */
-	namespace sys
+	const class
 	{
-		/**
-		 * A null-pointer type.
-		 *
-		 * @note Adapted from Item 25 of <I>Effective C++</I> by Scott Meyers.
-		 */
-		const class
-		{
-		  public:
-			  /**
-			   * Used to convert to any type of null non-member pointer. 
-			   */
-			  template<typename T> operator T*() const { return 0; }
+	  public:
+		  /**
+		   * Used to convert to any type of null non-member pointer. 
+		   */
+		  template<typename T> operator T*() const { return 0; }
 
-			  /**
-			   * Used to convert to any type of null member pointer.
-			   */
-			  template<typename C, typename T> operator T C::*() const { return 0; }
-		  private:
-			  /**
-			   * Address cannot be taken.
-			   */
-			  void operator&() const;
-		} nullptr = {};
-	} // sys ns
+		  /**
+		   * Used to convert to any type of null member pointer.
+		   */
+		  template<typename C, typename T> operator T C::*() const { return 0; }
+	  private:
+		  /**
+		   * Address cannot be taken.
+		   */
+		  void operator&() const;
+	} nullptr = {};
 } // frog ns
 
 #endif // FROG_SYS_NULLPTR_H

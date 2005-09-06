@@ -28,7 +28,7 @@
 #include <config.h>
 #endif
 
-using frog::sys::Object;
+using frog::Object;
 using std::string;
 
 class ObjectTest : public CppUnit::TestFixture

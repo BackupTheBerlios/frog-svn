@@ -47,7 +47,7 @@ namespace frog
 		/**
 		 * Specifies addressing schemes that the framework will use.
 		 */
-		class AddressFamily : public sys::Object
+		class AddressFamily : public Object
 		{
 		  public:
 			  typedef sa_family_t TYPE; /**< The type of an AddressFamily */
