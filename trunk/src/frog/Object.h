@@ -57,6 +57,11 @@ namespace frog
 		   * into an integer, but this implementation technique is not
 		   * required. Note that two objects are "the same" if their
 		   * hash codes are equal.
+		   *
+		   * The underlying 32 bit mix function was written by 
+		   * Thomas Wang. For more information visit his web page:
+		   * http://www.concentric.net/~Ttwang/tech/inthash.htm
+		   * 
 		   */
 		  virtual uint32_t hashCode() const throw();
 

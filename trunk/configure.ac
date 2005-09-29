@@ -13,10 +13,12 @@ AM_PATH_CPPUNIT(1.10.2)
 AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_CPP
+AC_PROG_GCC_TRADITIONAL
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_PROG_LIBTOOL
+AC_PROG_RANLIB
 
 # Checks for libraries.
 AC_SEARCH_LIBS([socket], [socket])
@@ -26,16 +28,17 @@ AC_SEARCH_LIBS([inet_ntoa], [nsl])
 
 # Checks for header files.
 AC_CHECK_HEADERS([arpa/inet.h netinet/in.h stdint.h inttypes.h sys/socket.h sys/ioctl.h ifaddrs.h])
-AC_CHECK_HEADERS([unistd.h stropts.h sys/sockio.h])
+AC_CHECK_HEADERS([unistd.h stropts.h sys/sockio.h sys/time.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
+AC_HEADER_TIME
 AC_C_CONST
 
 # Checks for library functions.
 AC_FUNC_MEMCMP
 AC_HEADER_STDC
-AC_CHECK_FUNCS([memset strerror inet_aton inet_ntoa inet_pton inet_ntop])
+AC_CHECK_FUNCS([memset strerror inet_aton inet_ntoa inet_pton inet_ntop gettimeofday socket])
 
 AC_ARG_ENABLE(ipv6, 
 			  [AC_HELP_STRING([--enable-ipv6], 

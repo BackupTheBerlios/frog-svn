@@ -1,3 +1,21 @@
+2005-09-29  Janvier D. Anonical <janvier@users.berlios.de>
+	
+	* Revised ObjectTest.h to show more testing.
+	* Gave credit to Thomas Wang for his 32 bit mix function
+	  used by class Object.
+
+2005-09-28  Janvier D. Anonical <janvier@users.berlios.de>
+
+	* Compilation under gcc 4.0.1.
+	* Performed conversion of hashValue from char array to
+	  string in toString() function of Object. Appeared only
+	  when compiling under gcc 4.0.1.
+
+2005-09-7  Janvier D. Anonical <janvier@users.berlios.de>
+
+	* Added NonCopyable.
+	* Removed Object from sys to frog namespace in Object.cpp.
+
 2005-09-6  Janvier D. Anonical <janvier@users.berlios.de>
 	
 	* Added UnknownHostException.

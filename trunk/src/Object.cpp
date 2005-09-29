@@ -26,8 +26,6 @@
 
 namespace frog
 {
-	namespace sys
-	{
 		//--------------------------------------------------------------
 		Object::Object() throw()
 			: hash_(0)
@@ -76,7 +74,6 @@ namespace frog
 			char hashValue[8];
 			::memset(hashValue, 0, 8);
 			::sprintf(hashValue, "%x", hashCode());
-			return std::string("Object") + "@" + hashValue;
+			return std::string("Object") + "@" + std::string(hashValue);
 		}
-	} // sys ns
 } // frog ns

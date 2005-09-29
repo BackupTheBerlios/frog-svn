@@ -36,8 +36,16 @@ class ObjectTest : public CppUnit::TestFixture
   CPPUNIT_TEST_SUITE(ObjectTest);
   
   CPPUNIT_TEST(testDisplay);
-  CPPUNIT_TEST(testIfSame);
-  CPPUNIT_TEST_FAIL(testIfNotSame);
+
+  CPPUNIT_TEST(testIfSameViaHashCode);
+  CPPUNIT_TEST(testIfSameViaToString);
+  CPPUNIT_TEST(testIfSameViaSameObject);
+  CPPUNIT_TEST(testIfSameViaSameObjectTwoParam);
+
+  CPPUNIT_TEST(testIfNotSameViaHashCode);
+  CPPUNIT_TEST(testIfNotSameViaToString);
+  CPPUNIT_TEST(testIfNotSameViaSameObject);
+  CPPUNIT_TEST(testIfNotSameViaSameObjectTwoParam);
   
   CPPUNIT_TEST_SUITE_END();
 
@@ -52,7 +60,19 @@ class ObjectTest : public CppUnit::TestFixture
 		CPPUNIT_ASSERT(Object::sameObject(&o, &o));
 	}
 	
-	void testIfSame()
+	void testIfSameViaHashCode()
+	{
+		Object o;
+		Object* op;
+
+		op = &o;
+
+		::printf("(%x  %lu) (%x  %lu)\n", 
+				o.hashCode(), o.hashCode(), op->hashCode(), op->hashCode());
+		CPPUNIT_ASSERT(op->hashCode() == o.hashCode());
+	}
+	
+	void testIfSameViaToString()
 	{
 		Object o;
 		Object* op;
@@ -61,18 +81,64 @@ class ObjectTest : public CppUnit::TestFixture
 
 		::printf("(%s) (%s)\n", o.toString().c_str(), op->toString().c_str());
 		CPPUNIT_ASSERT(op->toString() == o.toString());
+	}
+	
+	void testIfSameViaSameObject()
+	{
+		Object o;
+		Object* op;
+
+		op = &o;
+
+		::printf("(%s) (%s)\n", o.toString().c_str(), op->toString().c_str());
 		CPPUNIT_ASSERT(op->sameObject(&o));
+	}
+	
+	void testIfSameViaSameObjectTwoParam()
+	{
+		Object o;
+		Object* op;
+
+		op = &o;
+
+		::printf("(%s) (%s)\n", o.toString().c_str(), op->toString().c_str());
 		CPPUNIT_ASSERT(Object::sameObject(&o, op));
 	}
 	
-	void testIfNotSame()
+	void testIfNotSameViaHashCode()
+	{
+		Object o;
+		Object o2;
+
+		::printf("(%x  %lu) (%x  %lu)\n", 
+				o.hashCode(), o.hashCode(), o2.hashCode(), o2.hashCode());
+		CPPUNIT_ASSERT(o.hashCode() != o2.hashCode());
+	}
+	
+	void testIfNotSameViaToString()
 	{
 		Object o;
 		Object o2;
 
 		::printf("(%s) (%s)\n", o.toString().c_str(), o2.toString().c_str());
-		CPPUNIT_ASSERT(o.toString() == o2.toString());
-		CPPUNIT_ASSERT(o.sameObject(&o2));
-		CPPUNIT_ASSERT(Object::sameObject(&o, &o2));
+		CPPUNIT_ASSERT(o.toString() != o2.toString());
+	}
+	
+	void testIfNotSameViaSameObject()
+	{
+		Object o;
+		Object o2;
+
+		::printf("(%s) (%s)\n", o.toString().c_str(), o2.toString().c_str());
+		CPPUNIT_ASSERT(!o.sameObject(&o2));
+	}
+	
+	void testIfNotSameViaSameObjectTwoParam()
+	{
+		Object o;
+		Object o2;
+
+		::printf("(%s) (%s)\n", o.toString().c_str(), o2.toString().c_str());
+		CPPUNIT_ASSERT(!Object::sameObject(&o, &o2));
 	}
 };
