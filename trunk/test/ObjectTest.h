@@ -67,7 +67,7 @@ class ObjectTest : public CppUnit::TestFixture
 
 		op = &o;
 
-		::printf("(%x  %lu) (%x  %lu)\n", 
+		::printf("(%x  %d) (%x  %d)\n", 
 				o.hashCode(), o.hashCode(), op->hashCode(), op->hashCode());
 		CPPUNIT_ASSERT(op->hashCode() == o.hashCode());
 	}
@@ -110,7 +110,7 @@ class ObjectTest : public CppUnit::TestFixture
 		Object o;
 		Object o2;
 
-		::printf("(%x  %lu) (%x  %lu)\n", 
+		::printf("(%x  %d) (%x  %d)\n", 
 				o.hashCode(), o.hashCode(), o2.hashCode(), o2.hashCode());
 		CPPUNIT_ASSERT(o.hashCode() != o2.hashCode());
 	}

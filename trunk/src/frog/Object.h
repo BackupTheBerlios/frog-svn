@@ -63,7 +63,7 @@ namespace frog
 		   * http://www.concentric.net/~Ttwang/tech/inthash.htm
 		   * 
 		   */
-		  virtual uint32_t hashCode() const throw();
+		  virtual int32_t hashCode() const throw();
 
 		  /**
 		   * Indicates whether some other object is the same as
@@ -102,7 +102,7 @@ namespace frog
 		   */
 		  virtual std::string toString() const throw();
 	  private:
-		  uint32_t hash_;
+		  int32_t hash_;
 	}; // Object cls
 } // frog ns
 

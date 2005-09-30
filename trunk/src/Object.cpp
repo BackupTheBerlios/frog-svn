@@ -38,12 +38,12 @@ namespace frog
 		}
 
 		//--------------------------------------------------------------
-		uint32_t Object::hashCode() const throw()
+		int32_t Object::hashCode() const throw()
 		{
 			if(hash_ == 0)
 			{
-				uint32_t* hash_p = const_cast<uint32_t*>(&hash_);
-				uint32_t key = (uint32_t)this;
+				int32_t* hash_p = const_cast<int32_t*>(&hash_);
+				int32_t key = (int32_t)this;
 				key += ~(key << 15U);
 				key ^= (key >> 10U);
 				key += (key << 3U);

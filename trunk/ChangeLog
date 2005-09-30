@@ -1,3 +1,9 @@
+2005-09-30  Janvier D. Anonical <janvier@users.berlios.de>
+
+	* Corrected hashCode function of class Object. I changed
+	  the type used from uint32_t to int32_t.
+	* Added TimeValue class (although incomplete at this time.)
+
 2005-09-29  Janvier D. Anonical <janvier@users.berlios.de>
 	
 	* Revised ObjectTest.h to show more testing.
