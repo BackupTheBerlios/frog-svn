@@ -2,7 +2,7 @@ default: all
 
 all:
 	libtoolize --force
-	aclocal
+	aclocal -I m4
 	autoheader
 	automake -ac
 	autoconf

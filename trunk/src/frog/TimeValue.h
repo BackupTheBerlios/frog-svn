@@ -26,6 +26,12 @@
 #include <config.h>
 #endif
 
+#include <frog/stdint.h>
+
+#ifdef HAVE_SYS_TIME_H
+#include <sys/time.h>
+#endif
+
 
 /**
  * @namespace frog The Frog Framework is library of C++ classes,
@@ -38,6 +44,10 @@ namespace frog
 	 */
 	namespace util
 	{
+		#define ONE_SECOND_IN_MSECS 1000L /**< Milliseconds in one second */
+		#define ONE_SECOND_IN_USECS 1000000L /**< Microseconds in one second */
+		#define ONE_SECOND_IN_NSECS 1000000000L /**< Nanoseconds in one second */
+		
 		/**
 		 * This class centralizes all operations on <TT>timeval</TT>
 		 * structures, which express time in seconds (secs) and
@@ -50,6 +60,51 @@ namespace frog
 		 */
 		class TimeValue
 		{
+		  public:
+			/**
+			 * Default constructor.
+			 */
+			TimeValue() throw();
+
+			/**
+			 * Create a TimeValue given the second and subsecond value.
+			 * @param[in] sec Seconds value.
+			 * @param[in] usec Subseconds value.
+			 */
+			TimeValue(const int32_t sec, const int32_t usec = 0) throw();
+
+			/**
+			 * Create a TimeValue from a <TT>timeval</TT>
+			 * @param[in] t A <TT>timeval</TT> structure
+			 */
+			TimeValue(const struct timeval& t) throw();
+		
+			/**
+			 * Initialize TimeValue from @p sec and @p usec.
+			 * @param[in] sec Seconds value.
+			 * @param[in] usec Subseconds value.
+			 */
+			void set(const int32_t sec, const int32_t usec = 0) throw();
+
+			/**
+			 * Initialize TimeValue from a @p timeval.
+			 * @param[in] tv A <TT>timeval</TT> structure.
+			 */
+			void set(const timeval& tv) throw();
+
+			/**
+			 * Initialize TimeValue from a <TT>double</TT>, which is
+			 * assumed to be in seconds format, with any remainder treated
+			 * as microseconds.
+			 */
+			void set(const double d) throw();
+		  private:
+			/**
+			 * Puts <TT>timeval</TT> in canonical form.
+			 */
+			void normalize() throw();
+			
+			timeval tv_; /**< Values are stored as <TT>timeval</tt> */
 		}; // TimeValue cls
 	} // util ns
 } // frog ns

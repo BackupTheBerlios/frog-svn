@@ -1,3 +1,4 @@
+m4trace:aclocal.m4:6963: -1- m4_include([m4/timespec.m4])
 m4trace:configure.ac:4: -1- AC_PREREQ([2.59])
 m4trace:configure.ac:5: -1- AC_INIT([Frog Framework], [0.1], [janvier@users.berlios.de])
 m4trace:configure.ac:5: -1- m4_pattern_forbid([^_?A[CHUM]_])
@@ -471,7 +472,7 @@ m4trace:configure.ac:30: -1- AH_OUTPUT([HAVE_SYS_IOCTL_H], [/* Define to 1 if yo
 #undef HAVE_SYS_IOCTL_H])
 m4trace:configure.ac:30: -1- AH_OUTPUT([HAVE_IFADDRS_H], [/* Define to 1 if you have the <ifaddrs.h> header file. */
 #undef HAVE_IFADDRS_H])
-m4trace:configure.ac:31: -1- AC_CHECK_HEADERS([unistd.h stropts.h sys/sockio.h sys/time.h])
+m4trace:configure.ac:31: -1- AC_CHECK_HEADERS([unistd.h stropts.h sys/sockio.h sys/time.h time.h])
 m4trace:configure.ac:31: -1- AH_OUTPUT([HAVE_UNISTD_H], [/* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H])
 m4trace:configure.ac:31: -1- AH_OUTPUT([HAVE_STROPTS_H], [/* Define to 1 if you have the <stropts.h> header file. */
@@ -480,6 +481,8 @@ m4trace:configure.ac:31: -1- AH_OUTPUT([HAVE_SYS_SOCKIO_H], [/* Define to 1 if y
 #undef HAVE_SYS_SOCKIO_H])
 m4trace:configure.ac:31: -1- AH_OUTPUT([HAVE_SYS_TIME_H], [/* Define to 1 if you have the <sys/time.h> header file. */
 #undef HAVE_SYS_TIME_H])
+m4trace:configure.ac:31: -1- AH_OUTPUT([HAVE_TIME_H], [/* Define to 1 if you have the <time.h> header file. */
+#undef HAVE_TIME_H])
 m4trace:configure.ac:34: -1- AC_HEADER_STDBOOL
 m4trace:configure.ac:34: -1- AC_CHECK_TYPES([_Bool])
 m4trace:configure.ac:34: -1- AC_DEFINE_TRACE_LITERAL([HAVE__BOOL])
@@ -496,39 +499,56 @@ m4trace:configure.ac:36: -1- AC_C_CONST
 m4trace:configure.ac:36: -1- AC_DEFINE_TRACE_LITERAL([const])
 m4trace:configure.ac:36: -1- AH_OUTPUT([const], [/* Define to empty if `const\' does not conform to ANSI C. */
 #undef const])
-m4trace:configure.ac:39: -1- AC_FUNC_MEMCMP
-m4trace:configure.ac:39: -1- AC_LIBSOURCE([memcmp.c])
-m4trace:configure.ac:39: -1- AC_SUBST([LIB@&t@OBJS])
-m4trace:configure.ac:40: -1- AC_HEADER_STDC
-m4trace:configure.ac:40: -1- AC_DEFINE_TRACE_LITERAL([STDC_HEADERS])
-m4trace:configure.ac:40: -1- AH_OUTPUT([STDC_HEADERS], [/* Define to 1 if you have the ANSI C header files. */
+m4trace:configure.ac:37: -1- AC_LIBSOURCE([timespec.h])
+m4trace:configure.ac:37: -1- AC_C_INLINE
+m4trace:configure.ac:37: -1- AH_OUTPUT([inline], [/* Define to `__inline__\' or `__inline\' if that\'s what the C compiler
+   calls it, or to nothing if \'inline\' is not supported under any name.  */
+#ifndef __cplusplus
+#undef inline
+#endif])
+m4trace:configure.ac:37: -1- _m4_warn([obsolete], [The macro `AC_TRY_COMPILE' is obsolete.
+You should run autoupdate.], [autoconf/general.m4:2180: AC_TRY_COMPILE is expanded from...
+autoconf/general.m4:1799: AC_CACHE_VAL is expanded from...
+autoconf/general.m4:1808: AC_CACHE_CHECK is expanded from...
+m4/timespec.m4:49: gl_CHECK_TYPE_STRUCT_TIMESPEC is expanded from...
+m4/timespec.m4:17: gl_TIMESPEC is expanded from...
+configure.ac:37: the top level])
+m4trace:configure.ac:37: -1- AC_DEFINE_TRACE_LITERAL([HAVE_STRUCT_TIMESPEC])
+m4trace:configure.ac:37: -1- AH_OUTPUT([HAVE_STRUCT_TIMESPEC], [/* Define if struct timespec is declared in <time.h>. */
+#undef HAVE_STRUCT_TIMESPEC])
+m4trace:configure.ac:40: -1- AC_FUNC_MEMCMP
+m4trace:configure.ac:40: -1- AC_LIBSOURCE([memcmp.c])
+m4trace:configure.ac:40: -1- AC_SUBST([LIB@&t@OBJS])
+m4trace:configure.ac:41: -1- AC_HEADER_STDC
+m4trace:configure.ac:41: -1- AC_DEFINE_TRACE_LITERAL([STDC_HEADERS])
+m4trace:configure.ac:41: -1- AH_OUTPUT([STDC_HEADERS], [/* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS])
-m4trace:configure.ac:41: -1- AC_CHECK_FUNCS([memset strerror inet_aton inet_ntoa inet_pton inet_ntop gettimeofday socket])
-m4trace:configure.ac:41: -1- AH_OUTPUT([HAVE_MEMSET], [/* Define to 1 if you have the `memset\' function. */
+m4trace:configure.ac:42: -1- AC_CHECK_FUNCS([memset strerror inet_aton inet_ntoa inet_pton inet_ntop gettimeofday socket])
+m4trace:configure.ac:42: -1- AH_OUTPUT([HAVE_MEMSET], [/* Define to 1 if you have the `memset\' function. */
 #undef HAVE_MEMSET])
-m4trace:configure.ac:41: -1- AH_OUTPUT([HAVE_STRERROR], [/* Define to 1 if you have the `strerror\' function. */
+m4trace:configure.ac:42: -1- AH_OUTPUT([HAVE_STRERROR], [/* Define to 1 if you have the `strerror\' function. */
 #undef HAVE_STRERROR])
-m4trace:configure.ac:41: -1- AH_OUTPUT([HAVE_INET_ATON], [/* Define to 1 if you have the `inet_aton\' function. */
+m4trace:configure.ac:42: -1- AH_OUTPUT([HAVE_INET_ATON], [/* Define to 1 if you have the `inet_aton\' function. */
 #undef HAVE_INET_ATON])
-m4trace:configure.ac:41: -1- AH_OUTPUT([HAVE_INET_NTOA], [/* Define to 1 if you have the `inet_ntoa\' function. */
+m4trace:configure.ac:42: -1- AH_OUTPUT([HAVE_INET_NTOA], [/* Define to 1 if you have the `inet_ntoa\' function. */
 #undef HAVE_INET_NTOA])
-m4trace:configure.ac:41: -1- AH_OUTPUT([HAVE_INET_PTON], [/* Define to 1 if you have the `inet_pton\' function. */
+m4trace:configure.ac:42: -1- AH_OUTPUT([HAVE_INET_PTON], [/* Define to 1 if you have the `inet_pton\' function. */
 #undef HAVE_INET_PTON])
-m4trace:configure.ac:41: -1- AH_OUTPUT([HAVE_INET_NTOP], [/* Define to 1 if you have the `inet_ntop\' function. */
+m4trace:configure.ac:42: -1- AH_OUTPUT([HAVE_INET_NTOP], [/* Define to 1 if you have the `inet_ntop\' function. */
 #undef HAVE_INET_NTOP])
-m4trace:configure.ac:41: -1- AH_OUTPUT([HAVE_GETTIMEOFDAY], [/* Define to 1 if you have the `gettimeofday\' function. */
+m4trace:configure.ac:42: -1- AH_OUTPUT([HAVE_GETTIMEOFDAY], [/* Define to 1 if you have the `gettimeofday\' function. */
 #undef HAVE_GETTIMEOFDAY])
-m4trace:configure.ac:41: -1- AH_OUTPUT([HAVE_SOCKET], [/* Define to 1 if you have the `socket\' function. */
+m4trace:configure.ac:42: -1- AH_OUTPUT([HAVE_SOCKET], [/* Define to 1 if you have the `socket\' function. */
 #undef HAVE_SOCKET])
-m4trace:configure.ac:46: -1- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
+m4trace:configure.ac:47: -1- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
 You should run autoupdate.], [autoconf/general.m4:219: AC_HELP_STRING is expanded from...
 autoconf/general.m4:1303: AC_ARG_ENABLE is expanded from...
-configure.ac:46: the top level])
-m4trace:configure.ac:46: -1- AC_DEFINE_TRACE_LITERAL([HAVE_IPV6_SUPPORT])
-m4trace:configure.ac:46: -1- AH_OUTPUT([HAVE_IPV6_SUPPORT], [/* Define 1 if your system supports IPv6. */
+configure.ac:47: the top level])
+m4trace:configure.ac:47: -1- AC_DEFINE_TRACE_LITERAL([HAVE_IPV6_SUPPORT])
+m4trace:configure.ac:47: -1- AH_OUTPUT([HAVE_IPV6_SUPPORT], [/* Define 1 if your system supports IPv6. */
 #undef HAVE_IPV6_SUPPORT])
-m4trace:configure.ac:50: -1- AC_CONFIG_FILES([Makefile
+m4trace:configure.ac:51: -1- AC_CONFIG_FILES([Makefile
                  src/Makefile
                  test/Makefile])
-m4trace:configure.ac:51: -1- AC_SUBST([LIB@&t@OBJS], [$ac_libobjs])
-m4trace:configure.ac:51: -1- AC_SUBST([LTLIBOBJS], [$ac_ltlibobjs])
+m4trace:configure.ac:52: -1- AC_SUBST([LIB@&t@OBJS], [$ac_libobjs])
+m4trace:configure.ac:52: -1- AC_SUBST([LTLIBOBJS], [$ac_ltlibobjs])

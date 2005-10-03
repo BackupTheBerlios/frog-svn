@@ -1,3 +1,8 @@
+2005-10-3  Janvier D. Anonical <janvier@users.berlios.de>
+
+	* Added m4 macro for timespec checking.
+	* Partially completed TimeValue class.
+
 2005-09-30  Janvier D. Anonical <janvier@users.berlios.de>
 
 	* Corrected hashCode function of class Object. I changed

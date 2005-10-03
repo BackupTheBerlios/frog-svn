@@ -20322,7 +20322,8 @@ done
 
 
 
-for ac_header in unistd.h stropts.h sys/sockio.h sys/time.h
+
+for ac_header in unistd.h stropts.h sys/sockio.h sys/time.h time.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
 if eval "test \"\${$as_ac_Header+set}\" = set"; then
@@ -20803,6 +20804,7 @@ _ACEOF
 
 fi
 
+gl_TIMESPEC
 
 # Checks for library functions.
 echo "$as_me:$LINENO: checking for working memcmp" >&5
