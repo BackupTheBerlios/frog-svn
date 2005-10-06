@@ -28,10 +28,27 @@
 
 #include <frog/stdint.h>
 
-#ifdef HAVE_SYS_TIME_H
-#include <sys/time.h>
+#if TIME_WITH_SYS_TIME
+# include <sys/time.h>
+# include <time.h>
+#else
+# if HAVE_SYS_TIME_H
+#  include <sys/time.h>
+# else
+#  include <time.h>
+# endif
 #endif
 
+#if !defined(HAVE_STRUCT_TIMESPEC)
+// Definition per POSIX.
+typedef struct timespec
+{
+	// Seconds
+	time_t tv_sec;
+	// Nanoseconds
+	long tv_nsec;
+} timespec_t;
+#endif
 
 /**
  * @namespace frog The Frog Framework is library of C++ classes,
@@ -78,6 +95,12 @@ namespace frog
 			 * @param[in] t A <TT>timeval</TT> structure
 			 */
 			TimeValue(const struct timeval& t) throw();
+
+			/**
+			 * Create a TimeValue from a <TT>timespec_t</TT>
+			 * @param[in] t A <TT>timespec</TT> structure
+			 */
+			TimeValue(const struct timespec& t) throw();
 		
 			/**
 			 * Initialize TimeValue from @p sec and @p usec.
@@ -93,11 +116,56 @@ namespace frog
 			void set(const timeval& tv) throw();
 
 			/**
+			 * Initialize TimeValue from a @p timespec_t.
+			 * @param[in] tv A <TT>timespec</TT> structure.
+			 */
+			void set(const timespec& tv) throw();
+
+			/**
 			 * Initialize TimeValue from a <TT>double</TT>, which is
 			 * assumed to be in seconds format, with any remainder treated
 			 * as microseconds.
 			 */
 			void set(const double d) throw();
+
+			/**
+			 * Convert from TimeValue format into millisecond format.
+			 * @return Sum of second field (in milliseconds) and microsecond
+			 * field (in milliseconds). Note that this method can overflow if
+			 * the second and microsecond field values are large, so use the
+			 * msec(uint64_t& ms) instead (that is if your system supports
+			 * 64 bit types).
+			 * @note The semantics of this method differs from the sec() and
+			 * usec() methods.  There is no analogous "millisecond"
+			 * component in a TimeValue.
+			 */
+			uint32_t msec() const throw();
+
+#if defined(HAVE_LONG_LONG)
+			/**
+			 * Convert from TimeValue format into millisecond format.
+			 * Sum of second field (in milliseconds) and microsecond
+			 * field (in milliseconds) are returned via @p ms paramter.
+			 * @note The semantics of this method differs from the sec() and
+			 * usec() methods.  There is no analogous "millisecond"
+			 * component in a TimeValue.
+			 * @param[out] Millisecond value of this TimeValue.
+			 */
+			void msec(uint64_t& ms) const throw();
+#endif
+
+			/**
+			 * Convert from millisecond format into TimeValue format.
+			 * @note The semantics of this method differs from the sec() and
+			 * usec() methods.  There is no analogous "millisecond"
+			 * component in a TimeValue.
+			 */
+			void msec(int32_t ms) throw();
+
+			/**
+			 * Zero time.
+			 */
+			static const TimeValue zero;
 		  private:
 			/**
 			 * Puts <TT>timeval</TT> in canonical form.

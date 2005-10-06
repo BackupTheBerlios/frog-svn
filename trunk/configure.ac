@@ -28,13 +28,15 @@ AC_SEARCH_LIBS([inet_ntoa], [nsl])
 
 # Checks for header files.
 AC_CHECK_HEADERS([arpa/inet.h netinet/in.h stdint.h inttypes.h sys/socket.h sys/ioctl.h ifaddrs.h])
-AC_CHECK_HEADERS([unistd.h stropts.h sys/sockio.h sys/time.h time.h])
+AC_CHECK_HEADERS([unistd.h stropts.h sys/sockio.h sys/time.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
 AC_HEADER_TIME
 AC_C_CONST
-gl_TIMESPEC
+AC_C_LONG_LONG
+AC_C_TIMESPEC
+AX_CREATE_STDINT_H(src/frog/stdint.h)
 
 # Checks for library functions.
 AC_FUNC_MEMCMP

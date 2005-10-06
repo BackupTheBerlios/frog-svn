@@ -20322,8 +20322,7 @@ done
 
 
 
-
-for ac_header in unistd.h stropts.h sys/sockio.h sys/time.h time.h
+for ac_header in unistd.h stropts.h sys/sockio.h sys/time.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
 if eval "test \"\${$as_ac_Header+set}\" = set"; then
@@ -20804,7 +20803,9 @@ _ACEOF
 
 fi
 
-gl_TIMESPEC
+AC_C_LONG_LONG
+AC_C_TIMESPEC
+AX_CREATE_STDINT_H(src/frog/stdint.h)
 
 # Checks for library functions.
 echo "$as_me:$LINENO: checking for working memcmp" >&5

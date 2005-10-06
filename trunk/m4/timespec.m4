@@ -1,28 +1,31 @@
-dnl Copyright (C) 2000, 2001, 2003, 2004, 2005 Free Software Foundation, Inc.
-dnl This file is free software; the Free Software Foundation
-dnl gives unlimited permission to copy and/or distribute it,
-dnl with or without modifications, as long as this notice is preserved.
+dnl @synopsis AC_C_TIMESPEC
+dnl
+dnl Provide a test for the existance of struct timespec and
+dnl define HAVE_STRUCT_TIMESPEC if it is found
+dnl
+dnl @category C
+dnl @author Jim Meyering
+dnl @version
+dnl @license AllPermisive
 
-dnl From Jim Meyering
-
-AC_DEFUN([gl_TIMESPEC],
+AC_DEFUN([AC_C_TIMESPEC],
 [
   AC_LIBSOURCES([timespec.h])
 
   dnl Prerequisites of lib/timespec.h.
   AC_REQUIRE([AC_C_INLINE])
   AC_REQUIRE([AC_HEADER_TIME])
-  AC_CHECK_HEADER(sys/time.h)
-  gl_CHECK_TYPE_STRUCT_TIMESPEC
+  AC_CHECK_HEADER([sys/time.h])
+  AC_C_CHECK_TYPE_STRUCT_TIMESPEC
 ])
 
 dnl Define HAVE_STRUCT_TIMESPEC if `struct timespec' is declared
 dnl in time.h or sys/time.h.
 
-AC_DEFUN([gl_CHECK_TYPE_STRUCT_TIMESPEC],
+AC_DEFUN([AC_C_CHECK_TYPE_STRUCT_TIMESPEC],
 [
   AC_REQUIRE([AC_HEADER_TIME])
-  AC_CHECK_HEADER(sys/time.h)
+  AC_CHECK_HEADER([sys/time.h])
   AC_CACHE_CHECK([for struct timespec], fu_cv_sys_struct_timespec,
     [AC_TRY_COMPILE(
       [

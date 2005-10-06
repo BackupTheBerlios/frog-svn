@@ -37,11 +37,16 @@ namespace frog
 		}
 		
 		//--------------------------------------------------------------
-		TimeValue::TimeValue(const struct timeval& tv) throw()
+		TimeValue::TimeValue(const struct timeval& t) throw()
 		{
-			this->set(tv);
+			this->set(t);
 		}
 		
+		//--------------------------------------------------------------
+		TimeValue::TimeValue(const struct timespec& t) throw()
+		{
+			this->set(t);
+		}
 		//--------------------------------------------------------------
 		void TimeValue::normalize() throw()
 		{
@@ -88,12 +93,47 @@ namespace frog
 		}	
 		
 		//--------------------------------------------------------------
+		void TimeValue::set(const struct timespec& tv) throw()
+		{
+			tv_.tv_sec = static_cast<long>(tv.tv_sec);
+			// Convert nanoseconds into microseconds.
+			tv_.tv_usec = tv.tv_nsec / 1000;
+			this->normalize();
+		}	
+		
+		//--------------------------------------------------------------
 		void TimeValue::set(const double d) throw()
 		{
 			int32_t i = static_cast<long>(d);
 			tv_.tv_sec = i;
 			tv_.tv_usec = static_cast<long>((d - static_cast<double>(i)) * ONE_SECOND_IN_USECS + 0.5);
 			this->normalize();
+		}
+		
+		//--------------------------------------------------------------
+		uint32_t TimeValue::msec() const throw()
+		{
+			return this->tv_.tv_sec * 1000 + this->tv_.tv_usec / 1000;
+		}
+
+#if defined(HAVE_LONG_LONG)	
+		//--------------------------------------------------------------
+		void TimeValue::msec(uint64_t& ms) const throw()
+		{
+			ms = static_cast<uint32_t> (this->tv_.tv_sec);
+			ms *= 1000;
+			ms += (this->tv_.tv_usec / 1000);
+		}
+#endif
+		
+		//--------------------------------------------------------------
+		void TimeValue::msec(int32_t ms) throw()
+		{
+			// Convert millisecond units to seconds
+			this->tv_.tv_sec = ms / 1000;
+			// Convert remainder to microseconds
+			this->tv_.tv_usec = (ms - (this->tv_.tv_sec * 1000)) * 1000;
+
 		}
 	} // util ns
 } // frog ns
