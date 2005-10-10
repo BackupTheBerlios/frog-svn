@@ -97,7 +97,7 @@ namespace frog
 			TimeValue(const struct timeval& t) throw();
 
 			/**
-			 * Create a TimeValue from a <TT>timespec_t</TT>
+			 * Create a TimeValue from a <TT>timespec</TT>
 			 * @param[in] t A <TT>timespec</TT> structure
 			 */
 			TimeValue(const struct timespec& t) throw();
@@ -116,7 +116,7 @@ namespace frog
 			void set(const timeval& tv) throw();
 
 			/**
-			 * Initialize TimeValue from a @p timespec_t.
+			 * Initialize TimeValue from a @p timespec.
 			 * @param[in] tv A <TT>timespec</TT> structure.
 			 */
 			void set(const timespec& tv) throw();
@@ -161,6 +161,40 @@ namespace frog
 			 * component in a TimeValue.
 			 */
 			void msec(int32_t ms) throw();
+
+			/**
+			 * Returns the value of the object as a <TT>timespec</TT>.
+			 */
+			operator timespec() const;
+
+			/**
+			 * Returns the value of the object as a <TT>timeval</TT>.
+			 */
+			operator timeval() const;
+
+			/**
+			 * Get seconds.
+			 * @return The second field/component of this TimeValue.
+			 * @note The semantics of this method differs from TimeValue::msec() method.
+			 */
+			int32_t sec() const;
+
+			/**
+			 * Set seconds
+			 */
+			void sec(int32_t sec);
+
+			/**
+			 * Get microseconds.
+			 * @return The microsecond field/component of this TimeValue.
+			 * @note The semantics of this method differs from TimeValue::msec() method.
+			 */
+			int32_t usec() const;
+
+			/**
+			 * Set microseconds
+			 */
+			void usec(int32_t usec);
 
 			/**
 			 * Zero time.

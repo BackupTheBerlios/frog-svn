@@ -135,5 +135,44 @@ namespace frog
 			this->tv_.tv_usec = (ms - (this->tv_.tv_sec * 1000)) * 1000;
 
 		}
+		
+		//--------------------------------------------------------------
+		TimeValue::operator timespec() const
+		{
+			struct timespec tv;
+			tv.tv_sec = this->sec();
+			// Convert microseconds into nanoseconds.
+			tv.tv_nsec= this->tv_.tv_usec * 1000;
+		}
+		
+		//--------------------------------------------------------------
+		TimeValue::operator timeval() const
+		{
+			return this->tv_;
+		}
+		
+		//--------------------------------------------------------------
+		int32_t TimeValue::sec() const
+		{
+			return this->tv_.tv_sec;
+		}
+
+		//--------------------------------------------------------------
+		void TimeValue::sec(int32_t sec)
+		{
+			this->tv_.tv_sec = sec;
+		}
+
+		//--------------------------------------------------------------
+		int32_t TimeValue::usec() const
+		{
+			return this->tv_.tv_usec;
+		}
+
+		//--------------------------------------------------------------
+		void TimeValue::usec(int32_t usec)
+		{
+			this->tv_.tv_usec = usec;
+		}
 	} // util ns
 } // frog ns

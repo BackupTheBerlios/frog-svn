@@ -1,3 +1,7 @@
+2005-10-10  Janvier D. Anonical <janvier@users.berlios.de>
+
+	* Added some more functions to TimeValue class.
+
 2005-10-6  Janvier D. Anonical <janvier@users.berlios.de>
 
 	* Added m4 macro for long long type check.
@@ -5,6 +9,7 @@
 	  frog/stdint.h so that the m4 macro can automatically
 	  create it when needed.
 	* Added a few more functions in TimeValue class.
+	* Rename timespec.m4 to m4/ac_c_timespec.m4.
 
 2005-10-3  Janvier D. Anonical <janvier@users.berlios.de>
 
