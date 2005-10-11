@@ -19,6 +19,7 @@
 //------------------------------------------------------------------------//
 
 #include <frog/TimeValue.h>
+#include <climits>
 
 namespace frog
 {
@@ -29,19 +30,19 @@ namespace frog
 		{
 			this->set(0, 0);
 		}
-		
+
 		//--------------------------------------------------------------
 		TimeValue::TimeValue(const int32_t sec, const int32_t usec) throw()
 		{
 			this->set(sec, usec);
 		}
-		
+
 		//--------------------------------------------------------------
 		TimeValue::TimeValue(const struct timeval& t) throw()
 		{
 			this->set(t);
 		}
-		
+
 		//--------------------------------------------------------------
 		TimeValue::TimeValue(const struct timespec& t) throw()
 		{
@@ -75,7 +76,7 @@ namespace frog
 				tv_.tv_usec += ONE_SECOND_IN_USECS;
 			}
 		}
-		
+
 		//--------------------------------------------------------------
 		void TimeValue::set(const int32_t sec, const int32_t usec) throw()
 		{
@@ -83,7 +84,7 @@ namespace frog
 			tv_.tv_usec = static_cast<long>(usec);
 			this->normalize();
 		}
-		
+
 		//--------------------------------------------------------------
 		void TimeValue::set(const timeval& tv) throw()
 		{
@@ -91,7 +92,7 @@ namespace frog
 			tv_.tv_usec = tv.tv_usec;
 			this->normalize();
 		}	
-		
+
 		//--------------------------------------------------------------
 		void TimeValue::set(const struct timespec& tv) throw()
 		{
@@ -100,7 +101,7 @@ namespace frog
 			tv_.tv_usec = tv.tv_nsec / 1000;
 			this->normalize();
 		}	
-		
+
 		//--------------------------------------------------------------
 		void TimeValue::set(const double d) throw()
 		{
@@ -109,7 +110,7 @@ namespace frog
 			tv_.tv_usec = static_cast<long>((d - static_cast<double>(i)) * ONE_SECOND_IN_USECS + 0.5);
 			this->normalize();
 		}
-		
+
 		//--------------------------------------------------------------
 		uint32_t TimeValue::msec() const throw()
 		{
@@ -125,7 +126,7 @@ namespace frog
 			ms += (this->tv_.tv_usec / 1000);
 		}
 #endif
-		
+
 		//--------------------------------------------------------------
 		void TimeValue::msec(int32_t ms) throw()
 		{
@@ -135,7 +136,7 @@ namespace frog
 			this->tv_.tv_usec = (ms - (this->tv_.tv_sec * 1000)) * 1000;
 
 		}
-		
+
 		//--------------------------------------------------------------
 		TimeValue::operator timespec() const
 		{
@@ -144,13 +145,13 @@ namespace frog
 			// Convert microseconds into nanoseconds.
 			tv.tv_nsec= this->tv_.tv_usec * 1000;
 		}
-		
+
 		//--------------------------------------------------------------
 		TimeValue::operator timeval() const
 		{
 			return this->tv_;
 		}
-		
+
 		//--------------------------------------------------------------
 		int32_t TimeValue::sec() const
 		{
@@ -173,6 +174,68 @@ namespace frog
 		void TimeValue::usec(int32_t usec)
 		{
 			this->tv_.tv_usec = usec;
+		}
+
+		//--------------------------------------------------------------
+		TimeValue& TimeValue::operator+=(const TimeValue& tv)
+		{
+			this->sec(this->sec() + tv.sec());
+			this->usec(this->usec() + tv.usec());
+			this->normalize();
+			return *this;
+		}
+
+		//--------------------------------------------------------------
+		TimeValue& TimeValue::operator=(const TimeValue& tv)
+		{
+			this->sec(tv.sec());
+			this->usec(tv.usec());
+			return *this;
+		}
+
+		//--------------------------------------------------------------
+		TimeValue& TimeValue::operator-=(const TimeValue& tv)
+		{
+			this->sec(this->sec() - tv.sec());
+			this->usec(this->usec() - tv.usec());
+			this->normalize();
+			return *this;
+		}
+
+		//--------------------------------------------------------------
+		TimeValue& TimeValue::operator*=(double d)
+		{
+			// double is long enough (16 digits) to not lose the accuracy.
+			double time_total = 
+				(this->sec() + 
+				 static_cast<double> (this->usec()) / ONE_SECOND_IN_USECS) * d;
+
+			// Shall we saturate the result?
+			static const double max_int = INT_MAX + 0.999999;
+			static const double min_int = INT_MIN - 0.999999;
+
+			if (time_total > max_int)
+				time_total = max_int;
+			if (time_total < min_int)
+				time_total = min_int;
+
+			const int32_t time_sec = static_cast<int32_t>(time_total);
+
+			time_total -= time_sec;
+			time_total *= ONE_SECOND_IN_USECS;
+
+			int32_t time_usec = static_cast<int32_t>(time_total);
+
+			// Round up the result to save the last usec
+			if (time_usec > 0 && (time_total - time_usec) >= 0.5)
+				++time_usec;
+			else if (time_usec < 0 && (time_total - time_usec) <= -0.5)
+				--time_usec;
+
+			this->set(time_sec, time_usec);
+			this->normalize(); // Protect against future changes in normalization
+
+			return *this;
 		}
 	} // util ns
 } // frog ns

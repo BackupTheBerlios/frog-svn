@@ -1,3 +1,10 @@
+2005-10-11  Janvier D. Anonical <janvier@users.berlios.de>
+
+	* Finished coding TimeValue.
+	* Enabled ALWAYS_DETAILED_SEC in Doxyfile to let doxygen
+	  generate a detailed section even if there is only a
+	  brief description is present.
+
 2005-10-10  Janvier D. Anonical <janvier@users.berlios.de>
 
 	* Added some more functions to TimeValue class.
