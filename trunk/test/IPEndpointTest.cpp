@@ -14,13 +14,13 @@ CPPUNIT_TEST_SUITE_REGISTRATION(IPEndpointTest);
 
 int main(int argc, char* argv[])
 {
-	CppUnit::TextTestRunner runner;
-	CppUnit::TestFactoryRegistry& registry = CppUnit::TestFactoryRegistry::getRegistry();
+    CppUnit::TextTestRunner runner;
+    CppUnit::TestFactoryRegistry& registry = CppUnit::TestFactoryRegistry::getRegistry();
 
-	runner.addTest(registry.makeTest());
-	runner.setOutputter(CppUnit::CompilerOutputter::defaultOutputter(&runner.result(), std::cerr));
-	
-	bool success = runner.run();
-	return (success ? 0 : 1);
+    runner.addTest(registry.makeTest());
+    runner.setOutputter(CppUnit::CompilerOutputter::defaultOutputter(&runner.result(), std::cerr));
+
+    bool success = runner.run();
+    return (success ? 0 : 1);
 }
 

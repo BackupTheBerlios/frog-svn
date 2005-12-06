@@ -34,29 +34,29 @@
  */
 namespace frog
 {
-	/**
-	 * A null-pointer type.
-	 *
-	 * @note Adapted from Item 25 of <I>Effective C++</I> by Scott Meyers.
-	 */
-	const class
-	{
-	  public:
-		  /**
-		   * Used to convert to any type of null non-member pointer. 
-		   */
-		  template<typename T> operator T*() const { return 0; }
+    /**
+     * A null-pointer type.
+     *
+     * @note Adapted from Item 25 of <I>Effective C++</I> by Scott Meyers.
+     */
+    const class
+    {
+      public:
+          /**
+           * Used to convert to any type of null non-member pointer. 
+           */
+          template<typename T> operator T*() const { return 0; }
 
-		  /**
-		   * Used to convert to any type of null member pointer.
-		   */
-		  template<typename C, typename T> operator T C::*() const { return 0; }
-	  private:
-		  /**
-		   * Address cannot be taken.
-		   */
-		  void operator&() const;
-	} nullptr = {};
+          /**
+           * Used to convert to any type of null member pointer.
+           */
+          template<typename C, typename T> operator T C::*() const { return 0; }
+      private:
+          /**
+           * Address cannot be taken.
+           */
+          void operator&() const;
+    } nullptr = {};
 } // frog ns
 
 #endif // FROG_SYS_NULLPTR_H

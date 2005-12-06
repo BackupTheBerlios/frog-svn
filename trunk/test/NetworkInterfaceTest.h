@@ -39,115 +39,115 @@ using std::endl;
 
 class NetworkInterfaceTest : public CppUnit::TestFixture
 {
-  CPPUNIT_TEST_SUITE(NetworkInterfaceTest);
+    CPPUNIT_TEST_SUITE(NetworkInterfaceTest);
 
-  
-  CPPUNIT_TEST(testEquality1);
-  CPPUNIT_TEST(testEquality2);
-  CPPUNIT_TEST(testInequality1);
-  CPPUNIT_TEST(testInequality2);
-  CPPUNIT_TEST(displayOneAndOther);
-  CPPUNIT_TEST(displayAll);
-  
-  CPPUNIT_TEST_SUITE_END();
+
+    CPPUNIT_TEST(testEquality1);
+    CPPUNIT_TEST(testEquality2);
+    CPPUNIT_TEST(testInequality1);
+    CPPUNIT_TEST(testInequality2);
+    CPPUNIT_TEST(displayOneAndOther);
+    CPPUNIT_TEST(displayAll);
+
+    CPPUNIT_TEST_SUITE_END();
   public:
-	  void testEquality1()
-	  {
-		  InetAddress addr("127.0.0.1");
-		  NetworkInterface ni = NetworkInterface::getByInetAddress(addr);
+    void testEquality1()
+    {
+        InetAddress addr("127.0.0.1");
+        NetworkInterface ni = NetworkInterface::getByInetAddress(addr);
 
-		  InetAddress addr2("127.0.0.1");
-		  NetworkInterface ni2 = NetworkInterface::getByInetAddress(addr2);
+        InetAddress addr2("127.0.0.1");
+        NetworkInterface ni2 = NetworkInterface::getByInetAddress(addr2);
 
-		  CPPUNIT_ASSERT(ni == ni2);
-	  }
-	  
-	  void testEquality2()
-	  {
-		  NetworkInterface ni = NetworkInterface::getByName("eth0");
-		  NetworkInterface ni2 = NetworkInterface::getByName("eth0");
-		  CPPUNIT_ASSERT(ni == ni2);
-	  }
-	  
-	  void testInequality1()
-	  {
-		  InetAddress addr("127.0.0.1");
-		  NetworkInterface ni = NetworkInterface::getByInetAddress(addr);
+        CPPUNIT_ASSERT(ni == ni2);
+    }
 
-		  InetAddress addr2("127.0.0.2");
-		  NetworkInterface ni2 = NetworkInterface::getByInetAddress(addr2);
+    void testEquality2()
+    {
+        NetworkInterface ni = NetworkInterface::getByName("eth0");
+        NetworkInterface ni2 = NetworkInterface::getByName("eth0");
+        CPPUNIT_ASSERT(ni == ni2);
+    }
 
-		  CPPUNIT_ASSERT(ni != ni2);
-	  }
-	  
-	  void testInequality2()
-	  {
-		  NetworkInterface ni = NetworkInterface::getByName("eth0");
-		  NetworkInterface ni2 = NetworkInterface::getByName("lo");
-		  CPPUNIT_ASSERT(ni != ni2);
-	  }
+    void testInequality1()
+    {
+        InetAddress addr("127.0.0.1");
+        NetworkInterface ni = NetworkInterface::getByInetAddress(addr);
 
-	  void displayOneAndOther()
-	  {
-		  NetworkInterface::InterfaceAddrList int_addr;
-		  NetworkInterface::InterfaceAddrListIterator int_addr_iter;
-		  
-		  NetworkInterface ni = NetworkInterface::getByName("lo");
-		  int_addr = ni.getInterfaceAddresses();
-		  cout << endl;
-		  cout << ni.name;
-		  for(int_addr_iter = int_addr.begin(); int_addr_iter != int_addr.end(); ++int_addr_iter)
-		  {
-			  	cout << "	inet addr: " << int_addr_iter->unicast.getHostAddress();
-			  	cout << "  Mask: " << int_addr_iter->netmask.getHostAddress();
-			  	cout << "  Bcast: " << int_addr_iter->broadcast.getHostAddress() << endl;
-		  }
-		  cout << "	String: " << ni.toString() << endl;
-		  
-		  NetworkInterface ni2 = NetworkInterface::getByName("eth0");
-		  int_addr = ni2.getInterfaceAddresses();
-		  cout << endl;
-		  cout << ni2.name;
-		  for(int_addr_iter = int_addr.begin(); int_addr_iter != int_addr.end(); ++int_addr_iter)
-		  {
-			  	cout << "	inet addr: " << int_addr_iter->unicast.getHostAddress();
-			  	cout << "  Mask: " << int_addr_iter->netmask.getHostAddress();
-			  	cout << "  Bcast: " << int_addr_iter->broadcast.getHostAddress() << endl;
-		  }
-		  cout << "	String: " << ni2.toString() << endl;
-		  cout << endl;
-		  
-		  CPPUNIT_ASSERT(ni != ni2);
-	  }
+        InetAddress addr2("127.0.0.2");
+        NetworkInterface ni2 = NetworkInterface::getByInetAddress(addr2);
 
-	  void displayAll()
-	  {
-		  vector<NetworkInterface> nis = NetworkInterface::getNetworkInterfaces();
-		  vector<NetworkInterface>::iterator if_iter;
-		  
-		  NetworkInterface::InterfaceAddrList int_addr;
-		  NetworkInterface::InterfaceAddrListIterator int_addr_iter;
+        CPPUNIT_ASSERT(ni != ni2);
+    }
 
-		  int count = 0;
-		  cout << endl;
-		  for(if_iter = nis.begin(); if_iter != nis.end(); ++if_iter)
-		  {
-			  ++count;
-			  int_addr = if_iter->getInterfaceAddresses();
-			  cout << if_iter->name;
-			  for(int_addr_iter = int_addr.begin(); int_addr_iter != int_addr.end(); ++int_addr_iter)
-			  {
-			  	cout << "	inet addr: " << int_addr_iter->unicast.getHostAddress();
-			  	cout << "  Mask: " << int_addr_iter->netmask.getHostAddress();
-			  	cout << "  Bcast: " << int_addr_iter->broadcast.getHostAddress() << endl;
-			  }
+    void testInequality2()
+    {
+        NetworkInterface ni = NetworkInterface::getByName("eth0");
+        NetworkInterface ni2 = NetworkInterface::getByName("lo");
+        CPPUNIT_ASSERT(ni != ni2);
+    }
 
-			  cout << "	String: " << if_iter->toString() << endl;
-			  cout << endl;
-		  }
-		  
-		  CPPUNIT_ASSERT(nis.size() > 0);
-	  }
+    void displayOneAndOther()
+    {
+        NetworkInterface::InterfaceAddrList int_addr;
+        NetworkInterface::InterfaceAddrListIterator int_addr_iter;
 
-  	
+        NetworkInterface ni = NetworkInterface::getByName("lo");
+        int_addr = ni.getInterfaceAddresses();
+        cout << endl;
+        cout << ni.name;
+        for(int_addr_iter = int_addr.begin(); int_addr_iter != int_addr.end(); ++int_addr_iter)
+        {
+            cout << "	inet addr: " << int_addr_iter->unicast.getHostAddress();
+            cout << "  Mask: " << int_addr_iter->netmask.getHostAddress();
+            cout << "  Bcast: " << int_addr_iter->broadcast.getHostAddress() << endl;
+        }
+        cout << "	String: " << ni.toString() << endl;
+
+        NetworkInterface ni2 = NetworkInterface::getByName("eth0");
+        int_addr = ni2.getInterfaceAddresses();
+        cout << endl;
+        cout << ni2.name;
+        for(int_addr_iter = int_addr.begin(); int_addr_iter != int_addr.end(); ++int_addr_iter)
+        {
+            cout << "	inet addr: " << int_addr_iter->unicast.getHostAddress();
+            cout << "  Mask: " << int_addr_iter->netmask.getHostAddress();
+            cout << "  Bcast: " << int_addr_iter->broadcast.getHostAddress() << endl;
+        }
+        cout << "	String: " << ni2.toString() << endl;
+        cout << endl;
+
+        CPPUNIT_ASSERT(ni != ni2);
+    }
+
+    void displayAll()
+    {
+        vector<NetworkInterface> nis = NetworkInterface::getNetworkInterfaces();
+        vector<NetworkInterface>::iterator if_iter;
+
+        NetworkInterface::InterfaceAddrList int_addr;
+        NetworkInterface::InterfaceAddrListIterator int_addr_iter;
+
+        int count = 0;
+        cout << endl;
+        for(if_iter = nis.begin(); if_iter != nis.end(); ++if_iter)
+        {
+            ++count;
+            int_addr = if_iter->getInterfaceAddresses();
+            cout << if_iter->name;
+            for(int_addr_iter = int_addr.begin(); int_addr_iter != int_addr.end(); ++int_addr_iter)
+            {
+                cout << "	inet addr: " << int_addr_iter->unicast.getHostAddress();
+                cout << "  Mask: " << int_addr_iter->netmask.getHostAddress();
+                cout << "  Bcast: " << int_addr_iter->broadcast.getHostAddress() << endl;
+            }
+
+            cout << "	String: " << if_iter->toString() << endl;
+            cout << endl;
+        }
+
+        CPPUNIT_ASSERT(nis.size() > 0);
+    }
+
+
 };

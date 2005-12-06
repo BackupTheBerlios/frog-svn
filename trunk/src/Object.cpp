@@ -26,54 +26,54 @@
 
 namespace frog
 {
-		//--------------------------------------------------------------
-		Object::Object() throw()
-			: hash_(0)
-		{
-		}
+    //--------------------------------------------------------------
+    Object::Object() throw()
+        : hash_(0)
+        {
+        }
 
-		//--------------------------------------------------------------
-		Object::~Object() throw()
-		{
-		}
+    //--------------------------------------------------------------
+    Object::~Object() throw()
+    {
+    }
 
-		//--------------------------------------------------------------
-		int32_t Object::hashCode() const throw()
-		{
-			if(hash_ == 0)
-			{
-				int32_t* hash_p = const_cast<int32_t*>(&hash_);
-				int32_t key = (int32_t)this;
-				key += ~(key << 15U);
-				key ^= (key >> 10U);
-				key += (key << 3U);
-				key ^= (key >> 6U);
-				key += ~(key << 11U);
-				key ^= (key >> 16U);
+    //--------------------------------------------------------------
+    int32_t Object::hashCode() const throw()
+    {
+        if(hash_ == 0)
+        {
+            int32_t* hash_p = const_cast<int32_t*>(&hash_);
+            int32_t key = (int32_t)this;
+            key += ~(key << 15U);
+            key ^= (key >> 10U);
+            key += (key << 3U);
+            key ^= (key >> 6U);
+            key += ~(key << 11U);
+            key ^= (key >> 16U);
 
-				*hash_p = key;
-			}
-			return hash_;
-		}
-		
-		//--------------------------------------------------------------
-		bool Object::sameObject(const Object* obj) const throw()
-		{
-			return (this->hashCode() == obj->hashCode());
-		}
-		
-		//--------------------------------------------------------------
-		bool Object::sameObject(const Object* objA, const Object* objB) throw()
-		{
-			return (objA->hashCode() == objB->hashCode());
-		}
+            *hash_p = key;
+        }
+        return hash_;
+    }
 
-		//--------------------------------------------------------------
-		std::string Object::toString() const throw()
-		{
-			char hashValue[8];
-			::memset(hashValue, 0, 8);
-			::sprintf(hashValue, "%x", hashCode());
-			return std::string("Object") + "@" + std::string(hashValue);
-		}
+    //--------------------------------------------------------------
+    bool Object::sameObject(const Object* obj) const throw()
+    {
+        return (this->hashCode() == obj->hashCode());
+    }
+
+    //--------------------------------------------------------------
+    bool Object::sameObject(const Object* objA, const Object* objB) throw()
+    {
+        return (objA->hashCode() == objB->hashCode());
+    }
+
+    //--------------------------------------------------------------
+    std::string Object::toString() const throw()
+    {
+        char hashValue[8];
+        ::memset(hashValue, 0, 8);
+        ::sprintf(hashValue, "%x", hashCode());
+        return std::string("Object") + "@" + std::string(hashValue);
+    }
 } // frog ns

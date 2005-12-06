@@ -35,68 +35,68 @@
  */
 namespace frog
 {
-	/**
-	 * @namespace frog::sys Contains fundamental classes and base classes that
-	 * define commonly used value and data types, interfaces, attributes,
-	 * and processing exceptions.
-	 */
-	namespace sys
-	{
-		/**
-		 * Represents exceptions caused by arithmetic operations.
-		 * <HR>
-		 * <H3>Inherits from:</H3>
-		 *     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		 *     SystemException
-		 * <HR>
-		 * 		<H3>Direct Known Subclasses:</H3>
-		 * 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		 * 				DivideByZeroException, OverflowException
-		 * <HR>
-		 */
-		class ArithmeticException : public SystemException
-		{
-		  public:
-			  /**
-			   * Constructs a new exception.
-			   */
-			  explicit ArithmeticException() throw()
-				  : SystemException("ArithmeticException") {}
+    /**
+     * @namespace frog::sys Contains fundamental classes and base classes that
+     * define commonly used value and data types, interfaces, attributes,
+     * and processing exceptions.
+     */
+    namespace sys
+    {
+        /**
+         * Represents exceptions caused by arithmetic operations.
+         * <HR>
+         * <H3>Inherits from:</H3>
+         *     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         *     SystemException
+         * <HR>
+         * <H3>Direct Known Subclasses:</H3>
+         *     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         *     DivideByZeroException, OverflowException
+         * <HR>
+         */
+        class ArithmeticException : public SystemException
+        {
+          public:
+              /**
+               * Constructs a new exception.
+               */
+              explicit ArithmeticException() throw()
+                  : SystemException("ArithmeticException") {}
 
-			  /**
-			   * Constructs a new exception with the specified description.
-			   * @param[in] description The description of this exception
-			   */
-			  explicit ArithmeticException(const std::string& description) throw()
-				  : SystemException(description) {}
+              /**
+               * Constructs a new exception with the specified description.
+               * @param[in] description The description of this exception
+               */
+              explicit ArithmeticException(const std::string& description) throw()
+                  : SystemException(description) {}
 
-			  /**
-			   * Constructs a new exception with the specified description.
-			   * @param[in] description The description of this exception
-			   */
-			  explicit ArithmeticException(const char* description) throw()
-				  : SystemException(description) {}
-			  /**
-			   * Does nothing.
-			   */
-			  virtual ~ArithmeticException() throw() {}
+              /**
+               * Constructs a new exception with the specified description.
+               * @param[in] description The description of this exception
+               */
+              explicit ArithmeticException(const char* description) throw()
+                  : SystemException(description) {}
+              /**
+               * Does nothing.
+               */
+              virtual ~ArithmeticException() throw() {}
 
-			  /**
-			   * Returns the textual representation of the current object. In
-			   * general, the toString function returns a string that
-			   * "textually represent" the object. The result should be a
-			   * concise but informative representation that is easy for a person
-			   * to read. It is recommended that all subclasses override this
-			   * method otherwise it can be misleading if this function is called
-			   * on a sublcass of Object.
-			   */
-			  virtual std::string toString() const throw()
-			  {
-				  return std::string("frog::sys::ArithmeticException") + ": " +
-					std::string(getDescription());  
-			  }
-		}; // ArithmeticException cls
-	} // sys ns
+              /**
+               * Returns the textual representation of the current object. In
+               * general, the toString function returns a string that
+               * "textually represent" the object. The result should be a
+               * concise but informative representation that is easy for a person
+               * to read. It is recommended that all subclasses override this
+               * method otherwise it can be misleading if this function is called
+               * on a sublcass of Object.
+               */
+              virtual std::string toString() const throw()
+              {
+                  return std::string("frog::sys::ArithmeticException") + ": " +
+                      std::string(getDescription());
+              }
+        }; // ArithmeticException cls
+    } // sys ns
 } // frog ns
 
 #endif // FROG_SYS_ARITHMETICEXCEPTION_H

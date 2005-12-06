@@ -1,93 +1,102 @@
+2005-12-06  Janvier D. Anonical <janvier@users.berlios.de>
+
+    * Added m4/cpppunit.m4.
+    * Added (though incomplete) TimeValue tests.
+
+2005-12-05  Janvier D. Anonical <janvier@users.berlios.de>
+
+    * Fixed indentations for all sources and this ChangeLog.
+
 2005-10-11  Janvier D. Anonical <janvier@users.berlios.de>
 
-	* Finished coding TimeValue.
-	* Enabled ALWAYS_DETAILED_SEC in Doxyfile to let doxygen
-	  generate a detailed section even if there is only a
-	  brief description is present.
+    * Finished coding TimeValue.
+    * Enabled ALWAYS_DETAILED_SEC in Doxyfile to let doxygen
+      generate a detailed section even if there is only a
+      brief description is present.
 
 2005-10-10  Janvier D. Anonical <janvier@users.berlios.de>
 
-	* Added some more functions to TimeValue class.
+    * Added some more functions to TimeValue class.
 
 2005-10-6  Janvier D. Anonical <janvier@users.berlios.de>
 
-	* Added m4 macro for long long type check.
-	* Added m4 macro for stdint.h creation and removed
-	  frog/stdint.h so that the m4 macro can automatically
-	  create it when needed.
-	* Added a few more functions in TimeValue class.
-	* Rename timespec.m4 to m4/ac_c_timespec.m4.
+    * Added m4 macro for long long type check.
+    * Added m4 macro for stdint.h creation and removed
+      frog/stdint.h so that the m4 macro can automatically
+      create it when needed.
+    * Added a few more functions in TimeValue class.
+    * Rename timespec.m4 to m4/ac_c_timespec.m4.
 
 2005-10-3  Janvier D. Anonical <janvier@users.berlios.de>
 
-	* Added m4 macro for timespec checking.
-	* Partially completed TimeValue class.
+    * Added m4 macro for timespec checking.
+    * Partially completed TimeValue class.
 
 2005-09-30  Janvier D. Anonical <janvier@users.berlios.de>
 
-	* Corrected hashCode function of class Object. I changed
-	  the type used from uint32_t to int32_t.
-	* Added TimeValue class (although incomplete at this time.)
+    * Corrected hashCode function of class Object. I changed
+      the type used from uint32_t to int32_t.
+    * Added TimeValue class (although incomplete at this time.)
 
 2005-09-29  Janvier D. Anonical <janvier@users.berlios.de>
-	
-	* Revised ObjectTest.h to show more testing.
-	* Gave credit to Thomas Wang for his 32 bit mix function
-	  used by class Object.
+
+    * Revised ObjectTest.h to show more testing.
+    * Gave credit to Thomas Wang for his 32 bit mix function
+      used by class Object.
 
 2005-09-28  Janvier D. Anonical <janvier@users.berlios.de>
 
-	* Compilation under gcc 4.0.1.
-	* Performed conversion of hashValue from char array to
-	  string in toString() function of Object. Appeared only
-	  when compiling under gcc 4.0.1.
+    * Compilation under gcc 4.0.1.
+    * Performed conversion of hashValue from char array to
+      string in toString() function of Object. Appeared only
+      when compiling under gcc 4.0.1.
 
 2005-09-7  Janvier D. Anonical <janvier@users.berlios.de>
 
-	* Added NonCopyable.
-	* Removed Object from sys to frog namespace in Object.cpp.
+    * Added NonCopyable.
+    * Removed Object from sys to frog namespace in Object.cpp.
 
 2005-09-6  Janvier D. Anonical <janvier@users.berlios.de>
-	
-	* Added UnknownHostException.
-	* Added getLocalHost() on InetAddress to get the
-	  non-loopback local address.
-	* Moved Singleton from sys to frog namespace.
-	* Moved Object from sys to frog namespace.
-	* Moved nullptr from sys to frog namespace.
+
+    * Added UnknownHostException.
+    * Added getLocalHost() on InetAddress to get the
+      non-loopback local address.
+    * Moved Singleton from sys to frog namespace.
+    * Moved Object from sys to frog namespace.
+    * Moved nullptr from sys to frog namespace.
 
 2005-09-5  Janvier D. Anonical <janvier@users.berlios.de>
 
-	* Fixed looping of NetworkInterface.
-	* NetworkInterface port to Solaris with no IPv6 support.
-	* The net namespace is now directly under frog namespace
-	  rather than being under the sys namespace.
+    * Fixed looping of NetworkInterface.
+    * NetworkInterface port to Solaris with no IPv6 support.
+    * The net namespace is now directly under frog namespace
+      rather than being under the sys namespace.
 
 2005-09-2  Janvier D. Anonical <janvier@users.berlios.de>
 
-	* Modified AddressFamily to suit for Solaris.
-	* Changed INADDR_NONE occurrences to the value -1.
+    * Modified AddressFamily to suit for Solaris.
+    * Changed INADDR_NONE occurrences to the value -1.
 
 2005-09-1  Janvier D. Anonical <janvier@users.berlios.de>
 
-	* Corrected NetworkInterface logic error regarding the
-	  interface index.
-	* Added frog/stdint.h.
+    * Corrected NetworkInterface logic error regarding the
+      interface index.
+    * Added frog/stdint.h.
 
 2005-08-31  Janvier D. Anonical <janvier@users.berlios.de>
 
-	* Completed NetworkInterface.
-	* Corrected the value of the network index found by NetworkInterface.
-	* Added test case for NetworkInterface.
+    * Completed NetworkInterface.
+    * Corrected the value of the network index found by NetworkInterface.
+    * Added test case for NetworkInterface.
 
 2005-08-30  Janvier D. Anonical <janvier@users.berlios.de>
 
-	* Partially completed NetworkInterface.
-	* Added scope id in InetAddress.
-	* Made the code a bit portable by checking for system function
-	  existence for some functions.
+    * Partially completed NetworkInterface.
+    * Added scope id in InetAddress.
+    * Made the code a bit portable by checking for system function
+      existence for some functions.
 
 2005-08-26  Janvier D. Anonical <janvier@users.berlios.de>
 
-	* Made IPv6 an optional feature via configure.
+    * Made IPv6 an optional feature via configure.
 

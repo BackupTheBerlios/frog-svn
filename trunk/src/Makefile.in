@@ -44,7 +44,7 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ac_c_long_long.m4 \
 	$(top_srcdir)/m4/ac_c_timespec.m4 \
 	$(top_srcdir)/m4/ax_create_stdint_h.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/cppunit.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -184,17 +184,17 @@ lib_LTLIBRARIES = libfrog.la
 INCLUDES = $(all_includes)
 libfrog_la_LDFLAGS = -version-info 0:1:0 $(all_libraries)
 libfrog_la_SOURCES = Object.cpp AddressFamily.cpp InetAddress.cpp IPEndpoint.cpp NetworkInterface.cpp \
-					 TimeValue.cpp
+		 TimeValue.cpp
 
 nobase_include_HEADERS = frog/Object.h frog/Singleton.h frog/AddressFamily.h \
-						 frog/ArgumentNullException.h frog/ArgumentOutOfBoundsException.h \
-						 frog/ArithmeticException.h frog/DivideByZeroException.h \
-						 frog/Exception.h frog/FormatException.h frog/IllegalArgumentException.h \
-						 frog/InetAddress.h frog/IOException.h frog/NotImplementedException.h \
-						 frog/NullPointerException.h frog/OverflowException.h frog/RuntimeException.h \
-						 frog/SystemException.h frog/SocketException.h frog/Endpoint.h frog/IPEndpoint.h \
-						 frog/NetworkInterface.h frog/nullptr.h frog/stdint.h frog/UnknownHostException.h \
-						 frog/TimeValue.h
+			 frog/ArgumentNullException.h frog/ArgumentOutOfBoundsException.h \
+			 frog/ArithmeticException.h frog/DivideByZeroException.h \
+			 frog/Exception.h frog/FormatException.h frog/IllegalArgumentException.h \
+			 frog/InetAddress.h frog/IOException.h frog/NotImplementedException.h \
+			 frog/NullPointerException.h frog/OverflowException.h frog/RuntimeException.h \
+			 frog/SystemException.h frog/SocketException.h frog/Endpoint.h frog/IPEndpoint.h \
+			 frog/NetworkInterface.h frog/nullptr.h frog/stdint.h frog/UnknownHostException.h \
+			 frog/TimeValue.h
 
 all: all-am
 

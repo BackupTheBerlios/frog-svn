@@ -35,64 +35,65 @@
  */
 namespace frog
 {
-	/**
-	 * @namespace frog::sys Contains fundamental classes and base classes that
-	 * define commonly used value and data types, interfaces, attributes,
-	 * and processing exceptions.
-	 */
-	namespace sys
-	{
-		/**
-		 * Thrown when an arithmetic operation caused a numeric overflow.
-		 * <HR>
-		 * <H3>Inherits from:</H3>
-		 *     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		 *     ArithmeticException
-		 * <HR>
-		 */
-		class OverflowException : public ArithmeticException
-		{
-		  public:
-			  /**
-			   * Constructs a new exception.
-			   */
-			  explicit OverflowException() throw()
-				  : ArithmeticException("OverflowException") {}
+    /**
+     * @namespace frog::sys Contains fundamental classes and base classes that
+     * define commonly used value and data types, interfaces, attributes,
+     * and processing exceptions.
+     */
+    namespace sys
+    {
+        /**
+         * Thrown when an arithmetic operation caused a numeric overflow.
+         * <HR>
+         * <H3>Inherits from:</H3>
+         *     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         *     ArithmeticException
+         * <HR>
+         */
+        class OverflowException : public ArithmeticException
+        {
+          public:
+              /**
+               * Constructs a new exception.
+               */
+              explicit OverflowException() throw()
+                  : ArithmeticException("OverflowException") {}
 
-			  /**
-			   * Constructs a new exception with the specified description.
-			   * @param[in] description The description of this exception
-			   */
-			  explicit OverflowException(const std::string& description) throw()
-				  : ArithmeticException(description) {}
+              /**
+               * Constructs a new exception with the specified description.
+               * @param[in] description The description of this exception
+               */
+              explicit OverflowException(const std::string& description) throw()
+                  : ArithmeticException(description) {}
 
-			  /**
-			   * Constructs a new exception with the specified description.
-			   * @param[in] description The description of this exception
-			   */
-			  explicit OverflowException(const char* description) throw()
-				  : ArithmeticException(description) {}
-			  /**
-			   * Does nothing.
-			   */
-			  virtual ~OverflowException() throw() {}
+              /**
+               * Constructs a new exception with the specified description.
+               * @param[in] description The description of this exception
+               */
+              explicit OverflowException(const char* description) throw()
+                  : ArithmeticException(description) {}
 
-			  /**
-			   * Returns the textual representation of the current object. In
-			   * general, the toString function returns a string that
-			   * "textually represent" the object. The result should be a
-			   * concise but informative representation that is easy for a person
-			   * to read. It is recommended that all subclasses override this
-			   * method otherwise it can be misleading if this function is called
-			   * on a sublcass of Object.
-			   */
-			  virtual std::string toString() const throw()
-			  {
-				  return std::string("frog::sys::OverflowException") + ": " +
-					std::string(getDescription());  
-			  }
-		}; // OverflowException cls
-	} // sys ns
+              /**
+               * Does nothing.
+               */
+              virtual ~OverflowException() throw() {}
+
+              /**
+               * Returns the textual representation of the current object. In
+               * general, the toString function returns a string that
+               * "textually represent" the object. The result should be a
+               * concise but informative representation that is easy for a person
+               * to read. It is recommended that all subclasses override this
+               * method otherwise it can be misleading if this function is called
+               * on a sublcass of Object.
+               */
+              virtual std::string toString() const throw()
+              {
+                  return std::string("frog::sys::OverflowException") + ": " +
+                      std::string(getDescription());
+              }
+        }; // OverflowException cls
+    } // sys ns
 } // frog ns
 
 #endif // FROG_SYS_OVERFLOWEXCEPTION_H

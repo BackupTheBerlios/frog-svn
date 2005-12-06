@@ -35,66 +35,66 @@
  */
 namespace frog
 {
-		/**
-		 * @namespace frog::net Provides a simple programming
-		 * interface for many of the protocols used on networking
-		 * applications.
-		 */
-		namespace net
-		{
-			/**
-			 * Thrown to indicate that there is an error in the underlying protocol,
-			 * such as a TCP error.
-			 *
-			 * <HR>
-			 * <H3>Inherits from:</H3>
-			 *     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 *     sys::IOException
-			 * <HR>
-			 */
-			class SocketException : public sys::IOException
-			{
-			  public:
-				  /**
-				   * Constructs a new exception.
-				   */
-				  explicit SocketException() throw()
-					  : sys::IOException("SocketException") {}
+    /**
+     * @namespace frog::net Provides a simple programming
+     * interface for many of the protocols used on networking
+     * applications.
+     */
+    namespace net
+    {
+        /**
+         * Thrown to indicate that there is an error in the underlying protocol,
+         * such as a TCP error.
+         *
+         * <HR>
+         * <H3>Inherits from:</H3>
+         *     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         *     sys::IOException
+         * <HR>
+         */
+        class SocketException : public sys::IOException
+        {
+          public:
+              /**
+               * Constructs a new exception.
+               */
+              explicit SocketException() throw()
+                  : sys::IOException("SocketException") {}
 
-				  /**
-				   * Constructs a new exception with the specified description.
-				   * @param[in] description The description of this exception
-				   */
-				  explicit SocketException(const std::string& description) throw()
-					  : sys::IOException(description) {}
+              /**
+               * Constructs a new exception with the specified description.
+               * @param[in] description The description of this exception
+               */
+              explicit SocketException(const std::string& description) throw()
+                  : sys::IOException(description) {}
 
-				  /**
-				   * Constructs a new exception with the specified description.
-				   * @param[in] description The description of this exception
-				   */
-				  explicit SocketException(const char* description) throw()
-					  : sys::IOException(description) {}
-				  /**
-				   * Does nothing.
-				   */
-				  virtual ~SocketException() throw() {}
+              /**
+               * Constructs a new exception with the specified description.
+               * @param[in] description The description of this exception
+               */
+              explicit SocketException(const char* description) throw()
+                  : sys::IOException(description) {}
+              /**
+               * Does nothing.
+               */
+              virtual ~SocketException() throw() {}
 
-				  /**
-				   * Returns the textual representation of the current object. In
-				   * general, the toString function returns a string that
-				   * "textually represent" the object. The result should be a
-				   * concise but informative representation that is easy for a person
-				   * to read. It is recommended that all subclasses override this
-				   * method otherwise it can be misleading if this function is called
-				   * on a sublcass of Object.
-				   */
-				  virtual std::string toString() const throw()
-				  {
-					  return std::string("frog::sys::SocketException") + ": " +
-						  std::string(getDescription());  
-				  }
-			}; // SocketException cls
-		} // net ns
+              /**
+               * Returns the textual representation of the current object. In
+               * general, the toString function returns a string that
+               * "textually represent" the object. The result should be a
+               * concise but informative representation that is easy for a person
+               * to read. It is recommended that all subclasses override this
+               * method otherwise it can be misleading if this function is called
+               * on a sublcass of Object.
+               */
+              virtual std::string toString() const throw()
+              {
+                  return std::string("frog::sys::SocketException") + ": " +
+                      std::string(getDescription());
+              }
+        }; // SocketException cls
+    } // net ns
 } // frog ns
 
 #endif // FROG_NET_SOCKETEXCEPTION_H

@@ -2031,6 +2031,8 @@ fi
 echo $ECHO_N "checking for Cppunit - version >= $cppunit_version_min... $ECHO_C" >&6
   no_cppunit=""
   if test "$CPPUNIT_CONFIG" = "no" ; then
+    echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
     no_cppunit=yes
   else
     CPPUNIT_CFLAGS=`$CPPUNIT_CONFIG --cflags`
@@ -2046,10 +2048,21 @@ echo $ECHO_N "checking for Cppunit - version >= $cppunit_version_min... $ECHO_C"
 
     cppunit_major_min=`echo $cppunit_version_min | \
            sed 's/\([0-9]*\).\([0-9]*\).\([0-9]*\)/\1/'`
+    if test "x${cppunit_major_min}" = "x" ; then
+       cppunit_major_min=0
+    fi
+    
     cppunit_minor_min=`echo $cppunit_version_min | \
            sed 's/\([0-9]*\).\([0-9]*\).\([0-9]*\)/\2/'`
+    if test "x${cppunit_minor_min}" = "x" ; then
+       cppunit_minor_min=0
+    fi
+    
     cppunit_micro_min=`echo $cppunit_version_min | \
            sed 's/\([0-9]*\).\([0-9]*\).\([0-9]*\)/\3/'`
+    if test "x${cppunit_micro_min}" = "x" ; then
+       cppunit_micro_min=0
+    fi
 
     cppunit_version_proper=`expr \
         $cppunit_major_version \> $cppunit_major_min \| \
@@ -2074,7 +2087,14 @@ echo "${ECHO_T}no" >&6
   else
      CPPUNIT_CFLAGS=""
      CPPUNIT_LIBS=""
-     :
+     { echo "$as_me:$LINENO: WARNING: 
+--------------------------------------------------------
+ No compatible cppunit found. You cannot do \"make check\".
+--------------------------------------------------------" >&5
+echo "$as_me: WARNING: 
+--------------------------------------------------------
+ No compatible cppunit found. You cannot do \"make check\".
+--------------------------------------------------------" >&2;}
   fi
 
   

@@ -28,18 +28,18 @@
 
 namespace frog
 {
-	/**
-	 * Classes derived from class NonCopyable cannot be copied.
-	 */
-	class NonCopyable
-	{
-	  protected:
-		  NonCopyable() {}
-		  ~NonCopyable() {}
-	  private:
-		  NonCopyable(const NonCopyable&);
-		  const NonCopyable& operator=(const NonCopyable&);
-	}
+    /**
+     * Classes derived from class NonCopyable cannot be copied.
+     */
+    class NonCopyable
+    {
+      protected:
+          NonCopyable() {}
+          ~NonCopyable() {}
+      private:
+          NonCopyable(const NonCopyable&);
+          const NonCopyable& operator=(const NonCopyable&);
+    }
 } // frog ns
 
 

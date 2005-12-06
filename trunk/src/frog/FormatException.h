@@ -35,65 +35,65 @@
  */
 namespace frog
 {
-	/**
-	 * @namespace frog::sys Contains fundamental classes and base classes that
-	 * define commonly used value and data types, interfaces, attributes,
-	 * and processing exceptions.
-	 */
-	namespace sys
-	{
-		/**
-		 * This exception is thrown when the format of an argument does not
-		 * meet the parameter specifications of the invoked method.
-		 * <HR>
-		 * <H3>Inherits from:</H3>
-		 *     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		 *     RuntimeException
-		 * <HR>
-		 */
-		class FormatException : public RuntimeException
-		{
-		  public:
-			  /**
-			   * Constructs a new exception.
-			   */
-			  explicit FormatException() throw()
-				  : RuntimeException("FormatException") {}
+    /**
+     * @namespace frog::sys Contains fundamental classes and base classes that
+     * define commonly used value and data types, interfaces, attributes,
+     * and processing exceptions.
+     */
+    namespace sys
+    {
+        /**
+         * This exception is thrown when the format of an argument does not
+         * meet the parameter specifications of the invoked method.
+         * <HR>
+         * <H3>Inherits from:</H3>
+         *     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         *     RuntimeException
+         * <HR>
+         */
+        class FormatException : public RuntimeException
+        {
+          public:
+              /**
+               * Constructs a new exception.
+               */
+              explicit FormatException() throw()
+                  : RuntimeException("FormatException") {}
 
-			  /**
-			   * Constructs a new exception with the specified description.
-			   * @param[in] description The description of this exception
-			   */
-			  explicit FormatException(const std::string& description) throw()
-				  : RuntimeException(description) {}
+              /**
+               * Constructs a new exception with the specified description.
+               * @param[in] description The description of this exception
+               */
+              explicit FormatException(const std::string& description) throw()
+                  : RuntimeException(description) {}
 
-			  /**
-			   * Constructs a new exception with the specified description.
-			   * @param[in] description The description of this exception
-			   */
-			  explicit FormatException(const char* description) throw()
-				  : RuntimeException(description) {}
-			  /**
-			   * Does nothing.
-			   */
-			  virtual ~FormatException() throw() {}
+              /**
+               * Constructs a new exception with the specified description.
+               * @param[in] description The description of this exception
+               */
+              explicit FormatException(const char* description) throw()
+                  : RuntimeException(description) {}
+              /**
+               * Does nothing.
+               */
+              virtual ~FormatException() throw() {}
 
-			  /**
-			   * Returns the textual representation of the current object. In
-			   * general, the toString function returns a string that
-			   * "textually represent" the object. The result should be a
-			   * concise but informative representation that is easy for a person
-			   * to read. It is recommended that all subclasses override this
-			   * method otherwise it can be misleading if this function is called
-			   * on a sublcass of Object.
-			   */
-			  virtual std::string toString() const throw()
-			  {
-				  return std::string("frog::sys::FormatException") + ": " +
-					std::string(getDescription());  
-			  }
-		}; // FormatException cls
-	} // sys ns
+              /**
+               * Returns the textual representation of the current object. In
+               * general, the toString function returns a string that
+               * "textually represent" the object. The result should be a
+               * concise but informative representation that is easy for a person
+               * to read. It is recommended that all subclasses override this
+               * method otherwise it can be misleading if this function is called
+               * on a sublcass of Object.
+               */
+              virtual std::string toString() const throw()
+              {
+                  return std::string("frog::sys::FormatException") + ": " +
+                      std::string(getDescription());
+              }
+        }; // FormatException cls
+    } // sys ns
 } // frog ns
 
 #endif // FROG_SYS_FORMATEXCEPTION_H

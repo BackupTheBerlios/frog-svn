@@ -35,66 +35,66 @@
  */
 namespace frog
 {
-		/**
-		 * @namespace frog::net Provides a simple programming
-		 * interface for many of the protocols used on networking
-		 * applications.
-		 */
-		namespace net
-		{
-			/**
-			 * Thrown to indicate that the IP address of the host 
-			 * cannot be determined.
-			 *
-			 * <HR>
-			 * <H3>Inherits from:</H3>
-			 *     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 *     sys::IOException
-			 * <HR>
-			 */
-			class UnknownHostException : public sys::IOException
-			{
-			  public:
-				  /**
-				   * Constructs a new exception.
-				   */
-				  explicit UnknownHostException() throw()
-					  : sys::IOException("UnknownHostException") {}
+    /**
+     * @namespace frog::net Provides a simple programming
+     * interface for many of the protocols used on networking
+     * applications.
+     */
+    namespace net
+    {
+        /**
+         * Thrown to indicate that the IP address of the host 
+         * cannot be determined.
+         *
+         * <HR>
+         * <H3>Inherits from:</H3>
+         *     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         *     sys::IOException
+         * <HR>
+         */
+        class UnknownHostException : public sys::IOException
+        {
+          public:
+              /**
+               * Constructs a new exception.
+               */
+              explicit UnknownHostException() throw()
+                  : sys::IOException("UnknownHostException") {}
 
-				  /**
-				   * Constructs a new exception with the specified description.
-				   * @param[in] description The description of this exception
-				   */
-				  explicit UnknownHostException(const std::string& description) throw()
-					  : sys::IOException(description) {}
+              /**
+               * Constructs a new exception with the specified description.
+               * @param[in] description The description of this exception
+               */
+              explicit UnknownHostException(const std::string& description) throw()
+                  : sys::IOException(description) {}
 
-				  /**
-				   * Constructs a new exception with the specified description.
-				   * @param[in] description The description of this exception
-				   */
-				  explicit UnknownHostException(const char* description) throw()
-					  : sys::IOException(description) {}
-				  /**
-				   * Does nothing.
-				   */
-				  virtual ~UnknownHostException() throw() {}
+              /**
+               * Constructs a new exception with the specified description.
+               * @param[in] description The description of this exception
+               */
+              explicit UnknownHostException(const char* description) throw()
+                  : sys::IOException(description) {}
+              /**
+               * Does nothing.
+               */
+              virtual ~UnknownHostException() throw() {}
 
-				  /**
-				   * Returns the textual representation of the current object. In
-				   * general, the toString function returns a string that
-				   * "textually represent" the object. The result should be a
-				   * concise but informative representation that is easy for a person
-				   * to read. It is recommended that all subclasses override this
-				   * method otherwise it can be misleading if this function is called
-				   * on a sublcass of Object.
-				   */
-				  virtual std::string toString() const throw()
-				  {
-					  return std::string("frog::sys::UnknownHostException") + ": " +
-						  std::string(getDescription());  
-				  }
-			}; // UnknownHostException cls
-		} // net ns
+              /**
+               * Returns the textual representation of the current object. In
+               * general, the toString function returns a string that
+               * "textually represent" the object. The result should be a
+               * concise but informative representation that is easy for a person
+               * to read. It is recommended that all subclasses override this
+               * method otherwise it can be misleading if this function is called
+               * on a sublcass of Object.
+               */
+              virtual std::string toString() const throw()
+              {
+                  return std::string("frog::sys::UnknownHostException") + ": " +
+                      std::string(getDescription());
+              }
+        }; // UnknownHostException cls
+    } // net ns
 } // frog ns
 
 #endif // FROG_NET_UNKNOWNHOSTEXCEPTION_H

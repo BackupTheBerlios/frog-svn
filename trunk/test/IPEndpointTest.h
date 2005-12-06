@@ -36,203 +36,203 @@ using frog::sys::IllegalArgumentException;
 
 class IPEndpointTest : public CppUnit::TestFixture
 {
-  CPPUNIT_TEST_SUITE(IPEndpointTest);
+    CPPUNIT_TEST_SUITE(IPEndpointTest);
 
-  CPPUNIT_TEST(testConstructor);
-  CPPUNIT_TEST(testPropertyChange);
-  CPPUNIT_TEST(testAddressFamily);
-  CPPUNIT_TEST(testAssignment);
-  CPPUNIT_TEST(testEquality);
+    CPPUNIT_TEST(testConstructor);
+    CPPUNIT_TEST(testPropertyChange);
+    CPPUNIT_TEST(testAddressFamily);
+    CPPUNIT_TEST(testAssignment);
+    CPPUNIT_TEST(testEquality);
 #ifdef HAVE_IPV6_SUPPORT
-  CPPUNIT_TEST_FAIL(testEquality1);
+    CPPUNIT_TEST_FAIL(testEquality1);
 #else
-  CPPUNIT_TEST_EXCEPTION(testEquality1, frog::sys::IllegalArgumentException);
+    CPPUNIT_TEST_EXCEPTION(testEquality1, frog::sys::IllegalArgumentException);
 #endif
-  CPPUNIT_TEST_FAIL(testEquality2);
-  CPPUNIT_TEST_FAIL(testEquality3);
-  CPPUNIT_TEST(testEquality4);
-  CPPUNIT_TEST(testInequality);
-  CPPUNIT_TEST(testInequality1);
-  CPPUNIT_TEST(testInequality2);
-  CPPUNIT_TEST_FAIL(testInequality3);
-  CPPUNIT_TEST(testToString);
+    CPPUNIT_TEST_FAIL(testEquality2);
+    CPPUNIT_TEST_FAIL(testEquality3);
+    CPPUNIT_TEST(testEquality4);
+    CPPUNIT_TEST(testInequality);
+    CPPUNIT_TEST(testInequality1);
+    CPPUNIT_TEST(testInequality2);
+    CPPUNIT_TEST_FAIL(testInequality3);
+    CPPUNIT_TEST(testToString);
 #ifdef HAVE_IPV6_SUPPORT
-  CPPUNIT_TEST(testToString2);
+    CPPUNIT_TEST(testToString2);
 #else
-  CPPUNIT_TEST_EXCEPTION(testToString2, frog::sys::IllegalArgumentException);
+    CPPUNIT_TEST_EXCEPTION(testToString2, frog::sys::IllegalArgumentException);
 #endif
-  
-  CPPUNIT_TEST_SUITE_END();
+
+    CPPUNIT_TEST_SUITE_END();
 
   public:
-	  void testConstructor()
-	  {
-		  in_port_t port = 4444;
-		  InetAddress addr("127.0.0.1");
-		  IPEndpoint endpoint(addr, port);
+    void testConstructor()
+    {
+        in_port_t port = 4444;
+        InetAddress addr("127.0.0.1");
+        IPEndpoint endpoint(addr, port);
 
-		  CPPUNIT_ASSERT(endpoint.address == addr);
-		  CPPUNIT_ASSERT(endpoint.address.toString() == addr.toString());
-		  CPPUNIT_ASSERT(endpoint.port == port);
-		  CPPUNIT_ASSERT(endpoint.addressFamily == addr.addressFamily);
-	  }
+        CPPUNIT_ASSERT(endpoint.address == addr);
+        CPPUNIT_ASSERT(endpoint.address.toString() == addr.toString());
+        CPPUNIT_ASSERT(endpoint.port == port);
+        CPPUNIT_ASSERT(endpoint.addressFamily == addr.addressFamily);
+    }
 
-	  void testPropertyChange()
-	  {
-		  in_port_t port = 4444;
-		  InetAddress addr("127.0.0.1");
-		  IPEndpoint endpoint(addr, port);
+    void testPropertyChange()
+    {
+        in_port_t port = 4444;
+        InetAddress addr("127.0.0.1");
+        IPEndpoint endpoint(addr, port);
 
-		  InetAddress addr2("10.1.0.207");
-		  in_port_t port2 = 7777;
-		  endpoint.address = addr2;
-		  endpoint.port = port2;
+        InetAddress addr2("10.1.0.207");
+        in_port_t port2 = 7777;
+        endpoint.address = addr2;
+        endpoint.port = port2;
 
-		  CPPUNIT_ASSERT(!(addr2 == addr));
-		  CPPUNIT_ASSERT(!(port2 == port));
-		  CPPUNIT_ASSERT(endpoint.address.toString() == addr2.toString());
-		  CPPUNIT_ASSERT(endpoint.port == port2);
-	  }
+        CPPUNIT_ASSERT(!(addr2 == addr));
+        CPPUNIT_ASSERT(!(port2 == port));
+        CPPUNIT_ASSERT(endpoint.address.toString() == addr2.toString());
+        CPPUNIT_ASSERT(endpoint.port == port2);
+    }
 
-	  void testAddressFamily()
-	  {
-		  InetAddress addr("255.255.255.255");
-		  IPEndpoint endpoint(addr, 65535);
+    void testAddressFamily()
+    {
+        InetAddress addr("255.255.255.255");
+        IPEndpoint endpoint(addr, 65535);
 
-		  CPPUNIT_ASSERT(endpoint.address.addressFamily == AddressFamily::InterNetwork);
-		  CPPUNIT_ASSERT(endpoint.addressFamily == AddressFamily::InterNetwork);
-	  }
+        CPPUNIT_ASSERT(endpoint.address.addressFamily == AddressFamily::InterNetwork);
+        CPPUNIT_ASSERT(endpoint.addressFamily == AddressFamily::InterNetwork);
+    }
 
-	  void testAssignment()
-	  {
-		  InetAddress addr("1.1.1.1");
-		  IPEndpoint endpoint(addr, 1000);
-		  
-		  InetAddress addr2("2.2.2.2");
-		  IPEndpoint endpoint2(addr2, 1111);
-		  
-		  endpoint2 = endpoint;
+    void testAssignment()
+    {
+        InetAddress addr("1.1.1.1");
+        IPEndpoint endpoint(addr, 1000);
 
-		  CPPUNIT_ASSERT(endpoint == endpoint2);
-	  }
+        InetAddress addr2("2.2.2.2");
+        IPEndpoint endpoint2(addr2, 1111);
 
-	  void testEquality()
-	  {
-		  InetAddress addr("1.1.1.1");
-		  IPEndpoint endpoint(addr, 1000);
-		  
-		  InetAddress addr2("2.2.2.2");
-		  IPEndpoint endpoint2(addr2, 1111);
-		  
-		  CPPUNIT_ASSERT(!(endpoint == endpoint2));
+        endpoint2 = endpoint;
 
-	  }
+        CPPUNIT_ASSERT(endpoint == endpoint2);
+    }
 
-	  void testEquality1()
-	  {
-		  InetAddress addr("1.1.1.1");
-		  IPEndpoint endpoint(addr, 1000);
-		  
-		  InetAddress addr2("::1");
-		  IPEndpoint endpoint2(addr2, 1111);
-		  
-		  CPPUNIT_ASSERT(endpoint == endpoint2);
-	  }
+    void testEquality()
+    {
+        InetAddress addr("1.1.1.1");
+        IPEndpoint endpoint(addr, 1000);
 
-	  void testEquality2()
-	  {
-		  InetAddress addr("1.1.1.1");
-		  IPEndpoint endpoint(addr, 1000);
-		  
-		  InetAddress addr2("1.1.1.1");
-		  IPEndpoint endpoint2(addr2, 1111);
-		  
-		  CPPUNIT_ASSERT(endpoint == endpoint2);
-	  }
+        InetAddress addr2("2.2.2.2");
+        IPEndpoint endpoint2(addr2, 1111);
 
-	  void testEquality3()
-	  {
-		  InetAddress addr("1.1.1.1");
-		  IPEndpoint endpoint(addr, 1000);
-		  
-		  InetAddress addr2("2.2.2.2");
-		  IPEndpoint endpoint2(addr2, 1000);
-		  
-		  CPPUNIT_ASSERT(endpoint == endpoint2);
-	  }
-	  
-	  void testEquality4()
-	  {
-		  InetAddress addr("1.1.1.1");
-		  IPEndpoint endpoint(addr, 1000);
-		  
-		  InetAddress addr2("1.1.1.1");
-		  IPEndpoint endpoint2(addr2, 1000);
-		  
-		  CPPUNIT_ASSERT(endpoint == endpoint2);
+        CPPUNIT_ASSERT(!(endpoint == endpoint2));
 
-	  }
+    }
 
-	  void testInequality()
-	  {
-		  InetAddress addr("1.1.1.1");
-		  IPEndpoint endpoint(addr, 1000);
-		  
-		  InetAddress addr2("2.2.2.2");
-		  IPEndpoint endpoint2(addr2, 1111);
-		  
-		  CPPUNIT_ASSERT(endpoint != endpoint2);
+    void testEquality1()
+    {
+        InetAddress addr("1.1.1.1");
+        IPEndpoint endpoint(addr, 1000);
 
-	  }
+        InetAddress addr2("::1");
+        IPEndpoint endpoint2(addr2, 1111);
 
-	  void testInequality1()
-	  {
-		  InetAddress addr("1.1.1.1");
-		  IPEndpoint endpoint(addr, 1000);
-		  
-		  InetAddress addr2("1.1.1.1");
-		  IPEndpoint endpoint2(addr2, 1111);
-		  
-		  CPPUNIT_ASSERT(endpoint != endpoint2);
+        CPPUNIT_ASSERT(endpoint == endpoint2);
+    }
 
-	  }
+    void testEquality2()
+    {
+        InetAddress addr("1.1.1.1");
+        IPEndpoint endpoint(addr, 1000);
 
-	  void testInequality2()
-	  {
-		  InetAddress addr("1.1.1.1");
-		  IPEndpoint endpoint(addr, 1000);
-		  
-		  InetAddress addr2("2.2.2.2");
-		  IPEndpoint endpoint2(addr2, 1000);
-		  
-		  CPPUNIT_ASSERT(endpoint != endpoint2);
+        InetAddress addr2("1.1.1.1");
+        IPEndpoint endpoint2(addr2, 1111);
 
-	  }
+        CPPUNIT_ASSERT(endpoint == endpoint2);
+    }
 
-	  void testInequality3()
-	  {
-		  InetAddress addr("7.7.7.7");
-		  IPEndpoint endpoint(addr, 5555);
-		  
-		  InetAddress addr2("7.7.7.7");
-		  IPEndpoint endpoint2(addr2, 5555);
-		  
-		  CPPUNIT_ASSERT(endpoint != endpoint2);
-	  }
+    void testEquality3()
+    {
+        InetAddress addr("1.1.1.1");
+        IPEndpoint endpoint(addr, 1000);
 
-	  void testToString()
-	  {
-		  InetAddress addr("1.1.1.1");
-		  IPEndpoint endpoint(addr, 1000);
-		  
-		  CPPUNIT_ASSERT(endpoint.toString() == "1.1.1.1:1000");
-	  }
+        InetAddress addr2("2.2.2.2");
+        IPEndpoint endpoint2(addr2, 1000);
 
-	  void testToString2()
-	  {
-		  InetAddress addr2("::1");
-		  IPEndpoint endpoint2(addr2, 1111);
+        CPPUNIT_ASSERT(endpoint == endpoint2);
+    }
 
-		  CPPUNIT_ASSERT(endpoint2.toString() == "[::1]:1111");
-	  }
+    void testEquality4()
+    {
+        InetAddress addr("1.1.1.1");
+        IPEndpoint endpoint(addr, 1000);
+
+        InetAddress addr2("1.1.1.1");
+        IPEndpoint endpoint2(addr2, 1000);
+
+        CPPUNIT_ASSERT(endpoint == endpoint2);
+
+    }
+
+    void testInequality()
+    {
+        InetAddress addr("1.1.1.1");
+        IPEndpoint endpoint(addr, 1000);
+
+        InetAddress addr2("2.2.2.2");
+        IPEndpoint endpoint2(addr2, 1111);
+
+        CPPUNIT_ASSERT(endpoint != endpoint2);
+
+    }
+
+    void testInequality1()
+    {
+        InetAddress addr("1.1.1.1");
+        IPEndpoint endpoint(addr, 1000);
+
+        InetAddress addr2("1.1.1.1");
+        IPEndpoint endpoint2(addr2, 1111);
+
+        CPPUNIT_ASSERT(endpoint != endpoint2);
+
+    }
+
+    void testInequality2()
+    {
+        InetAddress addr("1.1.1.1");
+        IPEndpoint endpoint(addr, 1000);
+
+        InetAddress addr2("2.2.2.2");
+        IPEndpoint endpoint2(addr2, 1000);
+
+        CPPUNIT_ASSERT(endpoint != endpoint2);
+
+    }
+
+    void testInequality3()
+    {
+        InetAddress addr("7.7.7.7");
+        IPEndpoint endpoint(addr, 5555);
+
+        InetAddress addr2("7.7.7.7");
+        IPEndpoint endpoint2(addr2, 5555);
+
+        CPPUNIT_ASSERT(endpoint != endpoint2);
+    }
+
+    void testToString()
+    {
+        InetAddress addr("1.1.1.1");
+        IPEndpoint endpoint(addr, 1000);
+
+        CPPUNIT_ASSERT(endpoint.toString() == "1.1.1.1:1000");
+    }
+
+    void testToString2()
+    {
+        InetAddress addr2("::1");
+        IPEndpoint endpoint2(addr2, 1111);
+
+        CPPUNIT_ASSERT(endpoint2.toString() == "[::1]:1111");
+    }
 };

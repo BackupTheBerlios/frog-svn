@@ -7,7 +7,10 @@ AC_CONFIG_SRCDIR([src/AddressFamily.cpp])
 AC_CONFIG_HEADER([config.h])
 
 AM_INIT_AUTOMAKE
-AM_PATH_CPPUNIT(1.10.2)
+AM_PATH_CPPUNIT(1.10.2,,AC_MSG_WARN([
+--------------------------------------------------------
+ No compatible cppunit found. You cannot do "make check".
+--------------------------------------------------------]))
 
 # Checks for programs.
 AC_PROG_CXX

@@ -39,79 +39,79 @@
  */
 namespace frog
 {
-	/**
-	 * @namespace frog::net Provides a simple programming
-	 * interface for many of the protocols used on networking
-	 * applications.
-	 */
-	namespace net
-	{
-		/**
-		 * Implements a network endpoint that is an
-		 * IP socket address (IP address + port).
-		 * <HR>
-		 * <H3>Inherits from:</H3>
-		 *     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		 *     Endpoint
-		 * <HR>
-		 */
-		class IPEndpoint : public Endpoint
-		{
-		  public:
-			  /**
-			   * Constructs an IP endpoint from an IP address and port.
-			   */
-			  IPEndpoint(InetAddress& ipAddress, in_port_t portNo) throw();
+    /**
+     * @namespace frog::net Provides a simple programming
+     * interface for many of the protocols used on networking
+     * applications.
+     */
+    namespace net
+    {
+        /**
+         * Implements a network endpoint that is an
+         * IP socket address (IP address + port).
+         * <HR>
+         * <H3>Inherits from:</H3>
+         *     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         *     Endpoint
+         * <HR>
+         */
+        class IPEndpoint : public Endpoint
+        {
+          public:
+              /**
+               * Constructs an IP endpoint from an IP address and port.
+               */
+              IPEndpoint(InetAddress& ipAddress, in_port_t portNo) throw();
 
-			  /**
-			   * Copies an IP endpoint to another IP endpoint.
-			   */
-			  IPEndpoint& operator=(const IPEndpoint& ep) throw();
+              /**
+               * Copies an IP endpoint to another IP endpoint.
+               */
+              IPEndpoint& operator=(const IPEndpoint& ep) throw();
 
-			  /**
-			   * Default destructor.
-			   */
-			  virtual ~IPEndpoint() throw() { }
+              /**
+               * Default destructor.
+               */
+              virtual ~IPEndpoint() throw() { }
 
-			  /**
-			   * Tests for IP endpoint equality.
-			   */
-			  bool operator==(const IPEndpoint& ep) const throw();
+              /**
+               * Tests for IP endpoint equality.
+               */
+              bool operator==(const IPEndpoint& ep) const throw();
 
-			  /**
-			   * Tests for IP endpoint inequality.
-			   */
-			  bool operator!=(const IPEndpoint& ep) const throw();
+              /**
+               * Tests for IP endpoint inequality.
+               */
+              bool operator!=(const IPEndpoint& ep) const throw();
 
-			  /**
-			   * Converts this IPEndpoint to its textual representation.
-			   * IPv4 Endpoints are represented as <I>ipv4-address:port</I> while
-			   * IPv6 Endpoints are respresented as <I>[ipv6-address\%scope-id]:port</I>.
-			   * The <I>scope-id</I> for IPv6 appears only if it was set in during
-			   * InetAddress construction.
-			   * @retval std::string The textual representation
-			   * of this IPEndpoint.
-			   */
-			  virtual std::string toString() const throw();
+              /**
+               * Converts this IPEndpoint to its textual representation.
+               * IPv4 Endpoints are represented as <I>ipv4-address:port</I> while
+               * IPv6 Endpoints are respresented as <I>[ipv6-address\%scope-id]:port</I>.
+               * The <I>scope-id</I> for IPv6 appears only if it was set in during
+               * InetAddress construction.
+               * @retval std::string The textual representation
+               * of this IPEndpoint.
+               */
+              virtual std::string toString() const throw();
 
-			  /**
-			   * IP address of this endpoint. The address is a
-			   * @e read-write attribute.
-			   */
-			  InetAddress address;
+              /**
+               * IP address of this endpoint. The address is a
+               * @e read-write attribute.
+               */
+              InetAddress address;
 
-			  /**
-			   * The port number of this endpoint. The port is a
-			   * @e read-write attribute.
-			   */
-			  in_port_t port;
-		  private:
-			  /**
-			   * Default constructor.
-			   */
-			  IPEndpoint() throw();
-		}; // IPEndpoint cls
-	}  // net ns
+              /**
+               * The port number of this endpoint. The port is a
+               * @e read-write attribute.
+               */
+              in_port_t port;
+          private:
+              /**
+               * Default constructor.
+               */
+              IPEndpoint() throw();
+        }; // IPEndpoint cls
+    }  // net ns
 }  // frog ns
 
 #endif // FROG_NET_IPENDPOINT_H

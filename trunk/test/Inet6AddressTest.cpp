@@ -19,17 +19,17 @@ CPPUNIT_TEST_SUITE_REGISTRATION(Inet6AddressTest);
 int main(int argc, char* argv[])
 {
 #ifdef HAVE_IPV6_SUPPORT
-	CppUnit::TextTestRunner runner;
-	CppUnit::TestFactoryRegistry& registry = CppUnit::TestFactoryRegistry::getRegistry();
+    CppUnit::TextTestRunner runner;
+    CppUnit::TestFactoryRegistry& registry = CppUnit::TestFactoryRegistry::getRegistry();
 
-	runner.addTest(registry.makeTest());
-	runner.setOutputter(CppUnit::CompilerOutputter::defaultOutputter(&runner.result(), std::cerr));
-	
-	bool success = runner.run();
-	return (success ? 0 : 1);
+    runner.addTest(registry.makeTest());
+    runner.setOutputter(CppUnit::CompilerOutputter::defaultOutputter(&runner.result(), std::cerr));
+
+    bool success = runner.run();
+    return (success ? 0 : 1);
 #else
-	::printf("\n.(Skipped test. No IPv6 support defined.)\n");
-	return 0;
+    ::printf("\n.(Skipped test. No IPv6 support defined.)\n");
+    return 0;
 #endif
 }
 

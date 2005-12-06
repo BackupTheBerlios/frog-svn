@@ -4,13 +4,13 @@
 #include <cppunit/CompilerOutputter.h>
 #include <cppunit/TextTestRunner.h>
 
-#include <Inet4AddressTest.h>
+#include <TimeValueTest.h>
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
-CPPUNIT_TEST_SUITE_REGISTRATION(Inet4AddressTest);
+CPPUNIT_TEST_SUITE_REGISTRATION(TimeValueTest);
 
 int main(int argc, char* argv[])
 {
@@ -23,4 +23,3 @@ int main(int argc, char* argv[])
     bool success = runner.run();
     return (success ? 0 : 1);
 }
-

@@ -35,105 +35,105 @@
  */
 namespace frog
 {
-	/**
-	 * @namespace frog::sys Contains fundamental classes and base classes that
-	 * define commonly used value and data types, interfaces, attributes,
-	 * and processing exceptions.
-	 */
-	namespace sys
-	{
-		/**
-		 * This class and its subclasses indicate conditions
-		 * that a reasonable application might want to catch.
-		 *
-		 * This class is the base class of all exceptions in this
-		 * framework. Please note that exceptions that are subclasses
-		 * of <TT>std::exception</TT> will not be catched by the
-		 * Exception class.
-		 *
-		 * Errors or unexpected conditions are reported by an
-		 * application using exceptions. Exceptions are thrown and
-		 * applications willing to handle the exception should
-		 * <TT>catch</TT> the thrown exception via <TT>catch</TT>
-		 * clause. Generally, exceptions propagate until a handler
-		 * is found. If no handler is found, it will be reported as
-		 * an unhandled exception by the system. To catch all
-		 * exceptions users should add the <I>catch all</I>
-		 * <TT>catch(...)</TT> clause in their exception handler.
-		 *
-		 * This class is inherited by two types:
-		 * <UL>
-		 *		<LI>SystemException</LI>
-		 *		<LI>ApplicationException</LI>
-		 * </UL>
-		 *
-		 * Most user-defined exceptions should derive from
-		 * ApplicationException. SystemException is used by the
-		 * framework.
-		 *
-		 * @sa SystemException, ApplicationException
-		 *
-		 * <HR>
-		 * 		<H3>Direct Known Subclasses:</H3>
-		 * 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		 * 				SystemException, ApplicationException
-		 * <HR>
-		 */
-		class Exception : public Object
-		{
-		  public:
-			  /**
-			   * Constructs a new exception.
-			   */
-			  explicit Exception() throw()
-				  : description_("Exception") {}
+    /**
+     * @namespace frog::sys Contains fundamental classes and base classes that
+     * define commonly used value and data types, interfaces, attributes,
+     * and processing exceptions.
+     */
+    namespace sys
+    {
+        /**
+         * This class and its subclasses indicate conditions
+         * that a reasonable application might want to catch.
+         *
+         * This class is the base class of all exceptions in this
+         * framework. Please note that exceptions that are subclasses
+         * of <TT>std::exception</TT> will not be catched by the
+         * Exception class.
+         *
+         * Errors or unexpected conditions are reported by an
+         * application using exceptions. Exceptions are thrown and
+         * applications willing to handle the exception should
+         * <TT>catch</TT> the thrown exception via <TT>catch</TT>
+         * clause. Generally, exceptions propagate until a handler
+         * is found. If no handler is found, it will be reported as
+         * an unhandled exception by the system. To catch all
+         * exceptions users should add the <I>catch all</I>
+         * <TT>catch(...)</TT> clause in their exception handler.
+         *
+         * This class is inherited by two types:
+         * <UL>
+         *    <LI>SystemException</LI>
+         *    <LI>ApplicationException</LI>
+         * </UL>
+         *
+         * Most user-defined exceptions should derive from
+         * ApplicationException. SystemException is used by the
+         * framework.
+         *
+         * @sa SystemException, ApplicationException
+         *
+         * <HR>
+         * <H3>Direct Known Subclasses:</H3>
+         *     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         *     SystemException, ApplicationException
+         * <HR>
+         */
+        class Exception : public Object
+        {
+          public:
+              /**
+               * Constructs a new exception.
+               */
+              explicit Exception() throw()
+                  : description_("Exception") {}
 
-			  /**
-			   * Constructs a new exception with the specified description.
-			   * @param[in] description The description of this exception
-			   */
-			  explicit Exception(const std::string& description) throw()
-				  : description_(description) {}
+              /**
+               * Constructs a new exception with the specified description.
+               * @param[in] description The description of this exception
+               */
+              explicit Exception(const std::string& description) throw()
+                  : description_(description) {}
 
-			  /**
-			   * Constructs a new exception with the specified description.
-			   * @param[in] description The description of this exception
-			   */
-			  explicit Exception(const char* description) throw()
-				  : description_(std::string(description)) {}
+              /**
+               * Constructs a new exception with the specified description.
+               * @param[in] description The description of this exception
+               */
+              explicit Exception(const char* description) throw()
+                  : description_(std::string(description)) {}
 
-			  /**
-			   * Does nothing.
-			   */
-			  virtual ~Exception() throw() {}
+              /**
+               * Does nothing.
+               */
+              virtual ~Exception() throw() {}
 
-			  /**
-			   * Get the description of this exception.
-			   * @return A string that contains the description of this exception.
-			   */
-			  virtual const char* getDescription() const throw()
-			  {
-				  return description_.c_str();
-			  }
+              /**
+               * Get the description of this exception.
+               * @return A string that contains the description of this exception.
+               */
+              virtual const char* getDescription() const throw()
+              {
+                  return description_.c_str();
+              }
 
-			  /**
-			   * Returns the textual representation of the current object. In
-			   * general, the toString function returns a string that
-			   * "textually represent" the object. The result should be a
-			   * concise but informative representation that is easy for a person
-			   * to read. It is recommended that all subclasses override this
-			   * method otherwise it can be misleading if this function is called
-			   * on a sublcass of Object.
-			   */
-			  virtual std::string toString() const throw()
-			  {
-				  return std::string("frog::sys::Exception") + ": " +
-					std::string(getDescription());  
-			  }
-		  private:
-			  std::string description_;
-		}; // Exception cls
-	} // sys ns
+              /**
+               * Returns the textual representation of the current object. In
+               * general, the toString function returns a string that
+               * "textually represent" the object. The result should be a
+               * concise but informative representation that is easy for a person
+               * to read. It is recommended that all subclasses override this
+               * method otherwise it can be misleading if this function is called
+               * on a sublcass of Object.
+               */
+              virtual std::string toString() const throw()
+              {
+                  return std::string("frog::sys::Exception") + ": " +
+                      std::string(getDescription());
+              }
+          private:
+              std::string description_;
+        }; // Exception cls
+    } // sys ns
 } // frog ns
 
 #endif // FROG_SYS_EXCEPTION_H

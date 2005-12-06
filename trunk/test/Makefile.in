@@ -42,7 +42,7 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ac_c_long_long.m4 \
 	$(top_srcdir)/m4/ac_c_timespec.m4 \
 	$(top_srcdir)/m4/ax_create_stdint_h.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/cppunit.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -50,7 +50,7 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 am__EXEEXT_1 = Object$(EXEEXT) Inet4Address$(EXEEXT) \
 	Inet6Address$(EXEEXT) IPEndpoint$(EXEEXT) \
-	NetworkInterface$(EXEEXT)
+	NetworkInterface$(EXEEXT) TimeValue$(EXEEXT)
 am_IPEndpoint_OBJECTS = IPEndpointTest.$(OBJEXT)
 IPEndpoint_OBJECTS = $(am_IPEndpoint_OBJECTS)
 IPEndpoint_LDADD = $(LDADD)
@@ -66,6 +66,9 @@ NetworkInterface_LDADD = $(LDADD)
 am_Object_OBJECTS = ObjectTest.$(OBJEXT)
 Object_OBJECTS = $(am_Object_OBJECTS)
 Object_LDADD = $(LDADD)
+am_TimeValue_OBJECTS = TimeValueTest.$(OBJEXT)
+TimeValue_OBJECTS = $(am_TimeValue_OBJECTS)
+TimeValue_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -79,10 +82,10 @@ CXXLINK = $(LIBTOOL) --tag=CXX --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = $(IPEndpoint_SOURCES) $(Inet4Address_SOURCES) \
 	$(Inet6Address_SOURCES) $(NetworkInterface_SOURCES) \
-	$(Object_SOURCES)
+	$(Object_SOURCES) $(TimeValue_SOURCES)
 DIST_SOURCES = $(IPEndpoint_SOURCES) $(Inet4Address_SOURCES) \
 	$(Inet6Address_SOURCES) $(NetworkInterface_SOURCES) \
-	$(Object_SOURCES)
+	$(Object_SOURCES) $(TimeValue_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -185,12 +188,13 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
-TESTS = Object Inet4Address Inet6Address IPEndpoint NetworkInterface
+TESTS = Object Inet4Address Inet6Address IPEndpoint NetworkInterface TimeValue
 Object_SOURCES = ObjectTest.cpp
 Inet4Address_SOURCES = Inet4AddressTest.cpp
 Inet6Address_SOURCES = Inet6AddressTest.cpp
 IPEndpoint_SOURCES = IPEndpointTest.cpp
 NetworkInterface_SOURCES = NetworkInterfaceTest.cpp
+TimeValue_SOURCES = TimeValueTest.cpp
 AM_CPPFLAGS = $(CPPUNIT_CFLAGS) -I../src
 AM_LDFLAGS = $(CPPUNIT_LIBS) -lfrog -L../src
 all: all-am
@@ -248,6 +252,9 @@ NetworkInterface$(EXEEXT): $(NetworkInterface_OBJECTS) $(NetworkInterface_DEPEND
 Object$(EXEEXT): $(Object_OBJECTS) $(Object_DEPENDENCIES) 
 	@rm -f Object$(EXEEXT)
 	$(CXXLINK) $(Object_LDFLAGS) $(Object_OBJECTS) $(Object_LDADD) $(LIBS)
+TimeValue$(EXEEXT): $(TimeValue_OBJECTS) $(TimeValue_DEPENDENCIES) 
+	@rm -f TimeValue$(EXEEXT)
+	$(CXXLINK) $(TimeValue_LDFLAGS) $(TimeValue_OBJECTS) $(TimeValue_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -260,6 +267,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Inet6AddressTest.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NetworkInterfaceTest.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ObjectTest.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TimeValueTest.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	if $(CXXCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
