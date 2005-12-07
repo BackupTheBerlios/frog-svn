@@ -1,3 +1,7 @@
+2005-12-07  Janvier D. Anonical <janvier@users.berlios.de>
+
+    * Added more tests for TimeValue.
+
 2005-12-06  Janvier D. Anonical <janvier@users.berlios.de>
 
     * Added m4/cpppunit.m4.
