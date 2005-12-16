@@ -29,11 +29,11 @@ namespace frog
     namespace net
     {
         //--------------------------------------------------------------
-        IPEndpoint::IPEndpoint(InetAddress& ipAddress, in_port_t portNo) throw()
-            : address(ipAddress), port(portNo)
-            {
-                setAddressFamily(ipAddress.addressFamily);
-            }
+        IPEndpoint::IPEndpoint(InetAddress& ipAddress, in_port_t portNo) throw() :
+          address(ipAddress), port(portNo)
+        {
+            setAddressFamily(ipAddress.addressFamily);
+        }
 
         //--------------------------------------------------------------
         IPEndpoint& IPEndpoint::operator=(const IPEndpoint& ep) throw()

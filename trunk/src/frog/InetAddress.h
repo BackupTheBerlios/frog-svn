@@ -87,7 +87,8 @@ namespace frog
                * @exception frog::sys::ArgumentOutOfBoundsException Thrown when
                * the IP address is out of range.
                */
-              InetAddress(const struct in_addr& ipAddress) throw(sys::ArgumentOutOfBoundsException);
+              InetAddress(const struct in_addr& ipAddress)
+                  throw(sys::ArgumentOutOfBoundsException);
 
 #ifdef HAVE_IPV6_SUPPORT
               /**
@@ -98,7 +99,8 @@ namespace frog
                * @exception frog::sys::ArgumentOutOfBoundsException Thrown when
                * the IP address is out of range.
                */
-              InetAddress(const struct in6_addr& ipAddress, uint32_t index = 0) throw(sys::ArgumentOutOfBoundsException);
+              InetAddress(const struct in6_addr& ipAddress, uint32_t index = 0)
+                  throw(sys::ArgumentOutOfBoundsException);
 #endif
 
               /**

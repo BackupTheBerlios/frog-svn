@@ -57,22 +57,22 @@ namespace frog
               /**
                * Constructs a new exception.
                */
-              explicit NotImplementedException() throw()
-                  : SystemException("NotImplementedException") {}
+              explicit NotImplementedException() throw() :
+                SystemException("NotImplementedException") {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit NotImplementedException(const std::string& description) throw()
-                  : SystemException(description) {}
+              explicit NotImplementedException(const std::string& description) throw() :
+                SystemException(description) {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit NotImplementedException(const char* description) throw()
-                  : SystemException(description) {}
+              explicit NotImplementedException(const char* description) throw() :
+                SystemException(description) {}
               /**
                * Does nothing.
                */

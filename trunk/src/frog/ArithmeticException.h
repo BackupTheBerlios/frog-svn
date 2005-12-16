@@ -60,22 +60,22 @@ namespace frog
               /**
                * Constructs a new exception.
                */
-              explicit ArithmeticException() throw()
-                  : SystemException("ArithmeticException") {}
+              explicit ArithmeticException() throw() :
+                SystemException("ArithmeticException") {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit ArithmeticException(const std::string& description) throw()
-                  : SystemException(description) {}
+              explicit ArithmeticException(const std::string& description) throw() :
+                SystemException(description) {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit ArithmeticException(const char* description) throw()
-                  : SystemException(description) {}
+              explicit ArithmeticException(const char* description) throw() :
+                SystemException(description) {}
               /**
                * Does nothing.
                */

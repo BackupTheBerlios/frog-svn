@@ -85,22 +85,21 @@ namespace frog
               /**
                * Constructs a new exception.
                */
-              explicit Exception() throw()
-                  : description_("Exception") {}
+              explicit Exception() throw() : description_("Exception") {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit Exception(const std::string& description) throw()
-                  : description_(description) {}
+              explicit Exception(const std::string& description) throw() :
+                description_(description) {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit Exception(const char* description) throw()
-                  : description_(std::string(description)) {}
+              explicit Exception(const char* description) throw() :
+                description_(std::string(description)) {}
 
               /**
                * Does nothing.

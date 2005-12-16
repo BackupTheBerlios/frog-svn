@@ -57,22 +57,21 @@ namespace frog
               /**
                * Constructs a new exception.
                */
-              explicit FormatException() throw()
-                  : RuntimeException("FormatException") {}
+              explicit FormatException() throw() : RuntimeException("FormatException") {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit FormatException(const std::string& description) throw()
-                  : RuntimeException(description) {}
+              explicit FormatException(const std::string& description) throw() :
+                RuntimeException(description) {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit FormatException(const char* description) throw()
-                  : RuntimeException(description) {}
+              explicit FormatException(const char* description) throw() :
+                RuntimeException(description) {}
               /**
                * Does nothing.
                */

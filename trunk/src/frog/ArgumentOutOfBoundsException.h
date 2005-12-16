@@ -60,24 +60,22 @@ namespace frog
               /**
                * Constructs a new exception.
                */
-              explicit ArgumentOutOfBoundsException() throw()
-                  : IllegalArgumentException("ArgumentOutOfBoundsException") {}
+              explicit ArgumentOutOfBoundsException() throw() :
+                IllegalArgumentException("ArgumentOutOfBoundsException") {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit ArgumentOutOfBoundsException(const std::string& description)
-                  throw()
-                  : IllegalArgumentException(description) {}
+              explicit ArgumentOutOfBoundsException(const std::string& description) throw() :
+                IllegalArgumentException(description) {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit ArgumentOutOfBoundsException(const char* description)
-                  throw()
-                  : IllegalArgumentException(description) {}
+              explicit ArgumentOutOfBoundsException(const char* description) throw() :
+                IllegalArgumentException(description) {}
 
               /**
                * Does nothing.

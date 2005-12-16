@@ -63,22 +63,21 @@ namespace frog
               /**
                * Constructs a new exception.
                */
-              explicit IOException() throw()
-                  : SystemException("IOException") {}
+              explicit IOException() throw() : SystemException("IOException") {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit IOException(const std::string& description) throw()
-                  : SystemException(description) {}
+              explicit IOException(const std::string& description) throw() :
+                SystemException(description) {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit IOException(const char* description) throw()
-                  : SystemException(description) {}
+              explicit IOException(const char* description) throw() :
+                SystemException(description) {}
               /**
                * Does nothing.
                */

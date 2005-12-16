@@ -75,8 +75,9 @@ namespace frog
                * Default constructor. The address family is set
                * to AddressFamily::Unspecified.
                */
-              Endpoint() : addressFamily(addressFamily_),
-                           addressFamily_(AddressFamily::Unspecified) { }
+              Endpoint() :
+                addressFamily(addressFamily_),
+                addressFamily_(AddressFamily::Unspecified) { }
 
               /**
                * Sets the address family.

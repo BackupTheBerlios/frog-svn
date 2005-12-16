@@ -61,22 +61,22 @@ namespace frog
               /**
                * Constructs a new exception.
                */
-              explicit IllegalArgumentException() throw()
-                  : RuntimeException("IllegalArgumentException") {}
+              explicit IllegalArgumentException() throw() :
+                RuntimeException("IllegalArgumentException") {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit IllegalArgumentException(const std::string& description) throw()
-                  : RuntimeException(description) {}
+              explicit IllegalArgumentException(const std::string& description) throw() :
+                RuntimeException(description) {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit IllegalArgumentException(const char* description) throw()
-                  : RuntimeException(description) {}
+              explicit IllegalArgumentException(const char* description) throw() :
+                RuntimeException(description) {}
               /**
                * Does nothing.
                */

@@ -56,22 +56,22 @@ namespace frog
               /**
                * Constructs a new exception.
                */
-              explicit NullPointerException() throw()
-                  : RuntimeException("NullPointerException") {}
+              explicit NullPointerException() throw() :
+                RuntimeException("NullPointerException") {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit NullPointerException(const std::string& description) throw()
-                  : RuntimeException(description) {}
+              explicit NullPointerException(const std::string& description) throw() :
+                RuntimeException(description) {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit NullPointerException(const char* description) throw()
-                  : RuntimeException(description) {}
+              explicit NullPointerException(const char* description) throw() :
+                RuntimeException(description) {}
               /**
                * Does nothing.
                */

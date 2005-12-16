@@ -58,22 +58,22 @@ namespace frog
               /**
                * Constructs a new exception.
                */
-              explicit UnknownHostException() throw()
-                  : sys::IOException("UnknownHostException") {}
+              explicit UnknownHostException() throw() :
+                sys::IOException("UnknownHostException") {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit UnknownHostException(const std::string& description) throw()
-                  : sys::IOException(description) {}
+              explicit UnknownHostException(const std::string& description) throw() :
+                sys::IOException(description) {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit UnknownHostException(const char* description) throw()
-                  : sys::IOException(description) {}
+              explicit UnknownHostException(const char* description) throw() :
+                sys::IOException(description) {}
               /**
                * Does nothing.
                */

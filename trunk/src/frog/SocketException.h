@@ -58,22 +58,22 @@ namespace frog
               /**
                * Constructs a new exception.
                */
-              explicit SocketException() throw()
-                  : sys::IOException("SocketException") {}
+              explicit SocketException() throw() :
+                sys::IOException("SocketException") {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit SocketException(const std::string& description) throw()
-                  : sys::IOException(description) {}
+              explicit SocketException(const std::string& description) throw() :
+                sys::IOException(description) {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit SocketException(const char* description) throw()
-                  : sys::IOException(description) {}
+              explicit SocketException(const char* description) throw() :
+                sys::IOException(description) {}
               /**
                * Does nothing.
                */

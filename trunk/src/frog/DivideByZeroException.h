@@ -56,22 +56,22 @@ namespace frog
               /**
                * Constructs a new exception.
                */
-              explicit DivideByZeroException() throw()
-                  : ArithmeticException("DivideByZeroException") {}
+              explicit DivideByZeroException() throw() :
+                ArithmeticException("DivideByZeroException") {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit DivideByZeroException(const std::string& description) throw()
-                  : ArithmeticException(description) {}
+              explicit DivideByZeroException(const std::string& description) throw() :
+                ArithmeticException(description) {}
 
               /**
                * Constructs a new exception with the specified description.
                * @param[in] description The description of this exception
                */
-              explicit DivideByZeroException(const char* description) throw()
-                  : ArithmeticException(description) {}
+              explicit DivideByZeroException(const char* description) throw() :
+                ArithmeticException(description) {}
               /**
                * Does nothing.
                */
